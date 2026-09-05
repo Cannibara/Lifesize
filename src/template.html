@@ -1,0 +1,1254 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life-Size Lineup</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Source+Sans+3:wght@400;600;700&family=Caveat:wght@600;700&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#ffffff; --below:#f3f6fa;
+  --grid:#dbe6f1; --grid-major:#bad0e6;
+  --ink:#10151b; --graphite:#485466; --brass:#8a6d3b; --brass-light:#c9ad6a;
+  --pen:#d0323a; --pen-ink:#b0262d; --pen-soft:rgba(208,50,58,.10);
+  --text:#1b2430; --muted:#65758a; --line:#c9d6e4; --chrome:#f6f9fc;
+  --shadow:0 12px 32px rgba(24,39,64,.16); --focus:#1d6fd6;
+  --f-display:'Fraunces', Georgia, 'Times New Roman', serif;
+  --f-ui:'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --f-hand:'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--text);font:16px/1.4 var(--f-ui);overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+#app{position:fixed;inset:0;display:flex;flex-direction:column}
+
+/* ---------- header ---------- */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 18px;background:var(--chrome);border-bottom:1px solid var(--line);flex:0 0 auto;min-height:52px}
+.brand{display:flex;align-items:baseline;gap:14px;min-width:0}
+.brand .name{font:italic 600 24px/1 var(--f-display);letter-spacing:-.01em;white-space:nowrap}
+.chip{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:#fff;white-space:nowrap}
+.chip:empty{display:none}
+.rounds{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;font-weight:600}
+.rounds[hidden]{display:none}
+.dots{display:flex;gap:5px}
+.dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--muted);display:block;box-sizing:border-box}
+.dots i.done{background:var(--pen);border-color:var(--pen)}
+.dots i.now{border-color:var(--ink)}
+.right{display:flex;align-items:center;gap:14px}
+.total{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.total[hidden]{display:none}
+.total .lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.total .num{font:700 26px/1 var(--f-hand);color:var(--pen-ink)}
+.total .of{color:var(--muted);font-size:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:4px 10px;font-size:13px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg.big button{padding:8px 16px;font-size:15px}
+.linkbtn{border:0;background:transparent;color:var(--muted);font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:4px 2px}
+
+/* ---------- stage ---------- */
+.stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper)}
+#scene,#weigh{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+#scene{cursor:grab}
+#scene.panning{cursor:grabbing}
+#scene[hidden],#weigh[hidden]{display:none}
+.grid{stroke:var(--grid);stroke-width:1;fill:none;shape-rendering:crispEdges}
+.grid-major{stroke:var(--grid-major);stroke-width:1;fill:none;shape-rendering:crispEdges}
+#scene .below{fill:var(--below)}
+#scene .ground{stroke:var(--ink);stroke-width:2;shape-rendering:crispEdges}
+#scene .human{fill:var(--graphite)}
+#scene .animal{fill:var(--ink)}
+#scene .truth{fill:var(--pen-soft);stroke:var(--pen);stroke-width:2.5;stroke-dasharray:7 5;stroke-linejoin:round}
+#scene .box{fill:none;stroke:var(--pen);stroke-width:1;stroke-dasharray:4 4;opacity:.55}
+#scene .handle{cursor:nwse-resize}
+#scene .handle circle.ring{fill:#fff;stroke:var(--pen);stroke-width:3}
+#scene .handle circle.dot{fill:var(--pen)}
+#scene .handle:hover circle.ring, #scene .handle.active circle.ring{stroke-width:4}
+#scene .handle:focus-visible{outline:none}
+#scene .handle:focus-visible circle.ring{stroke:var(--focus)}
+#scene text,#weigh text{font-family:var(--f-ui);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;fill:var(--text)}
+.lbl{font-size:13px;font-weight:600}
+#scene .lbl.you{fill:var(--graphite)}
+#scene .guide{stroke:var(--graphite);stroke-width:1.5;stroke-dasharray:2 4;fill:none}
+#scene .guide.pen{stroke:var(--pen)}
+#scene .tag{font-size:15px;font-weight:700;fill:var(--pen-ink);font-variant-numeric:tabular-nums}
+#scene .tag.actual{font-weight:600;font-size:14px}
+#scene .mark,#weigh .mark{font:700 50px var(--f-hand);fill:var(--pen);stroke:none !important;transform-box:fill-box;transform-origin:center;transform:rotate(-8deg)}
+#scene .mark.pop,#weigh .mark.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{opacity:0;transform:rotate(-8deg) scale(.4)}to{opacity:1;transform:rotate(-8deg) scale(1)}}
+@media (prefers-reduced-motion: reduce){#scene .mark.pop,#weigh .mark.pop{animation:none}}
+
+/* weigh scene */
+#weigh .stone{fill:var(--graphite)}
+#weigh .stone-line{stroke:var(--paper);stroke-width:2;fill:none;opacity:.55}
+#weigh .brass{fill:var(--brass)}
+#weigh .brass-light{fill:var(--brass-light)}
+#weigh .spine{stroke:var(--brass);stroke-width:1.5;fill:none}
+#weigh .plumb{stroke:var(--ink);stroke-width:1.5;fill:none}
+#weigh .beam{fill:var(--ink)}
+#weigh .pivot{fill:var(--paper);stroke:var(--ink);stroke-width:3}
+#weigh .chain{stroke:var(--graphite);stroke-width:2.5;fill:none}
+#weigh .plate{fill:var(--ink)}
+#weigh .dish{fill:rgba(243,246,250,.95);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+#weigh .basket{fill:rgba(243,246,250,.92);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+#weigh .basket-front{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+#weigh .ref{fill:var(--ink)}
+#weigh .tok use{fill:var(--ink)}
+#weigh{cursor:pointer}
+#weigh .bucket{cursor:pointer}
+#weigh .bucket .body{fill:url(#bucketGrad);stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
+#weigh .bucket .inside{fill:#b9c7d6;stroke:var(--ink);stroke-width:3}
+#weigh .bucket .lip{fill:none;stroke:var(--ink);stroke-width:3.5}
+#weigh .bucket .handle{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+#weigh .bucket .peek use{fill:var(--ink)}
+#weigh .bucket:hover .body{stroke:var(--pen)}
+#weigh .bucket .hit{fill:transparent}
+#weigh .bucket .highlight{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;opacity:.8}
+#weigh .bucket .shade{fill:none;stroke:#a9b8c8;stroke-width:3}
+#weigh .bucket .lipTop{fill:none;stroke:#fff;stroke-width:2;opacity:.9}
+#weigh .bucket .lug{fill:var(--ink)}
+#weigh .rope{stroke:#6f5a3e;stroke-width:3.5;fill:none;stroke-linecap:round}
+#weigh .rope-twist{stroke:var(--paper);stroke-width:1.3;fill:none;stroke-dasharray:4 7;opacity:.75}
+#weigh .leaf{fill:#5f8f62}
+#weigh .leaf-rib{stroke:var(--paper);stroke-width:1;fill:none;opacity:.8}
+#weigh .vine{fill:none;stroke:#5f8f62;stroke-width:2.5;stroke-linecap:round}
+#weigh .weave{fill:none;stroke:var(--graphite);stroke-width:1.4;opacity:.32}
+#weigh .count{font:700 46px var(--f-hand);fill:var(--pen-ink);stroke-width:6px;font-variant-numeric:tabular-nums}
+#weigh .pan-lbl{font-size:24px;font-weight:700;letter-spacing:.01em;fill:var(--text);stroke-width:6px}
+#weigh .verdict-top{font-size:23px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;fill:var(--pen-ink)}
+#weigh .hint{font-size:13px;font-weight:600;fill:var(--muted)}
+
+/* zoom controls */
+.zoom{position:absolute;right:14px;bottom:18px;display:flex;flex-direction:column;gap:6px}
+.zoom[hidden]{display:none}
+.zoom button{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(24,39,64,.08);font-size:18px;font-weight:700;color:var(--text);display:grid;place-items:center;padding:0}
+.zoom button:hover{border-color:var(--ink)}
+.zoom button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* dock */
+.dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(680px, calc(100% - 120px));background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:16px;box-sizing:border-box}
+.dock[hidden]{display:none}
+.dock .who{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.dock .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dock .who .animal-name{font:italic 600 22px/1.1 var(--f-display);text-wrap:balance}
+.dock .who .animal-name small{font:600 15px/1 var(--f-ui);color:var(--muted);font-style:normal}
+.dock .who .sub{color:var(--muted);font-size:14px}
+.dock .readout{display:flex;flex-direction:column;align-items:flex-end;gap:0;font-variant-numeric:tabular-nums}
+.dock .readout .val{font-size:26px;font-weight:700;color:var(--pen-ink);line-height:1.1;white-space:nowrap}
+.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:700;font-size:16px;background:var(--ink);color:#fff;white-space:nowrap}
+.btn:hover{background:#000}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--ink);background:#fff}
+.btn.pen{background:var(--pen)}
+.btn.pen:hover{background:var(--pen-ink)}
+.btn.pour{background:#fff;color:var(--pen-ink);border:2px solid var(--pen);touch-action:none;user-select:none;-webkit-user-select:none}
+.btn.pour:hover{background:var(--pen-soft)}
+
+/* reveal dock */
+.dock.reveal{flex-direction:column;align-items:stretch;gap:10px;padding:14px 18px}
+.reveal .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.reveal .verdict{font:italic 600 22px/1.15 var(--f-display);text-wrap:balance}
+.reveal .verdict b{font-style:normal;color:var(--pen-ink)}
+.reveal .score{font:700 44px/1 var(--f-hand);color:var(--pen);white-space:nowrap;flex:0 0 auto}
+.reveal .score small{font-size:22px;color:var(--pen-ink)}
+.reveal .fact{margin:0;color:var(--text);font-size:15px;max-width:62ch}
+.reveal details{font-size:13px;color:var(--muted)}
+.reveal details summary{cursor:pointer;font-weight:600}
+.reveal details p{margin:6px 0 0}
+.reveal .row2{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.reveal .nums{display:flex;gap:18px;font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);flex-wrap:wrap}
+.reveal .nums b{color:var(--text);font-size:16px}
+
+/* ---------- overlays ---------- */
+.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:24px;overflow:auto;background:rgba(255,255,255,.55);backdrop-filter:blur(1.5px);box-sizing:border-box}
+.overlay[hidden]{display:none}
+.sheet{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:32px 34px;width:min(560px,100%);box-sizing:border-box}
+.sheet h1{font:italic 600 clamp(38px,6vw,56px)/1 var(--f-display);margin:0 0 6px;letter-spacing:-.02em;text-wrap:balance}
+.sheet h1 .underline{display:block;width:150px;height:10px;margin-top:8px}
+.sheet .lede{margin:0 0 18px;color:var(--muted);font-size:17px;max-width:44ch}
+.sheet .how{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin:0 0 22px;padding:0;list-style:none;font-size:15px}
+.sheet .how[hidden]{display:none}
+.sheet .how li{display:contents}
+.sheet .how .n{font:700 22px/1 var(--f-hand);color:var(--pen)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field[hidden]{display:none}
+.field label,.field .label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.field .inline[hidden]{display:none}
+.field input,.field select{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:18px;background:#fff;min-width:0}
+.field input{width:120px;font-variant-numeric:tabular-nums}
+.field input.short{width:80px}
+.field select{font-size:16px;flex:1}
+.field .hint{font-size:13px;color:var(--muted)}
+.field .err{font-size:13px;color:var(--pen-ink);font-weight:600;min-height:1.2em}
+.sheet .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.sheet .foot{margin:18px 0 0;font-size:13px;color:var(--muted)}
+.sheet .foot a{color:var(--text)}
+.sheet .foot button{padding:0}
+
+/* results */
+.results{width:100%;border-collapse:collapse;margin:14px 0 18px;font-variant-numeric:tabular-nums;font-size:15px}
+.results th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+.results td{padding:8px;border-bottom:1px solid var(--grid)}
+.results td.num,.results th.num{text-align:right}
+.results td.sc{font:700 24px/1 var(--f-hand);color:var(--pen);text-align:right}
+.results .thumb{width:44px;height:34px;display:block}
+.results .thumb use{fill:var(--ink)}
+.results td.nm{font-weight:600}
+.results td.nm small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.grand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
+.grand .g{font:700 56px/1 var(--f-hand);color:var(--pen)}
+.grand .g small{font-size:26px;color:var(--pen-ink)}
+.grand .word{font:italic 600 22px/1.2 var(--f-display)}
+
+/* credits */
+.credits{font-size:14px;max-height:80vh;overflow:auto}
+.credits h2{font:italic 600 26px/1.1 var(--f-display);margin:0 0 6px}
+.credits ul{padding-left:18px;margin:8px 0 14px}
+.credits li{margin:3px 0}
+.credits a{color:var(--text)}
+
+@media (max-width:640px){
+  .bar{padding:8px 12px;gap:8px;flex-wrap:wrap}
+  .brand .name{font-size:20px}
+  .rounds span{display:none}
+  .dock{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:10px;flex-wrap:wrap}
+  .zoom{bottom:auto;top:12px;flex-direction:row}
+  .dock .who .animal-name{font-size:19px}
+  .dock .readout .val{font-size:22px}
+  .sheet{padding:24px 20px}
+}
+</style>
+
+<div id="app">
+  <header class="bar">
+    <div class="brand"><span class="name">Life-Size Lineup</span><span class="chip" id="themeChip"></span></div>
+    <div class="rounds" id="rounds" hidden><div class="dots" id="dots"></div><span id="roundText"></span></div>
+    <div class="right">
+      <div class="seg" role="group" aria-label="Units">
+        <button type="button" id="unitMetric" aria-pressed="true">cm · kg</button>
+        <button type="button" id="unitImperial" aria-pressed="false">ft · lb</button>
+      </div>
+      <div class="total" id="totalBox" hidden><span class="lbl">Total</span><span class="num" id="totalNum">0</span><span class="of">/500</span></div>
+      <button type="button" class="linkbtn" id="creditsBtn">Credits</button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+    <svg id="sprite" xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+      <defs id="defs"></defs>
+    </svg>
+    <svg id="scene" xmlns="http://www.w3.org/2000/svg" aria-label="Scale scene: your silhouette beside the animal">
+      <g id="gGrid"></g>
+      <g id="gWorld"></g>
+      <g id="gUi"></g>
+    </svg>
+
+    <svg id="weigh" xmlns="http://www.w3.org/2000/svg" aria-label="Balance scale: reference animal on the left, poured animals on the right" hidden>
+      <g id="wGrid"></g>
+      <g id="wScene"></g>
+    </svg>
+
+    <div class="zoom" id="zoomCtl" hidden>
+      <button type="button" id="zoomIn" title="Zoom in (or scroll)" aria-label="Zoom in">+</button>
+      <button type="button" id="zoomOut" title="Zoom out (or scroll)" aria-label="Zoom out">−</button>
+      <button type="button" id="zoomFit" title="Fit both of you" aria-label="Fit both of you"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
+      <button type="button" id="zoomFocus" title="Zoom to the animal" aria-label="Zoom to the animal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+    </div>
+
+    <div class="dock" id="guessDock" hidden>
+      <div class="who">
+        <span class="eyebrow">Round <span id="gRound">1</span> · how big is a</span>
+        <span class="animal-name" id="gName">Horse</span>
+        <span class="sub">Drag the red corner. It stays on the ground and keeps its shape.</span>
+      </div>
+      <div class="readout"><span class="eyebrow">Your guess</span><span class="val" id="gVal">1.45 m</span></div>
+      <button type="button" class="btn pen" id="lockBtn">Lock it in</button>
+    </div>
+
+    <div class="dock" id="weighDock" hidden>
+      <div class="who">
+        <span class="eyebrow">Round <span id="wRound">1</span> · balance one</span>
+        <span class="animal-name" id="wName">Horse <small>with</small> beavers</span>
+        <span class="sub">Click anywhere on the scale to drop one. Hold to pour. Nothing comes back out.</span>
+      </div>
+      <div class="readout"><span class="eyebrow">Poured</span><span class="val" id="wVal">0</span></div>
+      <button type="button" class="btn pen" id="wLockBtn" disabled>Lock it in</button>
+    </div>
+
+    <div class="dock reveal" id="revealDock" hidden>
+      <div class="row1">
+        <div class="verdict" id="rVerdict"></div>
+        <div class="score" id="rScore"></div>
+      </div>
+      <p class="fact" id="rFact"></p>
+      <details id="rDetails"><summary id="rSummary">How this silhouette was sized</summary><p id="rSizing"></p><p id="rSource"></p></details>
+      <div class="row2">
+        <div class="nums" id="rNums"></div>
+        <button type="button" class="btn" id="nextBtn">Next animal</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="startScreen">
+      <form class="sheet" id="startForm" novalidate>
+        <h1>Life-Size Lineup<svg class="underline" viewBox="0 0 150 10" aria-hidden="true"><path d="M2 6 C 30 2, 60 9, 90 5 S 130 3, 148 6" fill="none" stroke="#d0323a" stroke-width="3" stroke-linecap="round"/></svg></h1>
+        <div class="field">
+          <span class="label">Game</span>
+          <div class="seg big" role="group" aria-label="Game mode">
+            <button type="button" id="modeSize" aria-pressed="true">Lineup · size</button>
+            <button type="button" id="modeWeight" aria-pressed="false">Counterweight · weight</button>
+          </div>
+        </div>
+        <p class="lede" id="ledeSize">An animal stands next to you on graph paper. Resize it to how big you think it really is.</p>
+        <p class="lede" id="ledeWeight" hidden>A big animal sits on one side of a scale. Pour smaller animals onto the other side until they balance. Weights stay hidden until you lock in.</p>
+        <ol class="how" id="howSize">
+          <li><span class="n">1</span><span>Enter your height. That is your silhouette, drawn to scale.</span></li>
+          <li><span class="n">2</span><span>Drag the red corner on the animal until it looks life-size beside you.</span></li>
+          <li><span class="n">3</span><span>Lock it in. Closer guesses score more, out of 100. Five animals, 500 points.</span></li>
+        </ol>
+        <ol class="how" id="howWeight" hidden>
+          <li><span class="n">1</span><span>Click anywhere on the scale to drop one animal. Hold the mouse down to tip the bucket and pour faster.</span></li>
+          <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
+          <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
+        </ol>
+        <div class="field" id="heightField">
+          <label for="hCm">Your height</label>
+          <div class="inline" id="metricIn">
+            <input id="hCm" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172" autocomplete="off">
+            <span class="hint">cm (or metres, e.g. 1.72)</span>
+          </div>
+          <div class="inline" id="imperialIn" hidden>
+            <input id="hFt" class="short" type="number" inputmode="numeric" min="1" max="8" placeholder="5" aria-label="feet"><span class="hint">ft</span>
+            <input id="hIn" class="short" type="number" inputmode="decimal" step="any" min="0" max="11.9" placeholder="8" aria-label="inches"><span class="hint">in</span>
+          </div>
+          <div class="err" id="hErr"></div>
+        </div>
+        <div class="field" id="setField">
+          <label for="setSel">Lineup</label>
+          <div class="inline"><select id="setSel"></select></div>
+          <div class="hint" id="setBlurb"></div>
+        </div>
+        <div class="field" id="weighField" hidden>
+          <span class="label">Weigh-ins</span>
+          <div class="hint">Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from all 27 animals; the answer is always between 3 and 60.</div>
+        </div>
+        <div class="actions"><button type="submit" class="btn pen" id="startBtn">Start the lineup</button></div>
+        <p class="foot">Silhouettes come from <a href="https://www.phylopic.org" target="_blank" rel="noopener">PhyloPic</a>; sizes and weights from Wikipedia and breed references. <button type="button" class="linkbtn" id="creditsBtn2">Full credits</button></p>
+      </form>
+    </div>
+
+    <div class="overlay" id="endScreen" hidden>
+      <div class="sheet">
+        <div class="grand"><span class="word" id="endWord">Sharp eye.</span><span class="g" id="endTotal">0<small>/500</small></span></div>
+        <table class="results"><thead id="endHead"></thead><tbody id="endRows"></tbody></table>
+        <div class="actions">
+          <button type="button" class="btn pen" id="againBtn">Play again</button>
+          <button type="button" class="btn ghost" id="changeBtn">Back to start</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="creditsScreen" hidden>
+      <div class="sheet credits">
+        <h2>Credits &amp; sources</h2>
+        <p>Silhouettes are from <a href="https://www.phylopic.org" target="_blank" rel="noopener">PhyloPic</a>, a free database of organism silhouettes. Most are dedicated to the public domain (CC0); the ones marked CC BY require this credit.</p>
+        <ul id="creditList"></ul>
+        <p>Body sizes and weights are typical adult figures from Wikipedia species pages, checked in September 2026, plus breed references for sheep and pigs. Where a source quotes shoulder height, the silhouette's own proportions convert it to the height of its highest point, which is what the size game scores. Weights match the adult each silhouette depicts, for example a male lion and a bull elephant.</p>
+        <div class="actions"><button type="button" class="btn" id="creditsClose">Back</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<noscript><div style="padding:16px;font:16px sans-serif;color:#b0262d">This game needs JavaScript enabled to run.</div></noscript>
+<script>
+window.__lslErr = function(msg){
+  var d = document.getElementById('lslErr');
+  if (!d){ d = document.createElement('div'); d.id = 'lslErr'; d.setAttribute('role', 'alert');
+    d.style.cssText = 'position:fixed;left:12px;right:12px;top:12px;z-index:99;background:#fff3f3;border:2px solid #d0323a;color:#7a1a1f;padding:10px 14px;border-radius:10px;font:14px/1.4 system-ui,sans-serif;white-space:pre-wrap;box-shadow:0 8px 24px rgba(0,0,0,.15)';
+    document.body.appendChild(d); }
+  d.textContent = 'Something went wrong: ' + msg + '  -  Please copy this message back to me and I will fix it.';
+};
+window.addEventListener('error', function(e){ window.__lslErr((e.message || 'Unknown error') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+window.addEventListener('unhandledrejection', function(e){ window.__lslErr(String((e.reason && e.reason.message) || e.reason)); });
+</script>
+
+<script>
+(function(){
+const DATA = /*__DATA__*/;
+
+// ---------- state ----------
+const S = {
+  mode: 'size', unit: 'metric', humanH: 1.72, set: null, queue: [], round: 0, results: [],
+  phase: 'start', animal: null, guessH: 1, trueH: 1, cam: {s: 200, x: 0, y: 0},
+};
+const $ = id => document.getElementById(id);
+const svg = $('scene'), stage = $('stage');
+const gGrid = $('gGrid'), gWorld = $('gWorld'), gUi = $('gUi');
+let W = 800, H = 600;
+const NS = 'http://www.w3.org/2000/svg';
+const el = (n, attrs = {}, parent) => { const e = document.createElementNS(NS, n); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+// ---------- silhouettes ----------
+const HUMAN = DATA.human;
+(function buildDefs(){
+  const defs = $('defs');
+  const add = (id, rec) => { const sym = el('symbol', {id, viewBox: rec.vb.join(' ')}, defs); sym.innerHTML = rec.svg; };
+  add('sil-human', HUMAN);
+  for (const k in DATA.animals) add('sil-' + k, DATA.animals[k]);
+})();
+const ar = rec => rec.vb[2] / rec.vb[3];
+const humanW = () => S.humanH * ar(HUMAN);
+const gap = () => 0.18 * S.humanH;
+const anchorX = () => humanW() + gap();
+
+// ---------- units ----------
+function fmt(m){
+  if (S.unit === 'imperial'){
+    const inch = m / 0.0254;
+    if (inch < 12) return `${inch.toFixed(1)}″`;
+    let ft = Math.floor(inch / 12), i = Math.round(inch - ft * 12);
+    if (i === 12){ ft++; i = 0; }
+    return `${ft}′ ${i}″`;
+  }
+  if (m >= 1) return `${m.toFixed(2)} m`;
+  const cm = m * 100;
+  return cm >= 10 ? `${Math.round(cm)} cm` : `${cm.toFixed(1)} cm`;
+}
+function fmtKg(kg){
+  if (S.unit === 'imperial'){
+    const lb = kg * 2.20462;
+    if (lb < 1) return `${(lb * 16).toFixed(1)} oz`;
+    if (lb < 10) return `${lb.toFixed(1)} lb`;
+    return `${Math.round(lb).toLocaleString('en')} lb`;
+  }
+  if (kg < 1) return `${Math.round(kg * 1000)} g`;
+  if (kg < 10) return `${kg.toFixed(1)} kg`;
+  const s = `${Math.round(kg).toLocaleString('en')} kg`;
+  return kg >= 1000 ? `${s} (${(kg / 1000).toFixed(1)} t)` : s;
+}
+const fmtMult = x => x < 10 ? String(+x.toFixed(1)) : String(Math.round(x));
+function setUnit(u){
+  S.unit = u;
+  $('unitMetric').setAttribute('aria-pressed', u === 'metric');
+  $('unitImperial').setAttribute('aria-pressed', u === 'imperial');
+  $('metricIn').hidden = u !== 'metric';
+  $('imperialIn').hidden = u !== 'imperial';
+  try { localStorage.setItem('lsl-unit', u); } catch (e) {}
+  refreshText(); render();
+}
+$('unitMetric').onclick = () => setUnit('metric');
+$('unitImperial').onclick = () => setUnit('imperial');
+
+// ---------- shared UI ----------
+function setDots(current, lockedCurrent){
+  $('dots').innerHTML = [1, 2, 3, 4, 5].map(i => `<i class="${i < current || (lockedCurrent && i === current) ? 'done' : i === current ? 'now' : ''}"></i>`).join('');
+  $('roundText').textContent = `Round ${current} of 5`;
+}
+function totalScore(){ return S.results.reduce((a, r) => a + r.score, 0); }
+function scoreFor(g, t){
+  if (!(g > 0) || !(t > 0)) return 0;
+  const err = Math.max(g / t, t / g) - 1;   // 0 = perfect, 1 = double or half
+  if (err <= 0.02) return 100;
+  return Math.max(0, Math.round(100 * (1 - (err - 0.02) / 0.98)));
+}
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// =====================================================================
+//  SIZE GAME
+// =====================================================================
+const cam = S.cam;
+const toScreen = (wx, wy) => [(wx - cam.x) * cam.s + W / 2, H / 2 - (wy - cam.y) * cam.s];
+const toWorld = (sx, sy) => [(sx - W / 2) / cam.s + cam.x, cam.y - (sy - H / 2) / cam.s];
+const S_MIN = () => Math.min(W, H) / 80, S_MAX = 60000;
+function fitTo(x0, y0, x1, y1, pad){
+  const aw = Math.max(50, W - pad.l - pad.r), ah = Math.max(50, H - pad.t - pad.b);
+  cam.s = clamp(Math.min(aw / (x1 - x0), ah / (y1 - y0)), S_MIN(), S_MAX);
+  const cxs = pad.l + aw / 2;
+  cam.x = (x0 + x1) / 2 - (cxs - W / 2) / cam.s;
+  cam.y = y0 + (H / 2 - pad.b) / cam.s;          // ground sits just above the dock
+}
+function dockPad(){
+  const dock = document.querySelector('.dock:not([hidden])');
+  const b = Math.min(H * 0.45, (dock ? dock.offsetHeight : 90) + 44);
+  return {l: 40, r: 80, t: 60, b};
+}
+function fitBoth(){
+  const h = S.humanH, gw = S.guessH * ar(S.animal), top = Math.max(h, S.guessH);
+  fitTo(-0.42 * h, -0.06 * top, anchorX() + Math.max(gw, 0.25 * h) + 0.1 * h, top * 1.1, dockPad());
+  render();
+}
+function fitAnimal(){
+  const gw = S.guessH * ar(S.animal), gh = S.guessH;
+  fitTo(anchorX() - 0.25 * gw, -0.08 * gh, anchorX() + gw * 1.3, gh * 1.2, dockPad());
+  render();
+}
+function zoomAt(px, py, f){
+  const [wx, wy] = toWorld(px, py);
+  cam.s = clamp(cam.s * f, S_MIN(), S_MAX);
+  const [nx, ny] = toWorld(px, py);
+  cam.x += wx - nx; cam.y += wy - ny;
+  render();
+}
+let userZoomed = false;
+$('zoomIn').onclick = () => { userZoomed = true; zoomAt(W / 2, H / 2, 1.3); };
+$('zoomOut').onclick = () => { userZoomed = true; zoomAt(W / 2, H / 2, 1 / 1.3); };
+$('zoomFit').onclick = () => { userZoomed = false; fitBoth(); };
+$('zoomFocus').onclick = () => { userZoomed = true; fitAnimal(); };
+svg.addEventListener('wheel', e => { e.preventDefault(); userZoomed = true; const r = svg.getBoundingClientRect(); zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
+
+function drawGridInto(g, spacingPx, originX, originY, width, height){
+  // static graph paper in screen pixels (weigh scene)
+  let minor = '', major = '';
+  const n0 = Math.floor(-originX / spacingPx), n1 = Math.ceil((width - originX) / spacingPx);
+  for (let i = n0; i <= n1; i++){ const x = Math.round(originX + i * spacingPx) + 0.5; if (i % 5 === 0) major += `M${x} 0V${height}`; else minor += `M${x} 0V${height}`; }
+  const m0 = Math.floor(-originY / spacingPx), m1 = Math.ceil((height - originY) / spacingPx);
+  for (let j = m0; j <= m1; j++){ const y = Math.round(originY + j * spacingPx) + 0.5; if (j % 5 === 0) major += `M0 ${y}H${width}`; else minor += `M0 ${y}H${width}`; }
+  g.innerHTML = '';
+  el('path', {class: 'grid', d: minor}, g);
+  el('path', {class: 'grid-major', d: major}, g);
+}
+function drawGrid(){
+  gGrid.innerHTML = '';
+  const steps = [0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10];
+  let m = steps[steps.length - 1];
+  for (const st of steps){ if (st * cam.s >= 26){ m = st; break; } }
+  const [wx0, wy1] = toWorld(0, 0), [wx1, wy0] = toWorld(W, H);
+  const gy = toScreen(0, 0)[1];
+  if (gy < H) el('rect', {class: 'below', x: 0, y: Math.max(0, gy), width: W, height: H - Math.max(0, gy)}, gGrid);
+  let minor = '', major = '';
+  const i0 = Math.floor(wx0 / m), i1 = Math.ceil(wx1 / m);
+  if (i1 - i0 < 400) for (let i = i0; i <= i1; i++){
+    const x = Math.round(toScreen(i * m, 0)[0]) + 0.5;
+    if (i % 5 === 0) major += `M${x} 0V${H}`; else minor += `M${x} 0V${H}`;
+  }
+  const j0 = Math.floor(wy0 / m), j1 = Math.ceil(wy1 / m);
+  if (j1 - j0 < 400) for (let j = j0; j <= j1; j++){
+    const y = Math.round(toScreen(0, j * m)[1]) + 0.5;
+    if (j % 5 === 0) major += `M0 ${y}H${W}`; else minor += `M0 ${y}H${W}`;
+  }
+  el('path', {class: 'grid', d: minor}, gGrid);
+  el('path', {class: 'grid-major', d: major}, gGrid);
+  el('line', {class: 'ground', x1: 0, x2: W, y1: Math.round(gy) + 0.5, y2: Math.round(gy) + 0.5}, gGrid);
+}
+function place(use, rec, wx, wtop, hM){
+  const wM = hM * ar(rec);
+  const [sx, sy] = toScreen(wx, wtop);
+  use.setAttribute('x', sx); use.setAttribute('y', sy);
+  use.setAttribute('width', wM * cam.s); use.setAttribute('height', hM * cam.s);
+}
+let popMark = false, handleHadFocus = false;
+function render(){
+  if (S.mode === 'weight' && S.phase !== 'start') return;
+  W = stage.clientWidth || W; H = stage.clientHeight || H;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  drawGrid();
+  gWorld.innerHTML = ''; gUi.innerHTML = '';
+  if (S.phase === 'start') return;
+
+  const hUse = el('use', {class: 'human', href: '#sil-human'}, gWorld);
+  place(hUse, HUMAN, 0, S.humanH, S.humanH);
+  const [hx0, hy] = toScreen(0, S.humanH), [hx1] = toScreen(humanW(), S.humanH);
+  el('path', {class: 'guide', d: `M${hx0 - 26} ${hy}H${hx1}`}, gUi);
+  const you = el('text', {class: 'lbl you', x: hx0 - 30, y: hy + 4, 'text-anchor': 'end'}, gUi);
+  you.textContent = `you · ${fmt(S.humanH)}`;
+
+  if (!S.animal) return;
+  const A = S.animal, ax = anchorX();
+  const aUse = el('use', {class: 'animal', href: '#sil-' + A.key}, gWorld);
+  place(aUse, A, ax, S.guessH, S.guessH);
+
+  const gw = S.guessH * ar(A);
+  const [bx0, by0] = toScreen(ax, S.guessH), [bx1, by1] = toScreen(ax + gw, 0);
+
+  if (S.phase === 'guess'){
+    el('rect', {class: 'box', x: bx0, y: by0, width: bx1 - bx0, height: by1 - by0}, gUi);
+    const tag = el('text', {class: 'tag', x: bx1 + 18, y: by0 + 5}, gUi);
+    tag.textContent = fmt(S.guessH);
+    const handleEl = el('g', {class: 'handle' + (drag && drag.mode === 'resize' ? ' active' : ''), tabindex: 0, role: 'slider', 'aria-label': 'Animal size', 'aria-valuetext': fmt(S.guessH), transform: `translate(${bx1} ${by0})`}, gUi);
+    el('circle', {class: 'ring', r: 11}, handleEl);
+    el('circle', {class: 'dot', r: 3.5}, handleEl);
+    handleEl.addEventListener('keydown', onHandleKey);
+    if (handleHadFocus) handleEl.focus({preventScroll: true});
+  } else if (S.phase === 'reveal'){
+    const tUse = el('use', {class: 'truth', href: '#sil-' + A.key}, gWorld);
+    place(tUse, A, ax, S.trueH, S.trueH);
+    const tw = S.trueH * ar(A);
+    const [tx0, ty] = toScreen(ax, S.trueH), [tx1] = toScreen(ax + tw, S.trueH);
+    const right = Math.max(tx1, bx1);
+    el('path', {class: 'guide pen', d: `M${tx0} ${ty}H${right + 22}`}, gUi);
+    const at = el('text', {class: 'tag actual', x: right + 26, y: ty + 5}, gUi);
+    at.textContent = `actual ${fmt(S.trueH)}`;
+    const res = S.results[S.results.length - 1];
+    const mx = Math.min(W - 90, Math.max(70, right + 40)), my = Math.max(70, Math.min(ty, by0) - 40);
+    const mark = el('text', {class: 'mark' + (popMark ? ' pop' : ''), x: mx, y: my, 'text-anchor': 'middle'}, gUi);
+    mark.textContent = `${res.score}/100`;
+    popMark = false;
+  }
+}
+new ResizeObserver(() => { if (S.mode === 'size' && S.phase === 'guess' && !userZoomed) fitBoth(); else render(); }).observe(stage);
+
+let drag = null;              // {mode:'resize'|'pan'|'pinch', id, last:[x,y]}
+const pointers = new Map();
+function svgPoint(e){ const r = svg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+function setGuessFromPointer(px, py){
+  const [wx, wy] = toWorld(px, py);
+  const a = ar(S.animal), dx = wx - anchorX(), dy = wy;
+  const s = (dx * a + dy) / (a * a + 1);       // project onto the box diagonal
+  S.guessH = clamp(s, 0.01 * S.humanH, 40 * S.humanH);
+  const [cx, cy] = toScreen(anchorX() + S.guessH * a, S.guessH);
+  if (cy < 30 || cx > W - 40){ const [gx, gy] = toScreen(anchorX(), 0); userZoomed = true; zoomAt(gx, gy, 0.965); }
+  refreshText(); render();
+}
+svg.addEventListener('pointerdown', e => {
+  if (S.phase !== 'guess' && S.phase !== 'reveal') return;
+  const p = svgPoint(e);
+  pointers.set(e.pointerId, p);
+  svg.setPointerCapture(e.pointerId);
+  const onHandle = e.target.closest && e.target.closest('.handle');
+  if (onHandle && S.phase === 'guess' && pointers.size === 1){
+    drag = {mode: 'resize', id: e.pointerId}; handleHadFocus = true; onHandle.classList.add('active');
+  } else if (pointers.size === 1){
+    drag = {mode: 'pan', id: e.pointerId, last: p}; svg.classList.add('panning'); userZoomed = true;
+  } else { drag = {mode: 'pinch'}; svg.classList.remove('panning'); userZoomed = true; }
+  e.preventDefault();
+});
+svg.addEventListener('pointermove', e => {
+  if (!pointers.has(e.pointerId)) return;
+  const p = svgPoint(e); const prev = pointers.get(e.pointerId); pointers.set(e.pointerId, p);
+  if (!drag) return;
+  if (drag.mode === 'resize' && e.pointerId === drag.id){ setGuessFromPointer(p[0], p[1]); }
+  else if (drag.mode === 'pan' && e.pointerId === drag.id){
+    cam.x -= (p[0] - drag.last[0]) / cam.s; cam.y += (p[1] - drag.last[1]) / cam.s; drag.last = p; render();
+  } else if (drag.mode === 'pinch' && pointers.size >= 2){
+    const o = [...pointers.entries()].find(([id]) => id !== e.pointerId)[1];
+    const dNow = Math.hypot(p[0] - o[0], p[1] - o[1]), dPrev = Math.hypot(prev[0] - o[0], prev[1] - o[1]);
+    if (dPrev > 0) zoomAt((p[0] + o[0]) / 2, (p[1] + o[1]) / 2, dNow / dPrev);
+  }
+});
+function endPointer(e){
+  pointers.delete(e.pointerId);
+  if (pointers.size === 0){ drag = null; svg.classList.remove('panning'); render(); }
+  else if (pointers.size === 1){ const [id, p] = [...pointers.entries()][0]; drag = {mode: 'pan', id, last: p}; }
+}
+svg.addEventListener('pointerup', endPointer);
+svg.addEventListener('pointercancel', endPointer);
+function onHandleKey(e){
+  const step = e.shiftKey ? 1.1 : 1.02;
+  if (e.key === 'ArrowUp' || e.key === 'ArrowRight'){ S.guessH = Math.min(S.guessH * step, 40 * S.humanH); }
+  else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft'){ S.guessH = Math.max(S.guessH / step, 0.01 * S.humanH); }
+  else if (e.key === 'Enter'){ lockIn(); return; }
+  else return;
+  e.preventDefault(); handleHadFocus = true; refreshText(); render();
+}
+
+function refreshText(){
+  $('gVal').textContent = fmt(S.guessH);
+  $('totalNum').textContent = totalScore();
+  if (S.phase === 'reveal') fillReveal();
+  if (S.phase === 'wreveal') fillWeighReveal();
+  if (S.mode === 'weight' && Wg.active) updateWeighLabels();
+}
+function startSizeGame(setId){
+  const sets = DATA.sets;
+  S.set = setId === 'random' ? sets[Math.floor(Math.random() * sets.length)] : sets.find(s => s.id === setId);
+  S.queue = shuffle([...S.set.members]).slice(0, 5);
+  S.round = 0; S.results = [];
+  $('themeChip').textContent = S.set.name;
+  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true);
+  $('rounds').hidden = false; $('totalBox').hidden = false; $('zoomCtl').hidden = false;
+  $('startScreen').hidden = true; $('endScreen').hidden = true;
+  nextRound();
+}
+function nextRound(){
+  S.round++;
+  S.animal = DATA.animals[S.queue[S.round - 1]];
+  S.trueH = S.animal.h;
+  const f = Math.exp(Math.log(0.4) + Math.random() * (Math.log(2.5) - Math.log(0.4)));
+  S.guessH = S.trueH * f;
+  S.phase = 'guess'; userZoomed = false; handleHadFocus = false;
+  $('gRound').textContent = S.round; $('gName').textContent = S.animal.name;
+  setDots(S.round, false);
+  $('guessDock').hidden = false; $('revealDock').hidden = true;
+  refreshText(); fitBoth();
+}
+function lockIn(){
+  if (S.phase !== 'guess') return;
+  const score = scoreFor(S.guessH, S.trueH);
+  S.results.push({key: S.animal.key, name: S.animal.name, guess: S.guessH, actual: S.trueH, score});
+  S.phase = 'reveal'; popMark = true;
+  $('guessDock').hidden = true; $('revealDock').hidden = false;
+  $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next animal';
+  setDots(S.round, true);
+  refreshText();
+  const h = S.humanH, top = Math.max(h, S.guessH, S.trueH), gw = Math.max(S.guessH, S.trueH) * ar(S.animal);
+  fitTo(-0.42 * h, -0.06 * top, anchorX() + Math.max(gw, 0.25 * h) + 0.6 * h, top * 1.15, dockPad());
+  render();
+  $('nextBtn').focus({preventScroll: true});
+}
+function fillReveal(){
+  const r = S.results[S.results.length - 1], A = S.animal;
+  const ratio = r.guess / r.actual;
+  const pct = Math.round(Math.abs(ratio - 1) * 100);
+  let verdict;
+  if (r.score === 100) verdict = `<b>Spot on.</b> A ${A.name.toLowerCase()} really is that big.`;
+  else if (ratio > 1) verdict = `You made the ${A.name.toLowerCase()} <b>${pct}% too big</b>.`;
+  else verdict = `You made the ${A.name.toLowerCase()} <b>${pct}% too small</b>.`;
+  $('rVerdict').innerHTML = verdict;
+  $('rScore').innerHTML = `${r.score}<small>/100</small>`;
+  $('rFact').textContent = A.fact;
+  $('rDetails').hidden = false;
+  $('rSummary').textContent = 'How this silhouette was sized';
+  $('rSizing').textContent = A.sizing;
+  $('rSource').textContent = 'Source: ' + A.source;
+  $('rNums').innerHTML = `<span>Your guess <b>${fmt(r.guess)}</b></span><span>Actual <b>${fmt(r.actual)}</b></span><span>Off by <b>${pct}%</b></span>`;
+}
+$('lockBtn').onclick = lockIn;
+$('nextBtn').onclick = () => {
+  if (S.mode === 'weight'){ if (S.round >= 5) showEnd(); else nextWeighRound(); }
+  else { if (S.round >= 5) showEnd(); else nextRound(); }
+};
+
+// =====================================================================
+//  WEIGHT GAME  (Counterweight)
+// =====================================================================
+const wsvg = $('weigh'), wGrid = $('wGrid'), wScene = $('wScene');
+const DW = 1200, DH = 700;                 // design space
+const PIVOT = {x: 600, y: 138}, HALF = 330, CHAIN = 262, PAN_HALF = 220, BASKET_R = 220, DISH_D = 40;
+const REF_H = 180, MAX_TILT = 10, LIP = 70, GRAV = 2600, MAX_ROT = 26;   // LIP: rim height that still holds the heap          // reference silhouette height (design px), beam tilt limit (deg)
+const BUCKET = {x: 1010, y: 262};          // bottom-left corner, the pour pivot
+const Wg = {                                // weigh-game runtime
+  active: false, ref: null, target: null, trueMult: 1, count: 0,
+  theta: -9, omega: 0, thetaRest: -9, truthful: false,
+  pouring: false, holdT: 0, tilt: 0, acc: 0,
+  tokens: [], ground: [], els: {}, last: 0, raf: 0, scale: 1, refH: 180,
+};
+// Targets are drawn on the same scale as the reference (true height ratio), with a small
+// legibility floor so a hedgehog beside a giraffe is still a hedgehog and not a speck.
+function tokenDims(T){
+  const R = Wg.ref || T, f = Wg.scale || 1;
+  let h = (Wg.refH || REF_H) * f * (T.h / R.h);
+  if (h < 18) h = 18;
+  const a = ar(T); let w = h * a;
+  const m = Math.max(w, h); if (m < 26){ w *= 26 / m; h *= 26 / m; }
+  return {w, h};
+}
+// collision circle sits inside the shorter side, so long animals overlap like stacked logs
+const collider = (w, h) => 0.42 * Math.sqrt(w * h);
+const plural = rec => rec.plural || (rec.name.toLowerCase() + 's');
+
+function buildWeighScene(){
+  wScene.innerHTML = '';
+  const E = Wg.els, cx = PIVOT.x;
+  const defs = el('defs', {}, wScene);
+  const grad = el('linearGradient', {id: 'bucketGrad', x1: 0, y1: 0, x2: 1, y2: 0}, defs);
+  [['0', '#c9d4e0'], ['0.16', '#eaeff4'], ['0.38', '#ffffff'], ['0.68', '#e2e9f0'], ['1', '#b3c1d1']].forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, grad));
+  const clip = el('clipPath', {id: 'bucketClip'}, defs);
+  el('rect', {x: -90, y: -430, width: 280, height: 309}, clip);          // everything above the rim line
+
+  // --- the stand: stepped plinth, fluted column, papyrus capital, feather finial ---
+  const baseY = 680;
+  [[540, 26], [430, 22], [320, 18]].reduce((y, [w, h]) => { el('rect', {class: 'stone', x: cx - w / 2, y: y - h, width: w, height: h, rx: 3}, wScene); return y - h; }, baseY);
+  let ticks = ''; for (let i = -8; i <= 8; i++) ticks += `M${cx + i * 24} 637V649`;
+  el('path', {class: 'stone-line', d: ticks}, wScene);
+  el('path', {class: 'stone', d: `M${cx - 31} 614 L${cx - 21} 216 H${cx + 21} L${cx + 31} 614 Z`}, wScene);
+  el('path', {class: 'stone-line', d: `M${cx - 11} 600 L${cx - 8} 230 M${cx} 600 V230 M${cx + 11} 600 L${cx + 8} 230`}, wScene);
+  el('path', {class: 'stone', d: `M${cx - 21} 216 C${cx - 30} 194, ${cx - 60} 180, ${cx - 66} 158 H${cx + 66} C${cx + 60} 180, ${cx + 30} 194, ${cx + 21} 216 Z`}, wScene);
+  el('path', {class: 'stone-line', d: `M${cx - 40} 200 C${cx - 44} 186, ${cx - 52} 174, ${cx - 56} 164 M${cx + 40} 200 C${cx + 44} 186, ${cx + 52} 174, ${cx + 56} 164 M${cx} 208 V166`}, wScene);
+  el('rect', {class: 'brass', x: cx - 72, y: 150, width: 144, height: 9, rx: 2}, wScene);
+  el('path', {class: 'brass-light', d: `M${cx} 146 C${cx - 18} 128, ${cx - 15} 102, ${cx} 86 C${cx + 15} 102, ${cx + 18} 128, ${cx} 146 Z`}, wScene);
+  el('path', {class: 'spine', d: `M${cx} 92 V144 M${cx} 104 L${cx - 7} 113 M${cx} 104 L${cx + 7} 113 M${cx} 118 L${cx - 8} 128 M${cx} 118 L${cx + 8} 128 M${cx} 130 L${cx - 7} 139 M${cx} 130 L${cx + 7} 139`}, wScene);
+
+  // --- ropes (base + twist), leaves, pans with a woven texture ---
+  E.chainL = el('path', {class: 'rope'}, wScene); E.chainL2 = el('path', {class: 'rope-twist'}, wScene);
+  E.chainR = el('path', {class: 'rope'}, wScene); E.chainR2 = el('path', {class: 'rope-twist'}, wScene);
+  E.leafEls = [];
+  for (let i = 0; i < 6; i++){
+    const g = el('g', {}, wScene);
+    el('path', {class: 'leaf', d: 'M0 0 C6 -9, 17 -11, 24 -2 C17 5, 6 7, 0 0 Z'}, g);
+    el('path', {class: 'leaf-rib', d: 'M2 0 L22 -2'}, g);
+    E.leafEls.push(g);
+  }
+  E.plate = el('g', {}, wScene);
+  el('path', {class: 'dish', d: `M${-PAN_HALF} 0 Q0 ${DISH_D * 2} ${PAN_HALF} 0 Z`}, E.plate);
+  el('path', {class: 'weave', d: `M${-PAN_HALF * 0.8} 8 Q0 ${DISH_D * 1.65} ${PAN_HALF * 0.8} 8 M${-PAN_HALF * 0.55} 18 Q0 ${DISH_D * 1.3} ${PAN_HALF * 0.55} 18`}, E.plate);
+  el('rect', {class: 'plate', x: -PAN_HALF - 6, y: -3, width: PAN_HALF * 2 + 12, height: 6, rx: 3}, E.plate);
+  el('path', {class: 'vine', d: `M${-PAN_HALF - 4} -2 c-8 -10 -20 -8 -18 2 c2 9 13 8 11 0 M${PAN_HALF + 4} -2 c8 -10 20 -8 18 2 c-2 9 -13 8 -11 0`}, E.plate);
+  E.ref = el('use', {class: 'ref', href: '#'}, E.plate);
+  E.lblL = el('text', {class: 'pan-lbl', x: 0, y: -200, 'text-anchor': 'middle'}, E.plate);
+  E.basket = el('g', {}, wScene);
+  el('path', {class: 'basket', d: `M${-PAN_HALF} 0 A${BASKET_R} ${BASKET_R} 0 0 0 ${PAN_HALF} 0 Z`}, E.basket);
+  el('path', {class: 'weave', d: `M-176 0 A176 176 0 0 0 176 0 M-128 0 A128 128 0 0 0 128 0 M-78 0 A78 78 0 0 0 78 0`}, E.basket);
+  E.tokLayer = el('g', {}, E.basket);
+  el('path', {class: 'basket-front', d: `M${-PAN_HALF - 10} 0 H${PAN_HALF + 10}`}, E.basket);
+  el('path', {class: 'vine', d: `M${-PAN_HALF - 6} -2 c-8 -10 -20 -8 -18 2 c2 9 13 8 11 0 M${PAN_HALF + 6} -2 c8 -10 20 -8 18 2 c-2 9 -13 8 -11 0`}, E.basket);
+  E.groundLayer = el('g', {}, wScene);                 // animals that fell off, in world coordinates
+
+  // --- beam with brass knobs, pivot pin and plumb bob ---
+  E.beam = el('g', {}, wScene);
+  el('rect', {class: 'beam', x: -HALF, y: -7, width: HALF * 2, height: 14, rx: 7}, E.beam);
+  el('circle', {class: 'brass', cx: -HALF, cy: 0, r: 10}, E.beam);
+  el('circle', {class: 'brass', cx: HALF, cy: 0, r: 10}, E.beam);
+  el('circle', {class: 'pivot', cx: 0, cy: 0, r: 12}, E.beam);
+  el('circle', {class: 'brass', cx: 0, cy: 0, r: 5}, E.beam);
+  const plumb = el('g', {transform: `translate(${cx} ${PIVOT.y})`}, wScene);
+  el('path', {class: 'plumb', d: `M0 12 V92`}, plumb);
+  el('path', {class: 'brass', d: `M0 88 L-7 104 Q0 114 7 104 Z`}, plumb);
+
+  // --- running count and score mark, top centre above the pivot ---
+  E.count = el('text', {class: 'count', x: cx, y: 42, 'text-anchor': 'middle'}, wScene);
+  E.count2 = el('text', {class: 'count', x: cx + 34, y: 42, 'text-anchor': 'start'}, wScene);
+  E.verdictTop = el('text', {class: 'verdict-top', x: cx, y: 76, 'text-anchor': 'middle'}, wScene);
+  E.mark = el('text', {class: 'mark', x: 56, y: 112, 'text-anchor': 'start'}, wScene);
+  E.mark.textContent = '';
+  E.lblR = el('text', {class: 'pan-lbl', x: BUCKET.x + 50, y: BUCKET.y - 214, 'text-anchor': 'middle'}, wScene);
+
+  // --- the bucket: a rounded, shaded pail with animals peeking over the rim ---
+  E.bucket = el('g', {class: 'bucket', transform: `translate(${BUCKET.x} ${BUCKET.y})`}, wScene);
+  E.bucketRot = el('g', {}, E.bucket);
+  el('path', {class: 'body', d: `M0 0 C-2 -40, -8 -80, -14 -120 H114 C108 -80, 104 -40, 100 0 A50 11 0 0 1 0 0 Z`}, E.bucketRot);
+  el('path', {class: 'shade', d: `M6 -3 A46 9 0 0 0 94 -3`}, E.bucketRot);
+  el('path', {class: 'highlight', d: `M16 -16 C12 -50, 10 -80, 12 -106`}, E.bucketRot);
+  el('ellipse', {class: 'inside', cx: 50, cy: -120, rx: 64, ry: 12}, E.bucketRot);
+  E.peek = el('g', {class: 'peek', 'clip-path': 'url(#bucketClip)'}, E.bucketRot);
+  el('path', {class: 'lip', d: `M-14 -120 A64 12 0 0 0 114 -120`}, E.bucketRot);
+  el('path', {class: 'lipTop', d: `M-10 -123 A60 10 0 0 1 110 -123`}, E.bucketRot);
+  el('circle', {class: 'lug', cx: -6, cy: -124, r: 5}, E.bucketRot);
+  el('circle', {class: 'lug', cx: 106, cy: -124, r: 5}, E.bucketRot);
+  el('path', {class: 'handle', d: `M-6 -126 C10 -200, 90 -200, 106 -126`}, E.bucketRot);
+  el('rect', {class: 'hit', x: -70, y: -215, width: 250, height: 265}, E.bucket);
+
+  // pouring input: anywhere on the scale
+  const down = e => { if (S.phase !== 'wguess') return; e.preventDefault(); startPour(); try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {} };
+  const up = () => stopPour();
+  wsvg.setAttribute('tabindex', '0');
+  wsvg.addEventListener('pointerdown', down);
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) wsvg.addEventListener(t, up);
+  window.addEventListener('pointerup', up);
+  wsvg.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat && S.phase === 'wguess'){ e.preventDefault(); spawnToken(); } });
+}
+function startPour(){ if (Wg.pouring) return; Wg.pouring = true; Wg.holdT = 0; Wg.acc = 0.55; spawnToken(); }
+function stopPour(){ Wg.pouring = false; }
+
+function spawnToken(){
+  if (S.phase !== 'wguess') return;
+  const T = Wg.target, {w, h} = tokenDims(T);
+  const r = collider(w, h);
+  const t = Wg.tilt * Math.PI / 180;
+  const lipX = BUCKET.x + (-14) * Math.cos(t) + (-120) * Math.sin(t);
+  const lipY = BUCKET.y - (-14) * Math.sin(t) + (-120) * Math.cos(t);
+  const pan = panPos(1);
+  const sx = lipX - pan.x + rnd(-10, 10), sy = lipY - pan.y + rnd(-10, 0);
+  const pileTop = Wg.tokens.length ? Math.min(0, Math.min(...Wg.tokens.map(k => k.y)) - r) : 0;
+  const drop = Math.max(60, pileTop - sy), vy0 = 150 + rnd(0, 80);
+  const tFall = (-vy0 + Math.sqrt(vy0 * vy0 + 2 * GRAV * drop)) / GRAV;
+  const aimX = rnd(-0.45, 0.45) * PAN_HALF;                      // land across the bowl, not on one edge
+  const tok = {
+    x: sx, y: sy,
+    vx: (aimX - sx) / tFall + rnd(-30, 30), vy: vy0,
+    rot: rnd(-6, 6), vrot: rnd(-12, 12), r, w, h, slow: 0, asleep: false, px: sx, py: sy,
+  };
+  const g = el('g', {class: 'tok'}, Wg.els.tokLayer);
+  el('use', {href: '#sil-' + T.key, x: -w / 2, y: -h / 2, width: w, height: h}, g);
+  tok.el = g;
+  Wg.tokens.push(tok);
+  Wg.count++;
+  // generic bob: grows with how much has been poured, never with the true weights
+  const gFac = clamp((Wg.count - 4) / 26, 0, 1);
+  const rateFac = Wg.pouring ? 1 / Math.sqrt(1 + Wg.tilt / 15) : 1;
+  Wg.omega += (Math.random() < 0.5 ? -1 : 1) * (5 + 26 * gFac) * rateFac;
+  updateWeighLabels();
+}
+function panPos(side){          // side: -1 left, +1 right ; returns pan origin in design space
+  const t = Wg.theta * Math.PI / 180;
+  return {x: PIVOT.x + side * HALF * Math.cos(t), y: PIVOT.y + side * HALF * Math.sin(t) + CHAIN};
+}
+// ground level in design space: the plinth tiers, then the floor
+function floorY(x){
+  if (x >= 440 && x <= 760) return 614;
+  if (x >= 385 && x <= 815) return 632;
+  if (x >= 330 && x <= 870) return 654;
+  return 680;
+}
+function integrate(k, dt){
+  if (k.asleep) return;
+  k.vy += GRAV * dt; k.x += k.vx * dt; k.y += k.vy * dt;
+  k.rot += k.vrot * dt; k.vrot *= 0.8;
+  if (k.rot > MAX_ROT){ k.rot = MAX_ROT; k.vrot = Math.min(0, k.vrot); }
+  if (k.rot < -MAX_ROT){ k.rot = -MAX_ROT; k.vrot = Math.max(0, k.vrot); }
+}
+function settle(k){
+  const disp = Math.hypot(k.x - k.px, k.y - k.py);
+  k.px = k.x; k.py = k.y;
+  if (k.asleep) return;
+  if (disp < 0.35){ k.vx *= 0.5; k.vy *= 0.5; k.slow++; if (k.slow > 12){ k.asleep = true; k.vx = 0; k.vy = 0; k.vrot = 0; } }
+  else k.slow = 0;
+}
+function wake(k){ if (k.asleep){ k.asleep = false; } k.slow = 0; }
+function collidePairs(T){
+  for (let i = 0; i < T.length; i++){
+    const a = T[i];
+    for (let j = i + 1; j < T.length; j++){
+      const b = T[j];
+      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), min = a.r + b.r;
+      if (d >= min || d < 0.0001) continue;
+      const nx = dx / d, ny = dy / d, push = (min - d) * 0.5;
+      if (push > 2){ wake(a); wake(b); }
+      a.x -= nx * push / 2; a.y -= ny * push / 2; b.x += nx * push / 2; b.y += ny * push / 2;
+      const rvx = b.vx - a.vx, rvy = b.vy - a.vy, vn = rvx * nx + rvy * ny;
+      if (vn < 0){
+        const jn = -(1 + 0.1) * vn / 2;
+        a.vx -= jn * nx; a.vy -= jn * ny; b.vx += jn * nx; b.vy += jn * ny;
+      }
+      const tx = -ny, ty = nx, vtRel = rvx * tx + rvy * ty, vt = vtRel * 0.15;
+      a.vx += vt * tx / 2; a.vy += vt * ty / 2; b.vx -= vt * tx / 2; b.vy -= vt * ty / 2;
+      // a little roll from the slide, so animals tilt as they slip and stack
+      a.vrot += (vtRel / a.r) * 57.3 * 0.02 * (1 - Math.abs(a.rot) / MAX_ROT); b.vrot -= (vtRel / b.r) * 57.3 * 0.02 * (1 - Math.abs(b.rot) / MAX_ROT);
+    }
+  }
+}
+function bowlOutside(k, lx, ly){          // solid outside of the bowl, for anything that went over the edge
+  if (ly <= 0) return;
+  const d = Math.hypot(lx, ly), lim = BASKET_R + k.r;
+  if (d >= lim || d < 0.0001) return;
+  const nx = lx / d, ny = ly / d;
+  k.x += nx * lim - lx; k.y += ny * lim - ly;
+  const vn = k.vx * nx + k.vy * ny;
+  if (vn < 0){ k.vx -= (1 + 0.3) * vn * nx; k.vy -= (1 + 0.3) * vn * ny; }
+}
+function stepPhysics(dt){
+  const bw = PAN_HALF, br = BASKET_R;
+  const T = Wg.tokens, G = Wg.ground, pan = panPos(1);
+  for (const k of T){
+    // a heap can only pile so high: anything well above the rim sheds sideways and rolls off
+    if (k.y < -(LIP + 70) && !k.asleep) k.vx += (k.x !== 0 ? Math.sign(k.x) : (Math.random() < 0.5 ? -1 : 1)) * 700 * dt;
+    integrate(k, dt);
+  }
+  for (const k of G) integrate(k, dt);
+  for (let it = 0; it < 6; it++){
+    collidePairs(T);
+    for (const a of T){
+      // the rim lip holds the bottom of the heap
+      if (a.y > -LIP && a.y <= 0 && Math.abs(a.x) < bw + a.r){
+        if (a.x < -bw + a.r){ a.x = -bw + a.r; if (a.vx < 0) a.vx = -a.vx * 0.3; }
+        if (a.x > bw - a.r){ a.x = bw - a.r; if (a.vx > 0) a.vx = -a.vx * 0.3; }
+      }
+      // inside the bowl
+      if (a.y > 0){
+        const d = Math.hypot(a.x, a.y);
+        if (d < br){
+          const lim = br - a.r;
+          if (d > lim){
+            const nx = a.x / d, ny = a.y / d;
+            a.x = nx * lim; a.y = ny * lim;
+            const vn = a.vx * nx + a.vy * ny;
+            if (vn > 0){
+              a.vx -= (1 + 0.3) * vn * nx; a.vy -= (1 + 0.3) * vn * ny;
+              a.vx *= 0.96; a.vy *= 0.96;
+              a.vrot += ((a.vx * ny - a.vy * nx) / a.r) * 57.3 * 0.02 * (1 - Math.abs(a.rot) / MAX_ROT);
+              if (vn > 250) Wg.omega += vn * 0.003 * (0.3 + 0.7 * clamp((Wg.count - 4) / 26, 0, 1));
+            }
+          }
+        }
+      }
+    }
+    collidePairs(G);
+    for (const k of G){
+      bowlOutside(k, k.x - pan.x, k.y - pan.y);
+      const fy = floorY(k.x);
+      if (k.y + k.r > fy){
+        k.y = fy - k.r;
+        if (k.vy > 0){ k.vy = -k.vy * 0.2; k.vrot += (k.vx / k.r) * 57.3 * 0.1; }
+        k.vx *= 0.8;
+      }
+    }
+  }
+  // anything past the rim edge and heading down leaves the bowl for the ground
+  for (let i = T.length - 1; i >= 0; i--){
+    const a = T[i];
+    const over = (a.y > 0 && Math.hypot(a.x, a.y) > br) || (Math.abs(a.x) > bw + a.r * 0.5);
+    if (over){
+      a.x += pan.x; a.y += pan.y; a.slow = 0; a.asleep = false;
+      Wg.els.groundLayer.appendChild(a.el);
+      G.push(a); T.splice(i, 1);
+    }
+  }
+  for (let i = G.length - 1; i >= 0; i--){ const k = G[i]; if (k.x < -80 || k.x > 1280 || k.y > 900){ k.el.remove(); G.splice(i, 1); } }
+  for (const k of T) settle(k);
+  for (const k of G) settle(k);
+}
+function stepBeam(dt){
+  if (!Wg.truthful){
+    const gFac = clamp((Wg.count - 4) / 26, 0, 1);
+    Wg.thetaRest = -8 * (1 - gFac);                    // generic: heavy side down until "a decent pile"
+  }
+  const k = 40, c = 4.2;
+  Wg.omega += (-k * (Wg.theta - Wg.thetaRest) - c * Wg.omega) * dt;
+  Wg.theta += Wg.omega * dt;
+  Wg.theta = clamp(Wg.theta, -MAX_TILT, MAX_TILT);
+}
+function stepPour(dt){
+  if (Wg.pouring){
+    Wg.holdT += dt;
+    Wg.tilt = 75 * (1 - Math.exp(-Wg.holdT / 0.45));
+    const rate = 3 + 22 * Math.pow(Wg.tilt / 75, 2);
+    Wg.acc += rate * dt;
+    while (Wg.acc >= 1 && Wg.count < 400){ Wg.acc -= 1; spawnToken(); }
+  } else {
+    Wg.tilt *= Math.exp(-dt / 0.1);
+    if (Wg.tilt < 0.05) Wg.tilt = 0;
+  }
+}
+function layoutWeigh(){
+  W = stage.clientWidth || W; H = stage.clientHeight || H;
+  wsvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const dock = document.querySelector('.dock:not([hidden])');
+  const avail = Math.max(H * 0.5, H - (dock ? dock.offsetHeight + 30 : 90));
+  const k = Math.max(0.12, Math.min(W / DW, avail / DH));
+  const ox = (W - DW * k) / 2, oy = Math.max(10, (avail - DH * k) / 2);
+  wScene.setAttribute('transform', `translate(${ox} ${oy}) scale(${k})`);
+  drawGridInto(wGrid, Math.max(22, 40 * k), ox, oy, W, H);
+}
+function drawWeigh(){
+  const E = Wg.els, t = Wg.theta * Math.PI / 180;
+  E.beam.setAttribute('transform', `translate(${PIVOT.x} ${PIVOT.y}) rotate(${Wg.theta})`);
+  const L = panPos(-1), R = panPos(1);
+  const endL = {x: PIVOT.x - HALF * Math.cos(t), y: PIVOT.y - HALF * Math.sin(t)};
+  const endR = {x: PIVOT.x + HALF * Math.cos(t), y: PIVOT.y + HALF * Math.sin(t)};
+  const dL = `M${endL.x} ${endL.y} L${L.x - PAN_HALF} ${L.y} M${endL.x} ${endL.y} L${L.x + PAN_HALF} ${L.y}`;
+  const dR = `M${endR.x} ${endR.y} L${R.x - PAN_HALF} ${R.y} M${endR.x} ${endR.y} L${R.x + PAN_HALF} ${R.y}`;
+  E.chainL.setAttribute('d', dL); E.chainL2.setAttribute('d', dL);
+  E.chainR.setAttribute('d', dR); E.chainR2.setAttribute('d', dR);
+  // leaves ride along the ropes
+  const cords = [[endL, {x: L.x - PAN_HALF, y: L.y}], [endL, {x: L.x + PAN_HALF, y: L.y}], [endR, {x: R.x - PAN_HALF, y: R.y}], [endR, {x: R.x + PAN_HALF, y: R.y}]];
+  const spots = [[0, 0.44, -1], [0, 0.78, 1], [1, 0.62, 1], [2, 0.6, -1], [3, 0.42, 1], [3, 0.8, -1]];
+  spots.forEach(([ci, tt, side], i) => {
+    const [a, b] = cords[ci];
+    const x = a.x + (b.x - a.x) * tt, y = a.y + (b.y - a.y) * tt;
+    const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+    E.leafEls[i].setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(ang + side * 34).toFixed(1)}) scale(1 ${side})`);
+  });
+  E.plate.setAttribute('transform', `translate(${L.x} ${L.y})`);
+  E.basket.setAttribute('transform', `translate(${R.x} ${R.y})`);
+  E.bucketRot.setAttribute('transform', `rotate(${-Wg.tilt})`);
+  for (const k of Wg.tokens) k.el.setAttribute('transform', `translate(${k.x.toFixed(1)} ${k.y.toFixed(1)}) rotate(${k.rot.toFixed(1)})`);
+  for (const k of Wg.ground) k.el.setAttribute('transform', `translate(${k.x.toFixed(1)} ${k.y.toFixed(1)}) rotate(${k.rot.toFixed(1)})`);
+}
+function updateWeighLabels(){
+  const E = Wg.els; if (!E.count) return;
+  if (S.phase === 'wguess') E.count.textContent = Wg.count ? `×${Wg.count}` : '';
+  E.lblL.textContent = Wg.ref.name;
+  const pl = plural(Wg.target); E.lblR.textContent = pl.charAt(0).toUpperCase() + pl.slice(1);
+  $('wVal').textContent = Wg.count;
+  $('wLockBtn').disabled = Wg.count < 1;
+}
+function weighFrame(ts){
+  if (!Wg.active) return;
+  try { weighStep(ts); } catch (err){ Wg.active = false; window.__lslErr('Weigh loop failed: ' + err.message); return; }
+  Wg.raf = requestAnimationFrame(weighFrame);
+}
+function weighStep(ts){
+  const dt = Math.min(0.05, (ts - (Wg.last || ts)) / 1000); Wg.last = ts;
+  if (S.phase === 'wguess') stepPour(dt);
+  const sub = 2;
+  for (let i = 0; i < sub; i++){ stepPhysics(dt / sub); }
+  stepBeam(dt);
+  drawWeigh();
+}
+function makeWeighQueue(){
+  const A = DATA.animals, keys = Object.keys(A);
+  const refs = keys.filter(k => A[k].kg >= 30);
+  const targetsFor = (r, used) => keys.filter(k => k !== r && !used.has(k) && A[r].kg / A[k].kg >= 3 && A[r].kg / A[k].kg <= 60 && A[k].h / A[r].h <= 0.6);
+  for (let attempt = 0; attempt < 300; attempt++){
+    const rs = shuffle([...refs]); const [r1, r2, r3] = rs;
+    const used = new Set([r1, r2, r3]); const rounds = []; let ok = true;
+    for (const [r, n] of [[r1, 2], [r2, 2], [r3, 1]]){
+      const t = shuffle(targetsFor(r, used));
+      if (t.length < n){ ok = false; break; }
+      for (let i = 0; i < n; i++){ used.add(t[i]); rounds.push({ref: r, target: t[i]}); }
+    }
+    if (ok) return rounds;
+  }
+  return [];
+}
+function startWeightGame(){
+  S.queue = makeWeighQueue();
+  S.round = 0; S.results = []; S.set = null; S.animal = null;
+  $('themeChip').textContent = 'Counterweight';
+  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false); $('zoomCtl').hidden = true;
+  $('rounds').hidden = false; $('totalBox').hidden = false;
+  $('startScreen').hidden = true; $('endScreen').hidden = true;
+  try {
+    if (!Wg.els.beam) buildWeighScene();
+    Wg.active = true; Wg.last = 0;
+    cancelAnimationFrame(Wg.raf); Wg.raf = requestAnimationFrame(weighFrame);
+    nextWeighRound();
+  } catch (err){ window.__lslErr('Weigh scene failed: ' + err.message + (err.stack ? ' | ' + String(err.stack).split(String.fromCharCode(10))[1] : '')); }
+}
+function nextWeighRound(){
+  S.round++;
+  const q = S.queue[S.round - 1];
+  Wg.ref = DATA.animals[q.ref]; Wg.target = DATA.animals[q.target];
+  Wg.trueMult = Wg.ref.kg / Wg.target.kg;
+  Wg.count = 0; Wg.tokens = []; Wg.ground = []; Wg.els.tokLayer.innerHTML = ''; Wg.els.groundLayer.innerHTML = '';
+  Wg.theta = -8; Wg.omega = 0; Wg.thetaRest = -8; Wg.truthful = false; Wg.pouring = false; Wg.tilt = 0;
+  Wg.els.mark.textContent = ''; Wg.els.mark.classList.remove('pop');
+  // reference on the plate
+  // whole-scene scale: shrink both sides together (same proportion) when the target's token is so
+  // large that a basketful could not fit. Depends only on the visible size ratio, never on the answer.
+  // the reference fills 70% of its platform's width, capped so tall animals clear the beam
+  let rw = 0.7 * PAN_HALF * 2, rh = rw / ar(Wg.ref);
+  if (rh > 200){ rh = 200; rw = rh * ar(Wg.ref); }
+  Wg.refH = rh; Wg.scale = 1;
+  Wg.els.lblL.setAttribute('y', -(rh + 14));
+  Wg.els.verdictTop.textContent = ''; Wg.els.count2.textContent = '';
+  Wg.els.count.setAttribute('x', PIVOT.x); Wg.els.count.setAttribute('text-anchor', 'middle');
+  Wg.els.ref.setAttribute('href', '#sil-' + Wg.ref.key);
+  Wg.els.ref.setAttribute('x', -rw / 2); Wg.els.ref.setAttribute('y', -rh); Wg.els.ref.setAttribute('width', rw); Wg.els.ref.setAttribute('height', rh);
+  // peeking targets in the bucket
+  const P = Wg.els.peek; P.innerHTML = '';
+  const td = tokenDims(Wg.target), pf = 44 / Math.max(td.w, td.h), w = td.w * pf, h = td.h * pf;
+  [[16, -124, -8], [52, -131, 5], [86, -123, -4]].forEach(([x, y, rot]) => el('use', {href: '#sil-' + Wg.target.key, x: -w / 2, y: -h / 2, width: w, height: h, transform: `translate(${x} ${y}) rotate(${rot})`}, P));
+  S.phase = 'wguess';
+  $('wRound').textContent = S.round;
+  $('wName').innerHTML = `${Wg.ref.name} <small>with</small> ${plural(Wg.target)}`;
+  setDots(S.round, false);
+  $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true;
+  updateWeighLabels(); layoutWeigh(); drawWeigh(); refreshText();
+}
+function lockWeigh(){
+  if (S.phase !== 'wguess' || Wg.count < 1) return;
+  stopPour();
+  const score = scoreFor(Wg.count, Wg.trueMult);
+  S.results.push({ref: Wg.ref.key, target: Wg.target.key, name: `${Wg.ref.name} in ${plural(Wg.target)}`, count: Wg.count, actual: Wg.trueMult, score});
+  S.phase = 'wreveal';
+  // the scale finally tells the truth
+  Wg.truthful = true;
+  Wg.thetaRest = clamp(9 * Math.log2(Wg.count / Wg.trueMult), -MAX_TILT, MAX_TILT);
+  Wg.omega += 10 * Math.sign(Wg.thetaRest || 1);
+  Wg.els.mark.textContent = `${score}/100`; Wg.els.mark.classList.add('pop');
+  Wg.els.count.setAttribute('x', PIVOT.x - 34); Wg.els.count.setAttribute('text-anchor', 'end');
+  Wg.els.count.textContent = `×${Wg.count} poured`;
+  Wg.els.count2.textContent = `×${fmtMult(Wg.trueMult)} balances`;
+  Wg.els.verdictTop.textContent = score === 100 ? 'Balanced' : (Wg.count > Wg.trueMult ? 'Too many' : 'Too few');
+  $('weighDock').hidden = true; $('revealDock').hidden = false;
+  $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next weigh-in';
+  setDots(S.round, true);
+  refreshText(); layoutWeigh();
+  $('nextBtn').focus({preventScroll: true});
+}
+function fillWeighReveal(){
+  const r = S.results[S.results.length - 1], R = Wg.ref, T = Wg.target;
+  const ratio = r.count / r.actual, pct = Math.round(Math.abs(ratio - 1) * 100);
+  const tl = plural(T), rl = R.name.toLowerCase();
+  let verdict;
+  if (r.score === 100) verdict = `<b>Balanced.</b> ${r.count} ${tl} weigh the same as one ${rl}.`;
+  else if (ratio > 1) verdict = `<b>Too many.</b> ${fmtMult(r.actual)} ${tl} balance one ${rl}; you poured ${r.count}.`;
+  else verdict = `<b>Too few.</b> ${fmtMult(r.actual)} ${tl} balance one ${rl}; you poured ${r.count}.`;
+  $('rVerdict').innerHTML = verdict;
+  $('rScore').innerHTML = `${r.score}<small>/100</small>`;
+  $('rFact').textContent = `A ${rl} weighs about ${fmtKg(R.kg)}; a ${T.name.toLowerCase()} about ${fmtKg(T.kg)}. ${fmtKg(R.kg)} ÷ ${fmtKg(T.kg)} ≈ ${fmtMult(r.actual)}.`;
+  $('rDetails').hidden = false;
+  $('rSummary').textContent = 'Where the weights come from';
+  $('rSizing').textContent = `${R.name}: ${R.kgNote}. ${T.name}: ${T.kgNote}.`;
+  $('rSource').textContent = 'Source: Wikipedia species pages, typical adult mass.';
+  $('rNums').innerHTML = `<span>You poured <b>${r.count}</b></span><span>Balances at <b>${fmtMult(r.actual)}</b></span>`;
+}
+$('wLockBtn').onclick = lockWeigh;
+
+// =====================================================================
+//  END / START / CREDITS
+// =====================================================================
+function showEnd(){
+  S.phase = 'end';
+  Wg.active = false; cancelAnimationFrame(Wg.raf); stopPour();
+  $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('zoomCtl').hidden = true;
+  const total = totalScore();
+  $('endTotal').innerHTML = `${total}<small>/500</small>`;
+  $('endWord').textContent = total >= 450 ? 'Uncanny.' : total >= 350 ? 'Sharp eye.' : total >= 250 ? 'Not bad at all.' : total >= 150 ? 'Getting there.' : 'Everything looks bigger in real life.';
+  if (S.mode === 'weight'){
+    $('endHead').innerHTML = `<tr><th></th><th>Weigh-in</th><th class="num">You poured</th><th class="num">Balances at</th><th class="num">Score</th></tr>`;
+    $('endRows').innerHTML = S.results.map(r => {
+      const R = DATA.animals[r.ref], T = DATA.animals[r.target];
+      return `<tr><td><svg class="thumb" viewBox="${R.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.ref}"/></svg></td><td class="nm">${R.name}<small>in ${plural(T)}</small></td><td class="num">${r.count}</td><td class="num">${fmtMult(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
+    }).join('');
+    $('againBtn').textContent = 'Weigh another five';
+  } else {
+    $('endHead').innerHTML = `<tr><th></th><th>Animal</th><th class="num">Your guess</th><th class="num">Actual</th><th class="num">Score</th></tr>`;
+    $('endRows').innerHTML = S.results.map(r => {
+      const A = DATA.animals[r.key];
+      return `<tr><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.key}"/></svg></td><td class="nm">${r.name}</td><td class="num">${fmt(r.guess)}</td><td class="num">${fmt(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
+    }).join('');
+    $('againBtn').textContent = 'Play another lineup';
+  }
+  $('endScreen').hidden = false;
+  render();
+}
+$('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else startSizeGame('random'); };
+$('changeBtn').onclick = () => {
+  S.phase = 'start'; S.animal = null; Wg.active = false; cancelAnimationFrame(Wg.raf);
+  $('endScreen').hidden = true; $('startScreen').hidden = false; $('rounds').hidden = true; $('totalBox').hidden = true; $('themeChip').textContent = '';
+  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); render();
+};
+
+function setMode(m){
+  S.mode = m;
+  const w = m === 'weight';
+  $('modeSize').setAttribute('aria-pressed', !w); $('modeWeight').setAttribute('aria-pressed', w);
+  $('ledeSize').hidden = w; $('ledeWeight').hidden = !w;
+  $('howSize').hidden = w; $('howWeight').hidden = !w;
+  $('heightField').hidden = w; $('setField').hidden = w; $('weighField').hidden = !w;
+  $('startBtn').textContent = w ? 'Start weighing' : 'Start the lineup';
+  try { localStorage.setItem('lsl-mode', m); } catch (e) {}
+}
+$('modeSize').onclick = () => setMode('size');
+$('modeWeight').onclick = () => setMode('weight');
+
+(function initStart(){
+  const sel = $('setSel');
+  sel.innerHTML = `<option value="random">Surprise me</option>` + DATA.sets.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+  const blurb = () => { const s = DATA.sets.find(x => x.id === sel.value); $('setBlurb').textContent = s ? s.blurb : 'A random themed set of five animals.'; };
+  sel.onchange = blurb; blurb();
+  try {
+    const u = localStorage.getItem('lsl-unit'); if (u) setUnit(u);
+    const m = localStorage.getItem('lsl-mode'); if (m === 'weight' || m === 'size') setMode(m);
+    const h = parseFloat(localStorage.getItem('lsl-height'));
+    if (h > 0){ $('hCm').value = Math.round(h * 100); $('hFt').value = Math.floor(h / 0.3048); $('hIn').value = Math.round((h / 0.0254) % 12); }
+  } catch (e) {}
+  $('startForm').onsubmit = e => {
+    e.preventDefault();
+    try {
+    if (S.mode === 'weight'){ startWeightGame(); return; }
+    let m;
+    if (S.unit === 'metric'){ const v = parseFloat($('hCm').value); m = v < 3 ? v : v / 100; }
+    else { m = (parseFloat($('hFt').value) || 0) * 0.3048 + (parseFloat($('hIn').value) || 0) * 0.0254; }
+    if (!(m >= 0.5 && m <= 2.6)){ $('hErr').textContent = 'Enter a height between 50 cm and 2.6 m (about 1′8″ to 8′6″).'; return; }
+    $('hErr').textContent = '';
+    S.humanH = m;
+    try { localStorage.setItem('lsl-height', String(m)); } catch (e) {}
+    startSizeGame(sel.value);
+    } catch (err){ window.__lslErr('Could not start: ' + err.message); }
+  };
+})();
+
+(function initCredits(){
+  const rows = [['Human figure (you)', HUMAN]].concat(Object.values(DATA.animals).map(a => [a.name, a]));
+  $('creditList').innerHTML = rows.map(([label, r]) => `<li><b>${label}</b> — ${r.credit.by}, <a href="${r.credit.url}" target="_blank" rel="noopener">${r.credit.license}</a></li>`).join('');
+  const open = () => { $('creditsScreen').hidden = false; };
+  $('creditsBtn').onclick = open; $('creditsBtn2').onclick = open;
+  $('creditsClose').onclick = () => { $('creditsScreen').hidden = true; };
+})();
+
+new ResizeObserver(() => { if (Wg.active) layoutWeigh(); }).observe(stage);
+window.addEventListener('blur', stopPour);
+
+(function boot(){
+  cam.s = Math.max(60, Math.min(stage.clientWidth || 800, stage.clientHeight || 600) / 3); cam.x = 1.0; cam.y = 0.9;
+  render();
+})();
+window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, get W(){ return W; }, get H(){ return H; }};
+})();
+</script>

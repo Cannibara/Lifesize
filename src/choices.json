@@ -1,0 +1,290 @@
+{
+ "cat": {
+  "uuid": "81e1f778-d176-47ba-a0c4-01f54e1157a9",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Mozillian",
+  "attribution": null,
+  "title": "Felis lybica catus",
+  "sci": "Felis catus",
+  "common": "Domestic cat"
+ },
+ "rabbit": {
+  "uuid": "ad7d2a9d-ef0d-46f2-895d-7c67bb8e6355",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Ferran Sayol",
+  "attribution": "Ferran Sayol",
+  "title": "Oryctolagus cuniculus",
+  "sci": "Oryctolagus cuniculus",
+  "common": "European rabbit"
+ },
+ "dog": {
+  "uuid": "22689036-9e7f-44b7-aab9-1436aa4de091",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Canis familiaris dingo",
+  "sci": "Canis familiaris",
+  "common": "Domestic dog"
+ },
+ "sheep": {
+  "uuid": "14012740-e356-464b-b84d-fa6c4a0b34a9",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Katy Lawler",
+  "attribution": "Katy Lawler",
+  "title": "Ovis aries",
+  "sci": "Ovis aries",
+  "common": "Sheep"
+ },
+ "pig": {
+  "uuid": "216ee85d-1696-49ae-a62c-d1da6fef06fc",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Mozillian",
+  "attribution": null,
+  "title": "Sus scrofa domestica",
+  "sci": "Sus domesticus",
+  "common": "Domestic pig"
+ },
+ "cow": {
+  "uuid": "415714b4-859c-4d1c-9ce0-9e1081613df7",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Bos primigenius taurus",
+  "sci": "Bos taurus",
+  "common": "Cattle"
+ },
+ "horse": {
+  "uuid": "26d41545-17ea-4be5-8296-05d6ffd05360",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Jody Taylor",
+  "attribution": "An Ignorant Atheist",
+  "title": "Equus ferus caballus",
+  "sci": "Equus caballus",
+  "common": "Horse"
+ },
+ "lion": {
+  "uuid": "76a5e7ce-53fa-46ae-af9e-fabd8b863dcf",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Panthera leo",
+  "sci": "Panthera leo",
+  "common": "Lion"
+ },
+ "zebra": {
+  "uuid": "22f808e2-da14-4bfe-9672-0e5422d27212",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Andy Wilson",
+  "attribution": "Andy Wilson",
+  "title": "Equus quagga chapmani",
+  "sci": "Equus quagga",
+  "common": "Plains zebra"
+ },
+ "hippo": {
+  "uuid": "e130f877-a96c-48d8-9f26-bb131021397f",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Jody Taylor",
+  "attribution": "An Ignorant Atheist",
+  "title": "Hippopotamus amphibius",
+  "sci": "Hippopotamus amphibius",
+  "common": "Hippopotamus"
+ },
+ "rhino": {
+  "uuid": "8896498f-faf5-47df-82eb-1d7db9cbbf6f",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Jody Taylor",
+  "attribution": "An Ignorant Atheist",
+  "title": "Ceratotherium simum",
+  "sci": "Ceratotherium simum",
+  "common": "White rhinoceros"
+ },
+ "elephant": {
+  "uuid": "62398ac0-f0c3-48f8-8455-53512a05fbc4",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Loxodonta africana africana",
+  "sci": "Loxodonta africana",
+  "common": "African bush elephant"
+ },
+ "giraffe": {
+  "uuid": "b35f867d-26e8-4c48-806e-0f07f18b1844",
+  "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "contributor": "T. Michael Keesey",
+  "attribution": "Bernard Dupont (photograph) and T. Michael Keesey (tracing)",
+  "title": "Giraffa camelopardalis camelopardalis var. rothschildi",
+  "sci": "Giraffa camelopardalis",
+  "common": "Giraffe"
+ },
+ "fox": {
+  "uuid": "4a2143fc-4bfb-4188-b0fa-f2d2094349a4",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Jody Taylor",
+  "attribution": "An Ignorant Atheist",
+  "title": "Vulpes vulpes",
+  "sci": "Vulpes vulpes",
+  "common": "Red fox"
+ },
+ "lynx": {
+  "uuid": "27a2173a-5903-46fc-83c5-29ed7f421046",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Lynx lynx",
+  "sci": "Lynx lynx",
+  "common": "Eurasian lynx"
+ },
+ "wolf": {
+  "uuid": "5036f260-5a0d-42c5-a0bd-9eb0729e54e0",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Canis lupus",
+  "sci": "Canis lupus",
+  "common": "Grey wolf"
+ },
+ "bear": {
+  "uuid": "c7fbe213-1eac-4f81-80d0-674c3bd2d6b0",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Ursus arctos",
+  "sci": "Ursus arctos",
+  "common": "Brown bear"
+ },
+ "reindeer": {
+  "uuid": "d2e268c1-1937-4308-9fa4-9adc55cc5e8b",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Mason McNair",
+  "attribution": "Mason McNair",
+  "title": "Rangifer tarandus",
+  "sci": "Rangifer tarandus",
+  "common": "Reindeer"
+ },
+ "reddeer": {
+  "uuid": "cc03f5c2-933f-4c40-9c64-7f8727556fdb",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Ferran Sayol",
+  "attribution": "Ferran Sayol",
+  "title": "Cervus elaphus",
+  "sci": "Cervus elaphus",
+  "common": "Red deer"
+ },
+ "moose": {
+  "uuid": "1a20a65d-1342-4833-a9dd-1611b9fb383c",
+  "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "contributor": "T. Michael Keesey",
+  "attribution": null,
+  "title": "Alces alces",
+  "sci": "Alces alces",
+  "common": "Moose"
+ },
+ "mouse": {
+  "uuid": "c8f71c27-71db-4b34-ac2d-e97fea8762cf",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Tony Goldberg",
+  "attribution": "Jiro Wada",
+  "title": "Mus musculus",
+  "sci": "Mus musculus",
+  "common": "House mouse"
+ },
+ "rat": {
+  "uuid": "6b8ecf3f-a5c2-4ca4-adbc-1c7280c380d4",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Arcadia Science",
+  "attribution": "Arcadia Science",
+  "title": "Rattus norvegicus",
+  "sci": "Rattus norvegicus",
+  "common": "Brown rat"
+ },
+ "guineapig": {
+  "uuid": "75836dad-906e-4066-8518-ab60f0f96b73",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Daniel Stadtmauer",
+  "attribution": "Daniel Stadtmauer",
+  "title": "Cavia porcellus",
+  "sci": "Cavia porcellus",
+  "common": "Guinea pig"
+ },
+ "squirrel": {
+  "uuid": "23c700c9-e695-404a-8d0c-146e1fc4bada",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Ferran Sayol",
+  "attribution": "Ferran Sayol",
+  "title": "Sciurus vulgaris",
+  "sci": "Sciurus vulgaris",
+  "common": "Red squirrel"
+ },
+ "hedgehog": {
+  "uuid": "6ecff71e-fcfc-4cb9-b773-9e6e21607587",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Erinaceus europaeus",
+  "sci": "Erinaceus europaeus",
+  "common": "European hedgehog"
+ },
+ "beaver": {
+  "uuid": "be8670c2-a5bd-4b44-88e8-92f8b0c7f4c6",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Castor canadensis",
+  "sci": "Castor canadensis",
+  "common": "North American beaver"
+ },
+ "capybara": {
+  "uuid": "9c234021-ce53-45d9-8fdd-b0ca3115a451",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Skye McDavid",
+  "attribution": "Skye M",
+  "title": "Hydrochoerus hydrochaeris",
+  "sci": "Hydrochoerus hydrochaeris",
+  "common": "Capybara"
+ },
+ "human": {
+  "uuid": "036b96de-4bca-408e-adb6-2154fcd724ef",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "contributor": "Katy Lawler",
+  "attribution": "Katy Lawler",
+  "title": "Homo sapiens sapiens",
+  "sci": "Homo sapiens",
+  "common": "Human"
+ },
+ "kangaroo": {
+  "uuid": "b1619eda-7265-4c5a-9af5-527875ab2677",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Guillaume Dera",
+  "attribution": null,
+  "title": "Osphranter rufus",
+  "sci": "Osphranter rufus",
+  "common": "Red kangaroo"
+ },
+ "camel": {
+  "uuid": "e52676dd-272c-4b14-8c99-ea5dc98942e5",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Camelus dromedarius",
+  "sci": "Camelus dromedarius",
+  "common": "Dromedary"
+ },
+ "tiger": {
+  "uuid": "135296df-6e7a-4c02-bd22-85ca4aefcc85",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Panthera tigris",
+  "sci": "Panthera tigris",
+  "common": "Tiger"
+ },
+ "gorilla": {
+  "uuid": "142e0571-3b5f-443d-a887-b572a224ea22",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Gorilla gorilla",
+  "sci": "Gorilla gorilla",
+  "common": "Western gorilla"
+ }
+}

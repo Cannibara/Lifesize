@@ -1,0 +1,48 @@
+<title>raster</title>
+<canvas id="c"></canvas>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const g = parseInt(q.get('g') || '0');
+  const cat = await (await fetch('phylo/catalog.json')).json();
+  const keys = Object.keys(cat).filter(k => cat[k].images);
+  const grp = keys.slice(g*3, g*3+3);
+  const CW = 170, CH = 160, LH = 46, TOP = 26;
+  const c = document.getElementById('c');
+  c.width = 8*CW + 20; c.height = grp.length*(CH+LH+TOP) + 10;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height);
+  const load = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  let y = 5;
+  for (const key of grp) {
+    const rec = cat[key];
+    ctx.fillStyle = '#000'; ctx.font = 'bold 18px sans-serif';
+    ctx.fillText(`${key} | ${rec.common} | node ${rec.node}`, 10, y + 19);
+    y += TOP;
+    const imgs = rec.images.slice(0, 8);
+    for (let i = 0; i < imgs.length; i++) {
+      const im = imgs[i];
+      const x = 10 + i*CW;
+      const img = await load(`phylo/${key}__${im.uuid}.svg`);
+      ctx.strokeStyle = '#999'; ctx.strokeRect(x, y, CW-10, CH);
+      if (img && img.naturalWidth) {
+        const s = Math.min((CW-20)/img.naturalWidth, (CH-10)/img.naturalHeight);
+        const w = img.naturalWidth*s, h = img.naturalHeight*s;
+        ctx.drawImage(img, x + (CW-10-w)/2, y + (CH-h)/2, w, h);
+      } else { ctx.fillText('load fail', x+10, y+40); }
+      const lic = im.license.replace('https://creativecommons.org/','').replace('licenses/','').replace('publicdomain/','PD ');
+      const ar = img ? (img.naturalWidth/img.naturalHeight).toFixed(2) : '?';
+      ctx.fillStyle = '#000'; ctx.font = 'bold 13px sans-serif';
+      ctx.fillText(`#${i} ${im.uuid.slice(0,6)} ar=${ar}`, x, y + CH + 16);
+      ctx.font = '11px sans-serif'; ctx.fillStyle = '#333';
+      ctx.fillText(`${lic} | ${im.contributor}`.slice(0, 32), x, y + CH + 31);
+    }
+    y += CH + LH;
+  }
+  c.toBlob(async blob => {
+    const r = await fetch(`/save?name=raster_${String(g).padStart(2,'0')}.png`, {method:'POST', body: blob});
+    document.title = 'saved ' + g + ' ' + (await r.text());
+    window.__done = true;
+  }, 'image/png');
+})();
+</script>

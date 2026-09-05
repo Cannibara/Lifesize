@@ -1,0 +1,23 @@
+<title>bbox</title>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="10" height="10" style="position:absolute;left:-9999px"></svg>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const list = (q.get('list') || '').split(',').filter(Boolean); // key:uuid entries
+  const out = {};
+  const s = document.getElementById('s');
+  for (const ent of list) {
+    const [key, uuid] = ent.split(':');
+    const txt = await (await fetch(`phylo/${key}__${uuid}.svg`)).text();
+    const doc = new DOMParser().parseFromString(txt, 'image/svg+xml');
+    const root = doc.documentElement;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    for (const ch of Array.from(root.childNodes)) if (ch.nodeType === 1 && ch.nodeName !== 'metadata') g.appendChild(document.importNode(ch, true));
+    s.appendChild(g);
+    const b = g.getBBox();
+    out[key] = {uuid, viewBox: root.getAttribute('viewBox'), w: root.getAttribute('width'), h: root.getAttribute('height'), bbox: [b.x, b.y, b.width, b.height], paths: g.querySelectorAll('path').length, gs: g.querySelectorAll('g').length};
+    s.removeChild(g);
+  }
+  window.__bbox = out; document.title = 'bbox done';
+})();
+</script>

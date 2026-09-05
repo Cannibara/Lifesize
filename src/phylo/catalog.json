@@ -1,0 +1,2814 @@
+{
+ "cat": {
+  "common": "Domestic cat",
+  "sci": "Felis catus",
+  "node": "Felis lybica",
+  "node_uuid": "4b88bf27-0d8c-4ec1-8352-8ed7bbaab923",
+  "images": [
+   {
+    "uuid": "23cd6aa4-9587-4a2e-8e26-de42885004c9",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "David Orr",
+    "attribution": "David Orr",
+    "vector": "https://images.phylopic.org/images/23cd6aa4-9587-4a2e-8e26-de42885004c9/vector.svg",
+    "sizes": "1536x1249",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "481a9659-5cbb-4087-b8a7-9eb85c8311d2",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/481a9659-5cbb-4087-b8a7-9eb85c8311d2/vector.svg",
+    "sizes": "5974x3428",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "7595ad05-226a-4c84-9e13-8d7787a2e707",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/7595ad05-226a-4c84-9e13-8d7787a2e707/vector.svg",
+    "sizes": "1162x1536",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "81e1f778-d176-47ba-a0c4-01f54e1157a9",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/81e1f778-d176-47ba-a0c4-01f54e1157a9/vector.svg",
+    "sizes": "1536x1307",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "868c3865-d0d0-42f7-83fe-92c7f295795e",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Caleb M. Gordon",
+    "attribution": "Caleb M. Gordon",
+    "vector": "https://images.phylopic.org/images/868c3865-d0d0-42f7-83fe-92c7f295795e/vector.svg",
+    "sizes": "1382x1536",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "8c3808e8-3754-4259-8729-b0ccf25e6679",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "SJS",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/8c3808e8-3754-4259-8729-b0ccf25e6679/vector.svg",
+    "sizes": "1536x999",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "a3fb4098-a1e6-4f1c-9054-782ac8ab0eac",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "SJS",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/a3fb4098-a1e6-4f1c-9054-782ac8ab0eac/vector.svg",
+    "sizes": "1536x1270",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "b3b398c0-28ae-41b9-8d9a-6b7a5ec68696",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Caleb M. Gordon",
+    "attribution": "Caleb M. Gordon",
+    "vector": "https://images.phylopic.org/images/b3b398c0-28ae-41b9-8d9a-6b7a5ec68696/vector.svg",
+    "sizes": "1379x1536",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "e25f1863-331b-4891-8084-fe8602e4cf8d",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "SJS",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e25f1863-331b-4891-8084-fe8602e4cf8d/vector.svg",
+    "sizes": "971x1536",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "e9f41f59-d708-47aa-a705-ba9b8826ebc6",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/e9f41f59-d708-47aa-a705-ba9b8826ebc6/vector.svg",
+    "sizes": "1536x1020",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "f79384d6-2cee-47fb-bdae-25d491f82f9e",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Skye McDavid",
+    "attribution": "Skye McDavid",
+    "vector": "https://images.phylopic.org/images/f79384d6-2cee-47fb-bdae-25d491f82f9e/vector.svg",
+    "sizes": "2208x1809",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "fa2efb29-cfab-4130-88ee-0c4bf05b6ab6",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Kawinwit Kittipalawattanapol",
+    "attribution": "Kawinwit Kittipalawattanapol",
+    "vector": "https://images.phylopic.org/images/fa2efb29-cfab-4130-88ee-0c4bf05b6ab6/vector.svg",
+    "sizes": "1536x1117",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "fea89159-0e54-4341-8077-2d021b0d36b9",
+    "title": "Felis lybica catus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jun Mencius",
+    "attribution": "Jun Mencius",
+    "vector": "https://images.phylopic.org/images/fea89159-0e54-4341-8077-2d021b0d36b9/vector.svg",
+    "sizes": "1081x1536",
+    "specific": "Felis lybica catus"
+   },
+   {
+    "uuid": "02457247-c39b-4f72-b994-c7595cf14669",
+    "title": "Scottish Folds",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/02457247-c39b-4f72-b994-c7595cf14669/vector.svg",
+    "sizes": "910x1536",
+    "specific": "Scottish Folds"
+   }
+  ]
+ },
+ "rabbit": {
+  "common": "European rabbit",
+  "sci": "Oryctolagus cuniculus",
+  "node": "Oryctolagus cuniculus",
+  "node_uuid": "6f41af50-ce20-43f8-94ff-2d0fc37e3481",
+  "images": [
+   {
+    "uuid": "1e15411c-5394-4a9d-a209-76c8ac0c331d",
+    "title": "Oryctolagus cuniculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/1e15411c-5394-4a9d-a209-76c8ac0c331d/vector.svg",
+    "sizes": "1536x1513",
+    "specific": "Oryctolagus cuniculus"
+   },
+   {
+    "uuid": "ad7d2a9d-ef0d-46f2-895d-7c67bb8e6355",
+    "title": "Oryctolagus cuniculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ferran Sayol",
+    "attribution": "Ferran Sayol",
+    "vector": "https://images.phylopic.org/images/ad7d2a9d-ef0d-46f2-895d-7c67bb8e6355/vector.svg",
+    "sizes": "1536x1310",
+    "specific": "Oryctolagus cuniculus"
+   },
+   {
+    "uuid": "d71fcd12-90f6-40c4-b918-0dac0ba3e809",
+    "title": "Oryctolagus cuniculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Anthony Caravaggi",
+    "attribution": "Anthony Caravaggi",
+    "vector": "https://images.phylopic.org/images/d71fcd12-90f6-40c4-b918-0dac0ba3e809/vector.svg",
+    "sizes": "1088x1536",
+    "specific": "Oryctolagus cuniculus"
+   }
+  ]
+ },
+ "dog": {
+  "common": "Domestic dog",
+  "sci": "Canis familiaris",
+  "node": "Canis familiaris",
+  "node_uuid": "dbb7e312-121c-4f21-ac2c-578c53f797f0",
+  "images": [
+   {
+    "uuid": "09b969ae-0746-4685-bb5e-ef5a47b7d56a",
+    "title": "Canis familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Caleb M. Gordon",
+    "attribution": "Caleb M. Gordon",
+    "vector": "https://images.phylopic.org/images/09b969ae-0746-4685-bb5e-ef5a47b7d56a/vector.svg",
+    "sizes": "1536x1082",
+    "specific": "Canis familiaris"
+   },
+   {
+    "uuid": "22689036-9e7f-44b7-aab9-1436aa4de091",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/22689036-9e7f-44b7-aab9-1436aa4de091/vector.svg",
+    "sizes": "1536x1025",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "3c534a59-fd0c-41bb-80c7-1d18db9bae13",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Sam Fraser-Smith (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/3c534a59-fd0c-41bb-80c7-1d18db9bae13/vector.svg",
+    "sizes": "1149x1536",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "4b31c74e-7fbb-4ec9-a96e-f5b281c2b9d4",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Rachel T Mason",
+    "attribution": "Rachel T Mason",
+    "vector": "https://images.phylopic.org/images/4b31c74e-7fbb-4ec9-a96e-f5b281c2b9d4/vector.svg",
+    "sizes": "1536x982",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "6f3ebbc6-be53-4216-b45b-946f7984669b",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/6f3ebbc6-be53-4216-b45b-946f7984669b/vector.svg",
+    "sizes": "6001x5266",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "77acd947-7660-4a34-8932-0b59d3cfe3fb",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Pearson Scott Foresman (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/77acd947-7660-4a34-8932-0b59d3cfe3fb/vector.svg",
+    "sizes": "1523x1536",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "7e0de747-83c1-4e0c-b05a-d6c055df4456",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Caleb M. Gordon",
+    "attribution": "Caleb Gordon",
+    "vector": "https://images.phylopic.org/images/7e0de747-83c1-4e0c-b05a-d6c055df4456/vector.svg",
+    "sizes": "1536x1374",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "a5fa0f4e-527d-4774-8dec-ce0a79ddd47e",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Rachel T Mason",
+    "attribution": "Rachel T Mason",
+    "vector": "https://images.phylopic.org/images/a5fa0f4e-527d-4774-8dec-ce0a79ddd47e/vector.svg",
+    "sizes": "1315x1536",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "b29da1d8-a354-44e0-8d95-5d17fdebc60e",
+    "title": "Canis familiaris dingo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Rachel T Mason",
+    "attribution": "Rachel T Mason",
+    "vector": "https://images.phylopic.org/images/b29da1d8-a354-44e0-8d95-5d17fdebc60e/vector.svg",
+    "sizes": "1265x1536",
+    "specific": "Canis familiaris dingo"
+   },
+   {
+    "uuid": "04d035a5-e667-434e-95d1-1df6747b8e91",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/04d035a5-e667-434e-95d1-1df6747b8e91/vector.svg",
+    "sizes": "1536x1497",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "1a9332fc-aeac-43ae-a318-80acbf89b662",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/1a9332fc-aeac-43ae-a318-80acbf89b662/vector.svg",
+    "sizes": "1517x1536",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "3ae310fb-7e15-41aa-8829-4b893390f745",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Caleb M. Gordon",
+    "attribution": "Caleb M. Gordon",
+    "vector": "https://images.phylopic.org/images/3ae310fb-7e15-41aa-8829-4b893390f745/vector.svg",
+    "sizes": "1536x879",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "43b85f5e-589c-454b-96af-e9388402f84a",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/43b85f5e-589c-454b-96af-e9388402f84a/vector.svg",
+    "sizes": "1536x1477",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "4d83a0cd-cf06-4a32-9a5a-0a6b644158c1",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "David Orr",
+    "attribution": "David Orr",
+    "vector": "https://images.phylopic.org/images/4d83a0cd-cf06-4a32-9a5a-0a6b644158c1/vector.svg",
+    "sizes": "855x931",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "52ee5145-8965-492f-b6cf-84ffaa234978",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/52ee5145-8965-492f-b6cf-84ffaa234978/vector.svg",
+    "sizes": "1536x1201",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "5fe02ea5-4369-497e-858a-07a2b4fee033",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Vijay Karthick",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/5fe02ea5-4369-497e-858a-07a2b4fee033/vector.svg",
+    "sizes": "1182x1536",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "6c9cb19d-1d8a-4215-88ba-d49cd4917a5e",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tracy Heath",
+    "attribution": "Tracy A. Heath",
+    "vector": "https://images.phylopic.org/images/6c9cb19d-1d8a-4215-88ba-d49cd4917a5e/vector.svg",
+    "sizes": "1536x1246",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "712fd54d-cd01-4a55-92dc-6263928a9b9c",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/712fd54d-cd01-4a55-92dc-6263928a9b9c/vector.svg",
+    "sizes": "1536x945",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "d149744f-8330-46df-8683-fcd4b385aa07",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/d149744f-8330-46df-8683-fcd4b385aa07/vector.svg",
+    "sizes": "169x129",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "d3e8133c-e669-4881-9111-b44145f94212",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/d3e8133c-e669-4881-9111-b44145f94212/vector.svg",
+    "sizes": "1281x1536",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "dcc30af3-bd5f-4bfb-9b67-5adb78a10c54",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/dcc30af3-bd5f-4bfb-9b67-5adb78a10c54/vector.svg",
+    "sizes": "1536x963",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "e31efda4-a7cd-4845-8958-a69f212a0c03",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Ando",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e31efda4-a7cd-4845-8958-a69f212a0c03/vector.svg",
+    "sizes": "1536x947",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "fc4771f3-dfd8-44c8-90a7-2b6558604fa2",
+    "title": "Canis familiaris familiaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/fc4771f3-dfd8-44c8-90a7-2b6558604fa2/vector.svg",
+    "sizes": "1472x1536",
+    "specific": "Canis familiaris familiaris"
+   },
+   {
+    "uuid": "3cb6eeda-3730-4c4d-a8eb-50ba5142bfeb",
+    "title": "greyhounds",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "ArtFavor & annaleeblysse",
+    "vector": "https://images.phylopic.org/images/3cb6eeda-3730-4c4d-a8eb-50ba5142bfeb/vector.svg",
+    "sizes": "1536x1042",
+    "specific": "greyhounds"
+   },
+   {
+    "uuid": "d9671d71-546c-4e4d-bbae-5a6422168016",
+    "title": "pugs",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Christian Jablunovsky",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/d9671d71-546c-4e4d-bbae-5a6422168016/vector.svg",
+    "sizes": "1224x1039",
+    "specific": "pugs"
+   },
+   {
+    "uuid": "e4e0554d-7753-4a17-a6d1-06bf6abf7262",
+    "title": "West Siberian laikas",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Matej Frantisek Calfa",
+    "attribution": "Matej Frantisek Calfa",
+    "vector": "https://images.phylopic.org/images/e4e0554d-7753-4a17-a6d1-06bf6abf7262/vector.svg",
+    "sizes": "1536x1322",
+    "specific": "West Siberian laikas"
+   }
+  ]
+ },
+ "sheep": {
+  "common": "Sheep",
+  "sci": "Ovis aries",
+  "node": "Ovis aries",
+  "node_uuid": "faaba8a0-ddaa-429b-bfbe-205349eb926d",
+  "images": [
+   {
+    "uuid": "cd7c624f-d93d-45fb-86a3-052885af2471",
+    "title": "Ovis aries",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Laura Barbero-Palacios",
+    "attribution": "Laura Barbero-Palacios",
+    "vector": "https://images.phylopic.org/images/cd7c624f-d93d-45fb-86a3-052885af2471/vector.svg",
+    "sizes": "1536x1458",
+    "specific": "Ovis aries"
+   },
+   {
+    "uuid": "14012740-e356-464b-b84d-fa6c4a0b34a9",
+    "title": "Ovis aries",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Katy Lawler",
+    "attribution": "Katy Lawler",
+    "vector": "https://images.phylopic.org/images/14012740-e356-464b-b84d-fa6c4a0b34a9/vector.svg",
+    "sizes": "1536x1222",
+    "specific": "Ovis aries"
+   },
+   {
+    "uuid": "a9297cbd-10ca-457b-b5d5-a0b038720df7",
+    "title": "Ovis aries dolichura",
+    "license": "https://creativecommons.org/licenses/by-nc/3.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/a9297cbd-10ca-457b-b5d5-a0b038720df7/vector.svg",
+    "sizes": "1693x1286",
+    "specific": "Ovis aries dolichura"
+   },
+   {
+    "uuid": "d9c0cddb-6f19-4570-94f4-60316d3f3051",
+    "title": "Ovis aries",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/d9c0cddb-6f19-4570-94f4-60316d3f3051/vector.svg",
+    "sizes": "1536x1215",
+    "specific": "Ovis aries"
+   },
+   {
+    "uuid": "fbe25684-0b48-4569-947b-2702822cf5b0",
+    "title": "Ovis aries",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andr\u00e9s Delgado",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/fbe25684-0b48-4569-947b-2702822cf5b0/vector.svg",
+    "sizes": "1247x1536",
+    "specific": "Ovis aries"
+   }
+  ]
+ },
+ "horse": {
+  "common": "Horse",
+  "sci": "Equus caballus",
+  "node": "Equus ferus",
+  "node_uuid": "09ac3662-ef05-463a-8746-bd7bce9adb7f",
+  "images": [
+   {
+    "uuid": "85d95128-912c-427a-9542-138e1dbf5651",
+    "title": "Equus ferus przewalskii",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Mercedes Yrayzoz (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/85d95128-912c-427a-9542-138e1dbf5651/vector.svg",
+    "sizes": "1536x1069",
+    "specific": "Equus ferus przewalskii"
+   },
+   {
+    "uuid": "9f550f9e-b8df-43c4-9f00-396548507424",
+    "title": "Equus ferus przewalskii",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/9f550f9e-b8df-43c4-9f00-396548507424/vector.svg",
+    "sizes": "1536x863",
+    "specific": "Equus ferus przewalskii"
+   },
+   {
+    "uuid": "071ee517-a0f1-4d19-aa29-812b9f86cb53",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "David Orr",
+    "attribution": "David Orr",
+    "vector": "https://images.phylopic.org/images/071ee517-a0f1-4d19-aa29-812b9f86cb53/vector.svg",
+    "sizes": "969x931",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "1ca0863c-9285-4a74-902a-313d2822f5e5",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/1ca0863c-9285-4a74-902a-313d2822f5e5/vector.svg",
+    "sizes": "166x158",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "26d41545-17ea-4be5-8296-05d6ffd05360",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/26d41545-17ea-4be5-8296-05d6ffd05360/vector.svg",
+    "sizes": "184x126",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "6776a7c6-56a5-4562-8dab-069248b46ddc",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Tamara L. Clark",
+    "vector": "https://images.phylopic.org/images/6776a7c6-56a5-4562-8dab-069248b46ddc/vector.svg",
+    "sizes": "744x600",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "7aa15a09-470e-4e71-b1fe-5ab15622cbb2",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/7aa15a09-470e-4e71-b1fe-5ab15622cbb2/vector.svg",
+    "sizes": "173x139",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "b302ceef-072c-471c-bc7d-164c428dd57a",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/b302ceef-072c-471c-bc7d-164c428dd57a/vector.svg",
+    "sizes": "1536x1320",
+    "specific": "Equus ferus caballus"
+   },
+   {
+    "uuid": "d0847124-56fe-4ca5-8415-e75b0afdc751",
+    "title": "Equus ferus caballus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/d0847124-56fe-4ca5-8415-e75b0afdc751/vector.svg",
+    "sizes": "177x128",
+    "specific": "Equus ferus caballus"
+   }
+  ]
+ },
+ "pig": {
+  "common": "Domestic pig",
+  "sci": "Sus domesticus",
+  "node": "Sus scrofa",
+  "node_uuid": "266ca64c-9911-448f-9c70-8e1c8e63b693",
+  "images": [
+   {
+    "uuid": "14a64a2f-166e-4bb4-b108-adc085cbcb7a",
+    "title": "Sus scrofa",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/14a64a2f-166e-4bb4-b108-adc085cbcb7a/vector.svg",
+    "sizes": "1536x830",
+    "specific": "Sus scrofa"
+   },
+   {
+    "uuid": "3d8acaf6-4355-491e-8e86-4a411b53b98b",
+    "title": "Sus scrofa",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/3d8acaf6-4355-491e-8e86-4a411b53b98b/vector.svg",
+    "sizes": "1536x836",
+    "specific": "Sus scrofa"
+   },
+   {
+    "uuid": "48d65919-38f6-4bd0-bb8a-57872900ed18",
+    "title": "Sus scrofa",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/48d65919-38f6-4bd0-bb8a-57872900ed18/vector.svg",
+    "sizes": "1536x1022",
+    "specific": "Sus scrofa"
+   },
+   {
+    "uuid": "87047da1-b40e-4b31-8492-4db262f129f5",
+    "title": "Sus scrofa",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ferran Sayol",
+    "attribution": "Ferran Sayol",
+    "vector": "https://images.phylopic.org/images/87047da1-b40e-4b31-8492-4db262f129f5/vector.svg",
+    "sizes": "1536x852",
+    "specific": "Sus scrofa"
+   },
+   {
+    "uuid": "9108ee62-1abe-4d45-8803-ab05ae9486c2",
+    "title": "Sus scrofa",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Graham Montgomery",
+    "attribution": "Graham Montgomery",
+    "vector": "https://images.phylopic.org/images/9108ee62-1abe-4d45-8803-ab05ae9486c2/vector.svg",
+    "sizes": "1536x982",
+    "specific": "Sus scrofa"
+   },
+   {
+    "uuid": "008d6d88-d1be-470a-8c70-73625c3fb4fb",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/008d6d88-d1be-470a-8c70-73625c3fb4fb/vector.svg",
+    "sizes": "1536x865",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "216ee85d-1696-49ae-a62c-d1da6fef06fc",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/216ee85d-1696-49ae-a62c-d1da6fef06fc/vector.svg",
+    "sizes": "1536x920",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "2e857d0f-a2de-493d-aa51-e182dc3ee2ba",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Arcadia Science",
+    "attribution": "Arcadia Science",
+    "vector": "https://images.phylopic.org/images/2e857d0f-a2de-493d-aa51-e182dc3ee2ba/vector.svg",
+    "sizes": "1536x937",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "54b93c02-7fad-4e6f-8e64-962771255712",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Rae Smith",
+    "attribution": "Rae Smith",
+    "vector": "https://images.phylopic.org/images/54b93c02-7fad-4e6f-8e64-962771255712/vector.svg",
+    "sizes": "1536x856",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "9237a8bc-3758-423a-8f2b-d19a438045ac",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/9237a8bc-3758-423a-8f2b-d19a438045ac/vector.svg",
+    "sizes": "1068x1536",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "d4091686-ed32-4e68-8cc9-f708656da26a",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/d4091686-ed32-4e68-8cc9-f708656da26a/vector.svg",
+    "sizes": "166x103",
+    "specific": "Sus scrofa domestica"
+   },
+   {
+    "uuid": "e080dd35-40a6-4f9e-a762-453b9867b936",
+    "title": "Sus scrofa domestica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andr\u00e9s Delgado",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e080dd35-40a6-4f9e-a762-453b9867b936/vector.svg",
+    "sizes": "1536x940",
+    "specific": "Sus scrofa domestica"
+   }
+  ]
+ },
+ "cow": {
+  "common": "Cattle",
+  "sci": "Bos taurus",
+  "node": "Bos primigenius",
+  "node_uuid": "ceee7a39-cf0b-4230-919b-edb5bd303fe5",
+  "images": [
+   {
+    "uuid": "dc5c561e-e030-444d-ba22-3d427b60e58a",
+    "title": "Bos primigenius primigenius",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "DFoidl (modified by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/dc5c561e-e030-444d-ba22-3d427b60e58a/vector.svg",
+    "sizes": "1023x588",
+    "specific": "Bos primigenius primigenius"
+   },
+   {
+    "uuid": "ea92020a-298a-4977-b6d3-dccbe816bb5e",
+    "title": "Bos primigenius primigenius",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "DFoidl (modified by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/ea92020a-298a-4977-b6d3-dccbe816bb5e/vector.svg",
+    "sizes": "1024x566",
+    "specific": "Bos primigenius primigenius"
+   },
+   {
+    "uuid": "0ebe16cb-4c74-4c77-9643-9e531a0840cc",
+    "title": "Bos primigenius",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Ivan Iofrida",
+    "attribution": "Ivan Iofrida",
+    "vector": "https://images.phylopic.org/images/0ebe16cb-4c74-4c77-9643-9e531a0840cc/vector.svg",
+    "sizes": "1536x976",
+    "specific": "Bos primigenius"
+   },
+   {
+    "uuid": "415714b4-859c-4d1c-9ce0-9e1081613df7",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/415714b4-859c-4d1c-9ce0-9e1081613df7/vector.svg",
+    "sizes": "1536x952",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "87a491b1-8c8c-4e3b-a7ed-8d7399b7c51a",
+    "title": "Bos primigenius indicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey",
+    "vector": "https://images.phylopic.org/images/87a491b1-8c8c-4e3b-a7ed-8d7399b7c51a/vector.svg",
+    "sizes": "1536x1233",
+    "specific": "Bos primigenius indicus"
+   },
+   {
+    "uuid": "8a2d5863-cd6c-4158-a164-d62e789c2210",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/8a2d5863-cd6c-4158-a164-d62e789c2210/vector.svg",
+    "sizes": "1536x1022",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "938008ab-0501-4c4d-88c5-fee17189ead3",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tracy Heath",
+    "attribution": "Tracy A. Heath",
+    "vector": "https://images.phylopic.org/images/938008ab-0501-4c4d-88c5-fee17189ead3/vector.svg",
+    "sizes": "1536x1155",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "99d6140b-d113-4814-82fb-05629d7d626c",
+    "title": "Bos primigenius indicus",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "Francesca Palmeira",
+    "attribution": "Francesca Belem Lopes Palmeira",
+    "vector": "https://images.phylopic.org/images/99d6140b-d113-4814-82fb-05629d7d626c/vector.svg",
+    "sizes": "1536x935",
+    "specific": "Bos primigenius indicus"
+   },
+   {
+    "uuid": "9ce6352d-597c-409c-bc31-7cc60b8e1134",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/9ce6352d-597c-409c-bc31-7cc60b8e1134/vector.svg",
+    "sizes": "90x144",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "aae1d17f-149f-41fd-b14b-72f1c95e3f28",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Mariana Ruiz Villarreal",
+    "vector": "https://images.phylopic.org/images/aae1d17f-149f-41fd-b14b-72f1c95e3f28/vector.svg",
+    "sizes": "1536x837",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "ac286b37-bd95-4f39-8d81-756ec348beb9",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Katy Lawler",
+    "attribution": "Katy Lawler",
+    "vector": "https://images.phylopic.org/images/ac286b37-bd95-4f39-8d81-756ec348beb9/vector.svg",
+    "sizes": "1536x1199",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "c2785eda-02bb-4dd8-b03c-6d6679352159",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/c2785eda-02bb-4dd8-b03c-6d6679352159/vector.svg",
+    "sizes": "1536x784",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "cba95817-8806-49c2-932c-fb69a644c53d",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Katy Lawler",
+    "attribution": "Katy Lawler",
+    "vector": "https://images.phylopic.org/images/cba95817-8806-49c2-932c-fb69a644c53d/vector.svg",
+    "sizes": "1536x1041",
+    "specific": "Bos primigenius taurus"
+   },
+   {
+    "uuid": "dab069c2-7664-4569-97be-11b38fe77cc2",
+    "title": "Bos primigenius taurus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Andreas Preuss / marauder",
+    "vector": "https://images.phylopic.org/images/dab069c2-7664-4569-97be-11b38fe77cc2/vector.svg",
+    "sizes": "1536x939",
+    "specific": "Bos primigenius taurus"
+   }
+  ]
+ },
+ "lion": {
+  "common": "Lion",
+  "sci": "Panthera leo",
+  "node": "Panthera leo",
+  "node_uuid": "9facf67f-1b39-4be7-8eb5-95dd6905a6e1",
+  "images": [
+   {
+    "uuid": "355070f5-fd58-4424-8fe4-23893c167ca9",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "subhumanfreaks",
+    "attribution": "Mo Hassan",
+    "vector": "https://images.phylopic.org/images/355070f5-fd58-4424-8fe4-23893c167ca9/vector.svg",
+    "sizes": "1789x746",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "5fcdfa34-726c-49cb-af61-cec09c988363",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/5fcdfa34-726c-49cb-af61-cec09c988363/vector.svg",
+    "sizes": "1536x1000",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "60a4dd78-deb5-4bc0-b8a1-a9d76eeba6c1",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/60a4dd78-deb5-4bc0-b8a1-a9d76eeba6c1/vector.svg",
+    "sizes": "1536x668",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "9e2e1fe6-694c-43db-bd98-a9b945724815",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/9e2e1fe6-694c-43db-bd98-a9b945724815/vector.svg",
+    "sizes": "1536x718",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "76a5e7ce-53fa-46ae-af9e-fabd8b863dcf",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/76a5e7ce-53fa-46ae-af9e-fabd8b863dcf/vector.svg",
+    "sizes": "1536x1149",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "79d5f732-f588-44f2-aa9b-c9b8baf7d5c3",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/79d5f732-f588-44f2-aa9b-c9b8baf7d5c3/vector.svg",
+    "sizes": "1536x1151",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "b2ea5bb0-2208-4b2d-8734-0432be9b9ce8",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Lisa Nicvert",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/b2ea5bb0-2208-4b2d-8734-0432be9b9ce8/vector.svg",
+    "sizes": "1536x938",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "cb70ae6c-345f-4aaf-a262-1e5eeac67400",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/cb70ae6c-345f-4aaf-a262-1e5eeac67400/vector.svg",
+    "sizes": "1536x923",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "dd7c7bc6-2c6d-48e4-860b-02bf37886b5b",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/dd7c7bc6-2c6d-48e4-860b-02bf37886b5b/vector.svg",
+    "sizes": "4580x3352",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "de81a69c-3bdf-4486-b587-803e5b4acc64",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/de81a69c-3bdf-4486-b587-803e5b4acc64/vector.svg",
+    "sizes": "1536x759",
+    "specific": "Panthera leo"
+   },
+   {
+    "uuid": "e2015ba3-4f7e-4950-9bde-005e8678d77b",
+    "title": "Panthera leo",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e2015ba3-4f7e-4950-9bde-005e8678d77b/vector.svg",
+    "sizes": "1536x685",
+    "specific": "Panthera leo"
+   }
+  ]
+ },
+ "zebra": {
+  "common": "Plains zebra",
+  "sci": "Equus quagga",
+  "node": "Equus quagga",
+  "node_uuid": "3bb0a2a8-b5d9-4f84-9949-a78d728969af",
+  "images": [
+   {
+    "uuid": "f7d817d0-d733-493d-bd4a-3f178e0760a8",
+    "title": "Equus quagga chapmani",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/f7d817d0-d733-493d-bd4a-3f178e0760a8/vector.svg",
+    "sizes": "1536x1215",
+    "specific": "Equus quagga chapmani"
+   },
+   {
+    "uuid": "2adcd232-33de-4f81-9c2a-a0ff6054102d",
+    "title": "Equus quagga burchellii",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/2adcd232-33de-4f81-9c2a-a0ff6054102d/vector.svg",
+    "sizes": "1536x1187",
+    "specific": "Equus quagga burchellii"
+   },
+   {
+    "uuid": "3f18d263-3f53-4b88-a496-e21982ddc5ef",
+    "title": "Equus quagga",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Cathy",
+    "vector": "https://images.phylopic.org/images/3f18d263-3f53-4b88-a496-e21982ddc5ef/vector.svg",
+    "sizes": "983x1018",
+    "specific": "Equus quagga"
+   },
+   {
+    "uuid": "81caf94e-5cbe-4e5e-8101-545abea2bfc0",
+    "title": "Equus quagga",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Lisa Nicvert",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/81caf94e-5cbe-4e5e-8101-545abea2bfc0/vector.svg",
+    "sizes": "1536x1073",
+    "specific": "Equus quagga"
+   },
+   {
+    "uuid": "a31e7527-3203-4233-b0da-c415cc7d1664",
+    "title": "Equus quagga quagga",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Zimices (Juli\u00e1n Bayona)",
+    "attribution": "Zimices",
+    "vector": "https://images.phylopic.org/images/a31e7527-3203-4233-b0da-c415cc7d1664/vector.svg",
+    "sizes": "1536x1125",
+    "specific": "Equus quagga quagga"
+   },
+   {
+    "uuid": "22f808e2-da14-4bfe-9672-0e5422d27212",
+    "title": "Equus quagga chapmani",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/22f808e2-da14-4bfe-9672-0e5422d27212/vector.svg",
+    "sizes": "1536x1214",
+    "specific": "Equus quagga chapmani"
+   },
+   {
+    "uuid": "bd0a9288-6c7a-45c5-8989-e6bbb10765fb",
+    "title": "Equus quagga burchellii",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/bd0a9288-6c7a-45c5-8989-e6bbb10765fb/vector.svg",
+    "sizes": "1536x1186",
+    "specific": "Equus quagga burchellii"
+   }
+  ]
+ },
+ "hippo": {
+  "common": "Hippopotamus",
+  "sci": "Hippopotamus amphibius",
+  "node": "Hippopotamus amphibius",
+  "node_uuid": "953cdc76-b2f9-4d50-bf59-62d1041c9c4c",
+  "images": [
+   {
+    "uuid": "3769e205-b10c-4aab-affc-b4f0302f4eaa",
+    "title": "Hippopotamus amphibius",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Evan Boucher",
+    "attribution": "Evan Boucher",
+    "vector": "https://images.phylopic.org/images/3769e205-b10c-4aab-affc-b4f0302f4eaa/vector.svg",
+    "sizes": "832x677",
+    "specific": "Hippopotamus amphibius"
+   },
+   {
+    "uuid": "6336f90c-8f02-48f5-94d1-1d85c0100473",
+    "title": "Hippopotamus amphibius",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Jan A. Venter, Herbert H. T. Prins, David A. Balfour & Rob Slotow (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/6336f90c-8f02-48f5-94d1-1d85c0100473/vector.svg",
+    "sizes": "1536x744",
+    "specific": "Hippopotamus amphibius"
+   },
+   {
+    "uuid": "bab03f09-73ba-45ea-8534-ea176c82a1a0",
+    "title": "Hippopotamus amphibius",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/bab03f09-73ba-45ea-8534-ea176c82a1a0/vector.svg",
+    "sizes": "1536x944",
+    "specific": "Hippopotamus amphibius"
+   },
+   {
+    "uuid": "d74455cd-daac-41f6-9e2a-195a07b472eb",
+    "title": "Hippopotamus amphibius",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Ivan Iofrida",
+    "attribution": "Ivan Iofrida",
+    "vector": "https://images.phylopic.org/images/d74455cd-daac-41f6-9e2a-195a07b472eb/vector.svg",
+    "sizes": "1536x766",
+    "specific": "Hippopotamus amphibius"
+   },
+   {
+    "uuid": "e130f877-a96c-48d8-9f26-bb131021397f",
+    "title": "Hippopotamus amphibius",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/e130f877-a96c-48d8-9f26-bb131021397f/vector.svg",
+    "sizes": "184x97",
+    "specific": "Hippopotamus amphibius"
+   }
+  ]
+ },
+ "elephant": {
+  "common": "African bush elephant",
+  "sci": "Loxodonta africana",
+  "node": "Loxodonta africana",
+  "node_uuid": "8960e2b8-3800-4dcc-b044-98aba334c87e",
+  "images": [
+   {
+    "uuid": "2a070808-0874-409d-81c0-d0c1995e54bb",
+    "title": "Loxodonta africana",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/2a070808-0874-409d-81c0-d0c1995e54bb/vector.svg",
+    "sizes": "4785x4468",
+    "specific": "Loxodonta africana"
+   },
+   {
+    "uuid": "4e9a0149-9a93-4cd4-ab49-4a98958444f4",
+    "title": "Loxodonta africana",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "Agnello Picorelli",
+    "attribution": "Agnello Picorelli",
+    "vector": "https://images.phylopic.org/images/4e9a0149-9a93-4cd4-ab49-4a98958444f4/vector.svg",
+    "sizes": "1536x984",
+    "specific": "Loxodonta africana"
+   },
+   {
+    "uuid": "62398ac0-f0c3-48f8-8455-53512a05fbc4",
+    "title": "Loxodonta africana africana",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/62398ac0-f0c3-48f8-8455-53512a05fbc4/vector.svg",
+    "sizes": "1536x990",
+    "specific": "Loxodonta africana africana"
+   },
+   {
+    "uuid": "910d853a-1a15-4953-a1d3-b81208994d35",
+    "title": "Loxodonta africana",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Chuanxin Yu",
+    "attribution": "Chuanixn Yu",
+    "vector": "https://images.phylopic.org/images/910d853a-1a15-4953-a1d3-b81208994d35/vector.svg",
+    "sizes": "3485x2446",
+    "specific": "Loxodonta africana"
+   },
+   {
+    "uuid": "c3452989-8759-4f1f-a707-fd0c80a21ca5",
+    "title": "Loxodonta africana",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Soledad Miranda-Rottmann",
+    "attribution": "Soledad Miranda-Rottmann",
+    "vector": "https://images.phylopic.org/images/c3452989-8759-4f1f-a707-fd0c80a21ca5/vector.svg",
+    "sizes": "219x162",
+    "specific": "Loxodonta africana"
+   },
+   {
+    "uuid": "fb84ef24-5eb8-4fb7-bf36-d20ebbfdd125",
+    "title": "Loxodonta africana africana",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Sarah Werning",
+    "attribution": "Sarah Werning",
+    "vector": "https://images.phylopic.org/images/fb84ef24-5eb8-4fb7-bf36-d20ebbfdd125/vector.svg",
+    "sizes": "1536x1184",
+    "specific": "Loxodonta africana africana"
+   },
+   {
+    "uuid": "51c89c19-6ef1-4d8e-8de6-2a4b6e8f66c8",
+    "title": "Loxodonta africana",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/51c89c19-6ef1-4d8e-8de6-2a4b6e8f66c8/vector.svg",
+    "sizes": "814x1536",
+    "specific": "Loxodonta africana"
+   },
+   {
+    "uuid": "80db1004-bc9f-4318-84e7-cdd9639a1f3e",
+    "title": "Loxodonta africana africana",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Jan A. Venter, Herbert H. T. Prins, David A. Balfour & Rob Slotow (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/80db1004-bc9f-4318-84e7-cdd9639a1f3e/vector.svg",
+    "sizes": "1536x952",
+    "specific": "Loxodonta africana africana"
+   }
+  ]
+ },
+ "giraffe": {
+  "common": "Giraffe",
+  "sci": "Giraffa camelopardalis",
+  "node": "Giraffa camelopardalis",
+  "node_uuid": "96f2fe09-fa65-47d7-bc12-d9cc9528c21f",
+  "images": [
+   {
+    "uuid": "b35f867d-26e8-4c48-806e-0f07f18b1844",
+    "title": "Giraffa camelopardalis camelopardalis var. rothschildi",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Bernard Dupont (photograph) and T. Michael Keesey (tracing)",
+    "vector": "https://images.phylopic.org/images/b35f867d-26e8-4c48-806e-0f07f18b1844/vector.svg",
+    "sizes": "881x1536",
+    "specific": "Giraffa camelopardalis camelopardalis var. rothschildi"
+   },
+   {
+    "uuid": "352ec1a8-25a9-423c-aca8-e25cc8ac1b54",
+    "title": "Giraffa camelopardalis camelopardalis var. rothschildi",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "David M. Brown, Rick A. Brenneman, Klaus-Peter Koepfli, John P. Pollinger, Borja Mil\u00e1, Nicholas J. Georgiadis, Edward E. Louis Jr., Gregory F. Grether, David K. Jacobs & Robert K. Wayne",
+    "vector": "https://images.phylopic.org/images/352ec1a8-25a9-423c-aca8-e25cc8ac1b54/vector.svg",
+    "sizes": "1536x1140",
+    "specific": "Giraffa camelopardalis camelopardalis var. rothschildi"
+   },
+   {
+    "uuid": "c99130ca-4b17-43f1-b4d4-5ba2c0dddaa0",
+    "title": "Giraffa camelopardalis peralta",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "David M. Brown, Rick A. Brenneman, Klaus-Peter Koepfli, John P. Pollinger, Borja Mil\u00e1, Nicholas J. Georgiadis, Edward E. Louis Jr., Gregory F. Grether, David K. Jacobs & Robert K. Wayne",
+    "vector": "https://images.phylopic.org/images/c99130ca-4b17-43f1-b4d4-5ba2c0dddaa0/vector.svg",
+    "sizes": "1536x1134",
+    "specific": "Giraffa camelopardalis peralta"
+   }
+  ]
+ },
+ "rhino": {
+  "common": "White rhinoceros",
+  "sci": "Ceratotherium simum",
+  "node": "Ceratotherium simum",
+  "node_uuid": "1f337bb0-020b-491f-a28c-75d149607e81",
+  "images": [
+   {
+    "uuid": "55b24c01-3552-4c09-a485-087e4d2c4889",
+    "title": "Ceratotherium simum",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Christophe Mallet",
+    "attribution": "Christophe Mallet",
+    "vector": "https://images.phylopic.org/images/55b24c01-3552-4c09-a485-087e4d2c4889/vector.svg",
+    "sizes": "1536x656",
+    "specific": "Ceratotherium simum"
+   },
+   {
+    "uuid": "623da06a-1857-43a2-9d1b-8a29f5f378cf",
+    "title": "Ceratotherium simum",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Jan A. Venter, Herbert H. T. Prins, David A. Balfour & Rob Slotow (vectorized by T. Michael Keesey)",
+    "vector": "https://images.phylopic.org/images/623da06a-1857-43a2-9d1b-8a29f5f378cf/vector.svg",
+    "sizes": "1536x861",
+    "specific": "Ceratotherium simum"
+   },
+   {
+    "uuid": "74542562-bb0f-4323-b85d-6056c2729db8",
+    "title": "Ceratotherium simum",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/74542562-bb0f-4323-b85d-6056c2729db8/vector.svg",
+    "sizes": "149x120",
+    "specific": "Ceratotherium simum"
+   },
+   {
+    "uuid": "8896498f-faf5-47df-82eb-1d7db9cbbf6f",
+    "title": "Ceratotherium simum",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/8896498f-faf5-47df-82eb-1d7db9cbbf6f/vector.svg",
+    "sizes": "178x88",
+    "specific": "Ceratotherium simum"
+   },
+   {
+    "uuid": "fdfaac80-2382-4d80-888b-bca2ca3ca2e7",
+    "title": "Ceratotherium simum simum",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Oscar Sanisidro",
+    "attribution": "Oscar Sanisidro",
+    "vector": "https://images.phylopic.org/images/fdfaac80-2382-4d80-888b-bca2ca3ca2e7/vector.svg",
+    "sizes": "1536x755",
+    "specific": "Ceratotherium simum simum"
+   },
+   {
+    "uuid": "7f867be1-815c-4fe4-a341-be7c22970890",
+    "title": "Ceratotherium simum simum",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Kai Caspar",
+    "attribution": "Kai Caspar",
+    "vector": "https://images.phylopic.org/images/7f867be1-815c-4fe4-a341-be7c22970890/vector.svg",
+    "sizes": "1536x687",
+    "specific": "Ceratotherium simum simum"
+   }
+  ]
+ },
+ "fox": {
+  "common": "Red fox",
+  "sci": "Vulpes vulpes",
+  "node": "Vulpes vulpes",
+  "node_uuid": "70ada787-ba19-4dd5-817f-17a1e7456b41",
+  "images": [
+   {
+    "uuid": "d67d3bf6-3509-4ab6-819a-cd409985347e",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Anthony Caravaggi",
+    "attribution": "Anthony Caravaggi",
+    "vector": "https://images.phylopic.org/images/d67d3bf6-3509-4ab6-819a-cd409985347e/vector.svg",
+    "sizes": "1536x811",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "40541f06-01d8-4585-a271-40268d24057d",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/40541f06-01d8-4585-a271-40268d24057d/vector.svg",
+    "sizes": "1536x1167",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "4a2143fc-4bfb-4188-b0fa-f2d2094349a4",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/4a2143fc-4bfb-4188-b0fa-f2d2094349a4/vector.svg",
+    "sizes": "176x102",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "51b1b6e4-129d-41a6-bbbd-c3fab459c25f",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/51b1b6e4-129d-41a6-bbbd-c3fab459c25f/vector.svg",
+    "sizes": "1536x653",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "64cdabf4-42da-4e38-991f-c2446005da4d",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "painting Guo",
+    "attribution": "painting Guo",
+    "vector": "https://images.phylopic.org/images/64cdabf4-42da-4e38-991f-c2446005da4d/vector.svg",
+    "sizes": "1536x1053",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "76352962-1eeb-4197-acdd-e3c7eeab839d",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Rebecca Groom",
+    "attribution": "Rebecca Groom",
+    "vector": "https://images.phylopic.org/images/76352962-1eeb-4197-acdd-e3c7eeab839d/vector.svg",
+    "sizes": "1536x1005",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "9b3e3567-2238-40bf-ab5d-bcb6ce7b32d5",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ferran Sayol",
+    "attribution": "Ferran Sayol",
+    "vector": "https://images.phylopic.org/images/9b3e3567-2238-40bf-ab5d-bcb6ce7b32d5/vector.svg",
+    "sizes": "1536x707",
+    "specific": "Vulpes vulpes"
+   },
+   {
+    "uuid": "a5e2a085-c895-4fdd-b39e-bbac8ca94d7d",
+    "title": "Vulpes vulpes",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "David Orr",
+    "attribution": "David Orr",
+    "vector": "https://images.phylopic.org/images/a5e2a085-c895-4fdd-b39e-bbac8ca94d7d/vector.svg",
+    "sizes": "1536x656",
+    "specific": "Vulpes vulpes"
+   }
+  ]
+ },
+ "wolf": {
+  "common": "Grey wolf",
+  "sci": "Canis lupus",
+  "node": "Canis lupus",
+  "node_uuid": "6c49a885-6c95-44d0-8ceb-022ea8868693",
+  "images": [
+   {
+    "uuid": "98e693d8-b353-4952-9547-e60ec8fe8386",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/98e693d8-b353-4952-9547-e60ec8fe8386/vector.svg",
+    "sizes": "1536x1296",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "23ddcc50-103c-432b-a5cc-f41f688bba8a",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Richard Rich",
+    "attribution": "Richard Rich",
+    "vector": "https://images.phylopic.org/images/23ddcc50-103c-432b-a5cc-f41f688bba8a/vector.svg",
+    "sizes": "1536x1017",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "4acb00b6-eeec-48a5-8549-cf396231c986",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/4acb00b6-eeec-48a5-8549-cf396231c986/vector.svg",
+    "sizes": "1536x1012",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "5036f260-5a0d-42c5-a0bd-9eb0729e54e0",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/5036f260-5a0d-42c5-a0bd-9eb0729e54e0/vector.svg",
+    "sizes": "1536x917",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "5e56c4e5-fdc4-49ac-97f0-fdba9bd5c3bf",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/5e56c4e5-fdc4-49ac-97f0-fdba9bd5c3bf/vector.svg",
+    "sizes": "1515x1536",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "634db116-c911-41cb-ae7a-514bae940989",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/634db116-c911-41cb-ae7a-514bae940989/vector.svg",
+    "sizes": "915x1536",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "8621c5e8-ded5-4bd5-bc06-66248563ce30",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/8621c5e8-ded5-4bd5-bc06-66248563ce30/vector.svg",
+    "sizes": "1536x919",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "8cad2b22-30d3-4cbd-86a3-a6d2d004b201",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/8cad2b22-30d3-4cbd-86a3-a6d2d004b201/vector.svg",
+    "sizes": "1536x1196",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "9f3d85eb-2731-4dcf-bf31-3253df2a7bd3",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/9f3d85eb-2731-4dcf-bf31-3253df2a7bd3/vector.svg",
+    "sizes": "1536x923",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "b416b85f-aa39-4689-9ca0-cb25f1258013",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/b416b85f-aa39-4689-9ca0-cb25f1258013/vector.svg",
+    "sizes": "1387x1536",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "b625de9c-f1c1-4641-8ab7-ef67b3bb1b1f",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/b625de9c-f1c1-4641-8ab7-ef67b3bb1b1f/vector.svg",
+    "sizes": "1536x938",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "c25c97a5-d97f-4360-88e5-2363ada510c9",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/c25c97a5-d97f-4360-88e5-2363ada510c9/vector.svg",
+    "sizes": "1536x1410",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "c4a9195a-a87b-407b-8adb-2627a7489b4a",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/c4a9195a-a87b-407b-8adb-2627a7489b4a/vector.svg",
+    "sizes": "1536x951",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "c9a87956-ee98-456e-b0af-b981c9ed8de6",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Chlo\u00e9 Schmidt",
+    "attribution": "Chlo\u00e9 Schmidt",
+    "vector": "https://images.phylopic.org/images/c9a87956-ee98-456e-b0af-b981c9ed8de6/vector.svg",
+    "sizes": "1536x719",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "d84f0a0f-fa3f-427f-9705-5db4099a7305",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/d84f0a0f-fa3f-427f-9705-5db4099a7305/vector.svg",
+    "sizes": "1536x730",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "dc1ad0d2-114f-412d-872c-e14eec7301e5",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/dc1ad0d2-114f-412d-872c-e14eec7301e5/vector.svg",
+    "sizes": "1536x1283",
+    "specific": "Canis lupus"
+   },
+   {
+    "uuid": "e1fe72e4-1c98-4fe3-96f7-c2f45574b3e3",
+    "title": "Canis lupus italicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Fran\u00e7ois-Louis PELISSIER",
+    "attribution": "Fran\u00e7ois-Louis PELISSIER",
+    "vector": "https://images.phylopic.org/images/e1fe72e4-1c98-4fe3-96f7-c2f45574b3e3/vector.svg",
+    "sizes": "1536x1027",
+    "specific": "Canis lupus italicus"
+   },
+   {
+    "uuid": "e4e306cd-73b6-4ca3-a08c-753a856f7f12",
+    "title": "Canis lupus monstrabilis",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tracy Heath",
+    "attribution": "Tracy A. Heath",
+    "vector": "https://images.phylopic.org/images/e4e306cd-73b6-4ca3-a08c-753a856f7f12/vector.svg",
+    "sizes": "1536x1409",
+    "specific": "Canis lupus monstrabilis"
+   },
+   {
+    "uuid": "f0e9b778-d0c0-4c83-8370-7e7fc696c939",
+    "title": "Canis lupus",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/f0e9b778-d0c0-4c83-8370-7e7fc696c939/vector.svg",
+    "sizes": "1536x1231",
+    "specific": "Canis lupus"
+   }
+  ]
+ },
+ "bear": {
+  "common": "Brown bear",
+  "sci": "Ursus arctos",
+  "node": "Ursus arctos",
+  "node_uuid": "b1cb4995-d8cf-41ef-b1c6-921fb7e1f90f",
+  "images": [
+   {
+    "uuid": "0cd82109-bb1c-4e08-ab11-c845d8a82eba",
+    "title": "Ursus arctos horribilis",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "xgirouxb",
+    "attribution": "xgirouxb",
+    "vector": "https://images.phylopic.org/images/0cd82109-bb1c-4e08-ab11-c845d8a82eba/vector.svg",
+    "sizes": "1536x1040",
+    "specific": "Ursus arctos horribilis"
+   },
+   {
+    "uuid": "2c1f0ead-00a0-4bce-b901-bfe5e37fa3a4",
+    "title": "Ursus arctos",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Lukasiniho",
+    "vector": "https://images.phylopic.org/images/2c1f0ead-00a0-4bce-b901-bfe5e37fa3a4/vector.svg",
+    "sizes": "1087x1536",
+    "specific": "Ursus arctos"
+   },
+   {
+    "uuid": "43e82541-0f4a-467c-864e-f7f44c38b5af",
+    "title": "Ursus arctos isabellinus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tracy Heath",
+    "attribution": "Tracy A. Heath",
+    "vector": "https://images.phylopic.org/images/43e82541-0f4a-467c-864e-f7f44c38b5af/vector.svg",
+    "sizes": "763x1536",
+    "specific": "Ursus arctos isabellinus"
+   },
+   {
+    "uuid": "7f543d16-3495-4c9c-8ef6-d61dad2f4a20",
+    "title": "Ursus arctos",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/7f543d16-3495-4c9c-8ef6-d61dad2f4a20/vector.svg",
+    "sizes": "169x117",
+    "specific": "Ursus arctos"
+   },
+   {
+    "uuid": "8cab53e9-010d-4ee5-8c80-976fbdc7f46c",
+    "title": "Ursus arctos",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Marie Aim\u00e9e ALLARD",
+    "attribution": "Marie-Aim\u00e9e Allard",
+    "vector": "https://images.phylopic.org/images/8cab53e9-010d-4ee5-8c80-976fbdc7f46c/vector.svg",
+    "sizes": "1536x1088",
+    "specific": "Ursus arctos"
+   },
+   {
+    "uuid": "c7fbe213-1eac-4f81-80d0-674c3bd2d6b0",
+    "title": "Ursus arctos",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/c7fbe213-1eac-4f81-80d0-674c3bd2d6b0/vector.svg",
+    "sizes": "1536x1161",
+    "specific": "Ursus arctos"
+   },
+   {
+    "uuid": "5629fae2-1da6-479d-bfeb-08a59a58121a",
+    "title": "Ursus arctos",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/5629fae2-1da6-479d-bfeb-08a59a58121a/vector.svg",
+    "sizes": "7137x3981",
+    "specific": "Ursus arctos"
+   }
+  ]
+ },
+ "moose": {
+  "common": "Moose",
+  "sci": "Alces alces",
+  "node": "Alces alces",
+  "node_uuid": "60736917-9124-4fa4-ba87-14fb9e53014b",
+  "images": [
+   {
+    "uuid": "df2d0ad0-adb0-49d7-afe5-edc6cad21064",
+    "title": "Alces alces",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Rebecca Collins",
+    "attribution": "Rebecca Collins",
+    "vector": "https://images.phylopic.org/images/df2d0ad0-adb0-49d7-afe5-edc6cad21064/vector.svg",
+    "sizes": "790x1024",
+    "specific": "Alces alces"
+   },
+   {
+    "uuid": "1a20a65d-1342-4833-a9dd-1611b9fb383c",
+    "title": "Alces alces",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/1a20a65d-1342-4833-a9dd-1611b9fb383c/vector.svg",
+    "sizes": "1536x1406",
+    "specific": "Alces alces"
+   },
+   {
+    "uuid": "74eab34a-498c-4614-aece-f02361874f79",
+    "title": "Alces alces",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "xgirouxb",
+    "attribution": "Xavier Giroux-Bougard",
+    "vector": "https://images.phylopic.org/images/74eab34a-498c-4614-aece-f02361874f79/vector.svg",
+    "sizes": "1536x1165",
+    "specific": "Alces alces"
+   }
+  ]
+ },
+ "reindeer": {
+  "common": "Reindeer",
+  "sci": "Rangifer tarandus",
+  "node": "Rangifer tarandus",
+  "node_uuid": "334e0118-ddf1-4ae0-8c96-b08ab67e1ccd",
+  "images": [
+   {
+    "uuid": "09c5d6bf-8ed9-4dc3-86f1-6b75dbe63952",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Laura Barbero-Palacios",
+    "attribution": "Laura Barbero-Palacios",
+    "vector": "https://images.phylopic.org/images/09c5d6bf-8ed9-4dc3-86f1-6b75dbe63952/vector.svg",
+    "sizes": "1049x1536",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "570d32a2-0d42-4e97-9461-31b3a9b0b531",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "TAAF",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/570d32a2-0d42-4e97-9461-31b3a9b0b531/vector.svg",
+    "sizes": "1536x1292",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "76bb1db0-18b9-4aa4-9c6e-75c88c91741f",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Ando",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/76bb1db0-18b9-4aa4-9c6e-75c88c91741f/vector.svg",
+    "sizes": "1307x1536",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "95fb3246-7008-419e-9974-d844fecfb3cc",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Monica Trondrud",
+    "attribution": "Monica Trondrud",
+    "vector": "https://images.phylopic.org/images/95fb3246-7008-419e-9974-d844fecfb3cc/vector.svg",
+    "sizes": "1536x1236",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "a7e8f29e-a4e2-499a-b913-491f78f44f1d",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/a7e8f29e-a4e2-499a-b913-491f78f44f1d/vector.svg",
+    "sizes": "1374x1536",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "d2e268c1-1937-4308-9fa4-9adc55cc5e8b",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mason McNair",
+    "attribution": "Mason McNair",
+    "vector": "https://images.phylopic.org/images/d2e268c1-1937-4308-9fa4-9adc55cc5e8b/vector.svg",
+    "sizes": "1538x1429",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "e60cd072-d9ce-4d13-a79c-aa3d8086d37a",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Ando",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e60cd072-d9ce-4d13-a79c-aa3d8086d37a/vector.svg",
+    "sizes": "1536x1233",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "e6e864fd-8e3d-435f-9db3-dc6869c589f1",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "mystica",
+    "vector": "https://images.phylopic.org/images/e6e864fd-8e3d-435f-9db3-dc6869c589f1/vector.svg",
+    "sizes": "1536x1536",
+    "specific": "Rangifer tarandus"
+   },
+   {
+    "uuid": "19864ae2-b740-4a41-9f91-e3a195ee7cbb",
+    "title": "Rangifer tarandus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Laura Barbero-Palacios",
+    "attribution": "Laura Barbero-Palacios",
+    "vector": "https://images.phylopic.org/images/19864ae2-b740-4a41-9f91-e3a195ee7cbb/vector.svg",
+    "sizes": "1124x1571",
+    "specific": "Rangifer tarandus"
+   }
+  ]
+ },
+ "reddeer": {
+  "common": "Red deer",
+  "sci": "Cervus elaphus",
+  "node": "Cervus elaphus",
+  "node_uuid": "2b72976d-7081-42a8-9b14-87319be9d02e",
+  "images": [
+   {
+    "uuid": "72f2f997-e474-4caf-bbd5-72fc8dbcc40d",
+    "title": "Cervus elaphus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/72f2f997-e474-4caf-bbd5-72fc8dbcc40d/vector.svg",
+    "sizes": "1299x1536",
+    "specific": "Cervus elaphus"
+   },
+   {
+    "uuid": "cc03f5c2-933f-4c40-9c64-7f8727556fdb",
+    "title": "Cervus elaphus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ferran Sayol",
+    "attribution": "Ferran Sayol",
+    "vector": "https://images.phylopic.org/images/cc03f5c2-933f-4c40-9c64-7f8727556fdb/vector.svg",
+    "sizes": "1509x1536",
+    "specific": "Cervus elaphus"
+   }
+  ]
+ },
+ "lynx": {
+  "common": "Eurasian lynx",
+  "sci": "Lynx lynx",
+  "node": "Lynx lynx",
+  "node_uuid": "a53ed3ee-b8ac-4e3a-bcf4-f3b0fe957a86",
+  "images": [
+   {
+    "uuid": "0957f561-d68e-499b-b1ad-20f444064033",
+    "title": "Lynx lynx",
+    "license": "https://creativecommons.org/licenses/by-nc/3.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/0957f561-d68e-499b-b1ad-20f444064033/vector.svg",
+    "sizes": "1885x1422",
+    "specific": "Lynx lynx"
+   },
+   {
+    "uuid": "24f763a3-accf-44c9-9a08-71e9834047b7",
+    "title": "Lynx lynx",
+    "license": "https://creativecommons.org/licenses/by-nc/3.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/24f763a3-accf-44c9-9a08-71e9834047b7/vector.svg",
+    "sizes": "1706x1332",
+    "specific": "Lynx lynx"
+   },
+   {
+    "uuid": "27a2173a-5903-46fc-83c5-29ed7f421046",
+    "title": "Lynx lynx",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/27a2173a-5903-46fc-83c5-29ed7f421046/vector.svg",
+    "sizes": "1536x1245",
+    "specific": "Lynx lynx"
+   }
+  ]
+ },
+ "mouse": {
+  "common": "House mouse",
+  "sci": "Mus musculus",
+  "node": "Mus musculus",
+  "node_uuid": "2a557f56-b400-4d51-9d4a-1d74b7ed1cf9",
+  "images": [
+   {
+    "uuid": "0f6af3d8-49d2-4d75-8edf-08598387afde",
+    "title": "Mus musculus domesticus",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "David Liao",
+    "vector": "https://images.phylopic.org/images/0f6af3d8-49d2-4d75-8edf-08598387afde/vector.svg",
+    "sizes": "1520x1536",
+    "specific": "Mus musculus domesticus"
+   },
+   {
+    "uuid": "36dc0476-ae7d-49ed-85c4-220139930bfc",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Cagri CEVRIM",
+    "attribution": "Cagri CEVRIM",
+    "vector": "https://images.phylopic.org/images/36dc0476-ae7d-49ed-85c4-220139930bfc/vector.svg",
+    "sizes": "1536x871",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "6b2b98f6-f879-445f-9ac2-2c2563157025",
+    "title": "Mus musculus domesticus",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Madeleine Price Ball",
+    "vector": "https://images.phylopic.org/images/6b2b98f6-f879-445f-9ac2-2c2563157025/vector.svg",
+    "sizes": "1536x813",
+    "specific": "Mus musculus domesticus"
+   },
+   {
+    "uuid": "92989e35-4e68-4a2d-b3a2-191ba9da671a",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Kamil S. Jaron",
+    "attribution": "Daniel Jaron",
+    "vector": "https://images.phylopic.org/images/92989e35-4e68-4a2d-b3a2-191ba9da671a/vector.svg",
+    "sizes": "1536x659",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "b1e0d893-a8e2-48e9-9850-4045d29ec2be",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Arcadia Science",
+    "attribution": "Arcadia Science",
+    "vector": "https://images.phylopic.org/images/b1e0d893-a8e2-48e9-9850-4045d29ec2be/vector.svg",
+    "sizes": "1536x1099",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "c4572239-3b7c-4259-8049-3f44e6d52e6f",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Soledad Miranda-Rottmann",
+    "attribution": "Soledad Miranda-Rottmann",
+    "vector": "https://images.phylopic.org/images/c4572239-3b7c-4259-8049-3f44e6d52e6f/vector.svg",
+    "sizes": "211x173",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "c8f71c27-71db-4b34-ac2d-e97fea8762cf",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tony Goldberg",
+    "attribution": "Jiro Wada",
+    "vector": "https://images.phylopic.org/images/c8f71c27-71db-4b34-ac2d-e97fea8762cf/vector.svg",
+    "sizes": "210x143",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "dd0a795e-4be3-4f99-a084-2427c1319d31",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/dd0a795e-4be3-4f99-a084-2427c1319d31/vector.svg",
+    "sizes": "1536x1418",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "fe09db98-924b-4ad4-bcfc-2b660732ff9d",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ben Murrell",
+    "attribution": "Ben Murrell",
+    "vector": "https://images.phylopic.org/images/fe09db98-924b-4ad4-bcfc-2b660732ff9d/vector.svg",
+    "sizes": "1536x713",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "11ccace5-9ad4-409b-97fe-9320058280c7",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Matthew Schmitz",
+    "attribution": "Matthew Schmitz",
+    "vector": "https://images.phylopic.org/images/11ccace5-9ad4-409b-97fe-9320058280c7/vector.svg",
+    "sizes": "1536x796",
+    "specific": "Mus musculus"
+   },
+   {
+    "uuid": "e907c263-1317-4111-90a7-4bd6261a6acf",
+    "title": "Mus musculus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Marc Nagel",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e907c263-1317-4111-90a7-4bd6261a6acf/vector.svg",
+    "sizes": "1536x1049",
+    "specific": "Mus musculus"
+   }
+  ]
+ },
+ "guineapig": {
+  "common": "Guinea pig",
+  "sci": "Cavia porcellus",
+  "node": "Cavia porcellus",
+  "node_uuid": "79d17714-b78e-4c44-8be5-12c1b1a3bfd0",
+  "images": [
+   {
+    "uuid": "75836dad-906e-4066-8518-ab60f0f96b73",
+    "title": "Cavia porcellus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Daniel Stadtmauer",
+    "attribution": "Daniel Stadtmauer",
+    "vector": "https://images.phylopic.org/images/75836dad-906e-4066-8518-ab60f0f96b73/vector.svg",
+    "sizes": "1536x759",
+    "specific": "Cavia porcellus"
+   },
+   {
+    "uuid": "afcfa5fd-3dda-4037-a2e9-9af58a5d3d4b",
+    "title": "Cavia porcellus",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "Ricardo Ara\u00fajo",
+    "attribution": "Ricardo Ara\u00fajo",
+    "vector": "https://images.phylopic.org/images/afcfa5fd-3dda-4037-a2e9-9af58a5d3d4b/vector.svg",
+    "sizes": "457x259",
+    "specific": "Cavia porcellus"
+   },
+   {
+    "uuid": "c154232a-10f7-404e-a917-01ec87513c65",
+    "title": "Cavia porcellus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/c154232a-10f7-404e-a917-01ec87513c65/vector.svg",
+    "sizes": "1536x1518",
+    "specific": "Cavia porcellus"
+   }
+  ]
+ },
+ "squirrel": {
+  "common": "Red squirrel",
+  "sci": "Sciurus vulgaris",
+  "node": "Sciurus vulgaris",
+  "node_uuid": "f9e8da69-97b5-44f5-bc4d-9aa18220c7ea",
+  "images": [
+   {
+    "uuid": "23c700c9-e695-404a-8d0c-146e1fc4bada",
+    "title": "Sciurus vulgaris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ferran Sayol",
+    "attribution": "Ferran Sayol",
+    "vector": "https://images.phylopic.org/images/23c700c9-e695-404a-8d0c-146e1fc4bada/vector.svg",
+    "sizes": "1536x1276",
+    "specific": "Sciurus vulgaris"
+   }
+  ]
+ },
+ "greysquirrel": {
+  "common": "Eastern grey squirrel",
+  "sci": "Sciurus carolinensis",
+  "node": "Neosciurus carolinensis",
+  "node_uuid": "38b6da28-abe3-4ba9-8a5a-80295c153dcd",
+  "images": [
+   {
+    "uuid": "2916f8fe-290a-423b-b6f7-fb975c30d518",
+    "title": "Neosciurus carolinensis",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/2916f8fe-290a-423b-b6f7-fb975c30d518/vector.svg",
+    "sizes": "1578x1318",
+    "specific": "Neosciurus carolinensis"
+   },
+   {
+    "uuid": "d02f50ba-af71-4997-860a-ff11e8d1cbcc",
+    "title": "Neosciurus carolinensis",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Anthony Caravaggi",
+    "attribution": "Anthony Caravaggi",
+    "vector": "https://images.phylopic.org/images/d02f50ba-af71-4997-860a-ff11e8d1cbcc/vector.svg",
+    "sizes": "1536x1427",
+    "specific": "Neosciurus carolinensis"
+   }
+  ]
+ },
+ "beaver": {
+  "common": "North American beaver",
+  "sci": "Castor canadensis",
+  "node": "Castor canadensis",
+  "node_uuid": "d0f36fb1-4c6e-4f0b-87b1-06a61a6d5512",
+  "images": [
+   {
+    "uuid": "be8670c2-a5bd-4b44-88e8-92f8b0c7f4c6",
+    "title": "Castor canadensis",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/be8670c2-a5bd-4b44-88e8-92f8b0c7f4c6/vector.svg",
+    "sizes": "1536x684",
+    "specific": "Castor canadensis"
+   },
+   {
+    "uuid": "b3dd721e-6084-4413-8300-44e10d8fd3ca",
+    "title": "Castor canadensis",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "xgirouxb",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/b3dd721e-6084-4413-8300-44e10d8fd3ca/vector.svg",
+    "sizes": "1536x846",
+    "specific": "Castor canadensis"
+   }
+  ]
+ },
+ "eurbeaver": {
+  "common": "Eurasian beaver",
+  "sci": "Castor fiber",
+  "node": "Castor fiber",
+  "node_uuid": "c3cac7bd-9d4e-4946-98bd-086c241817e9",
+  "images": [
+   {
+    "uuid": "0b9b783b-b537-4fa6-b387-a9ca2d3f7a12",
+    "title": "Castor fiber",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/0b9b783b-b537-4fa6-b387-a9ca2d3f7a12/vector.svg",
+    "sizes": "1536x479",
+    "specific": "Castor fiber"
+   }
+  ]
+ },
+ "capybara": {
+  "common": "Capybara",
+  "sci": "Hydrochoerus hydrochaeris",
+  "node": "Hydrochoerus hydrochaeris",
+  "node_uuid": "be7833b4-f605-4b24-9a8b-6f58eed6251d",
+  "images": [
+   {
+    "uuid": "097336ef-db5f-4edc-a2e4-2c29a10aa512",
+    "title": "Hydrochoerus hydrochaeris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/097336ef-db5f-4edc-a2e4-2c29a10aa512/vector.svg",
+    "sizes": "1536x953",
+    "specific": "Hydrochoerus hydrochaeris"
+   },
+   {
+    "uuid": "9c234021-ce53-45d9-8fdd-b0ca3115a451",
+    "title": "Hydrochoerus hydrochaeris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Skye McDavid",
+    "attribution": "Skye M",
+    "vector": "https://images.phylopic.org/images/9c234021-ce53-45d9-8fdd-b0ca3115a451/vector.svg",
+    "sizes": "1913x1113",
+    "specific": "Hydrochoerus hydrochaeris"
+   }
+  ]
+ },
+ "rat": {
+  "common": "Brown rat",
+  "sci": "Rattus norvegicus",
+  "node": "Rattus norvegicus",
+  "node_uuid": "743bff1e-6a64-45e6-b260-35638a0f5dee",
+  "images": [
+   {
+    "uuid": "43bb7956-1630-4ef4-928e-f129c5722f20",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Mozillian",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/43bb7956-1630-4ef4-928e-f129c5722f20/vector.svg",
+    "sizes": "1536x1370",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "6b8ecf3f-a5c2-4ca4-adbc-1c7280c380d4",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Arcadia Science",
+    "attribution": "Arcadia Science",
+    "vector": "https://images.phylopic.org/images/6b8ecf3f-a5c2-4ca4-adbc-1c7280c380d4/vector.svg",
+    "sizes": "1536x775",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "00d12cef-0904-4bf8-a915-901feeecbb2e",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "Rebecca Groom",
+    "attribution": "Rebecca Groom",
+    "vector": "https://images.phylopic.org/images/00d12cef-0904-4bf8-a915-901feeecbb2e/vector.svg",
+    "sizes": "1536x325",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "53f8f372-adc0-4247-bc66-0075e241fc95",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Ryan Cupo",
+    "attribution": "Ryan Cupo",
+    "vector": "https://images.phylopic.org/images/53f8f372-adc0-4247-bc66-0075e241fc95/vector.svg",
+    "sizes": "700x274",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "726683a1-78ed-4371-9c10-c220b8716c54",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "Rebecca Groom",
+    "attribution": "Rebecca Groom",
+    "vector": "https://images.phylopic.org/images/726683a1-78ed-4371-9c10-c220b8716c54/vector.svg",
+    "sizes": "1536x624",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "828a8d15-6aa9-41ab-85a3-e9e06c0f1945",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "maija.karala",
+    "attribution": "Maija Karala",
+    "vector": "https://images.phylopic.org/images/828a8d15-6aa9-41ab-85a3-e9e06c0f1945/vector.svg",
+    "sizes": "3000x903",
+    "specific": "Rattus norvegicus"
+   },
+   {
+    "uuid": "e889e7f1-cc0b-4e00-aea1-e289a650dd1c",
+    "title": "Rattus norvegicus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/e889e7f1-cc0b-4e00-aea1-e289a650dd1c/vector.svg",
+    "sizes": "442x1536",
+    "specific": "Rattus norvegicus"
+   }
+  ]
+ },
+ "hedgehog": {
+  "common": "European hedgehog",
+  "sci": "Erinaceus europaeus",
+  "node": "Erinaceus europaeus",
+  "node_uuid": "2d34e7f6-c8a5-46e8-b7bc-d1acc0c15950",
+  "images": [
+   {
+    "uuid": "049203c6-9bcd-4345-a47f-19eb2cce2792",
+    "title": "Erinaceus europaeus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/049203c6-9bcd-4345-a47f-19eb2cce2792/vector.svg",
+    "sizes": "1072x1536",
+    "specific": "Erinaceus europaeus"
+   },
+   {
+    "uuid": "110f5421-a5ae-44bc-9417-1d62b751fe90",
+    "title": "Erinaceus europaeus",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Roberto Diaz Sibaja",
+    "attribution": "Roberto D\u00edaz Sibaja",
+    "vector": "https://images.phylopic.org/images/110f5421-a5ae-44bc-9417-1d62b751fe90/vector.svg",
+    "sizes": "1536x772",
+    "specific": "Erinaceus europaeus"
+   },
+   {
+    "uuid": "6ecff71e-fcfc-4cb9-b773-9e6e21607587",
+    "title": "Erinaceus europaeus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/6ecff71e-fcfc-4cb9-b773-9e6e21607587/vector.svg",
+    "sizes": "1536x623",
+    "specific": "Erinaceus europaeus"
+   },
+   {
+    "uuid": "f83c6893-f0ed-4ec4-b558-aa774c5c9b5b",
+    "title": "Erinaceus europaeus",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "kgori",
+    "attribution": "Claus Rebler",
+    "vector": "https://images.phylopic.org/images/f83c6893-f0ed-4ec4-b558-aa774c5c9b5b/vector.svg",
+    "sizes": "1536x1025",
+    "specific": "Erinaceus europaeus"
+   }
+  ]
+ },
+ "kangaroo": {
+  "common": "Red kangaroo",
+  "sci": "Osphranter rufus",
+  "node": "Osphranter rufus",
+  "node_uuid": "b2ec4299-adec-4f8c-9d25-55dac7ade3cd",
+  "images": [
+   {
+    "uuid": "a55461ac-40a5-44ba-a1ce-372df579ca28",
+    "title": "Osphranter rufus",
+    "license": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Cathy",
+    "vector": "https://images.phylopic.org/images/a55461ac-40a5-44ba-a1ce-372df579ca28/vector.svg",
+    "sizes": "766x691",
+    "specific": "Osphranter rufus"
+   },
+   {
+    "uuid": "b1619eda-7265-4c5a-9af5-527875ab2677",
+    "title": "Osphranter rufus",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/b1619eda-7265-4c5a-9af5-527875ab2677/vector.svg",
+    "sizes": "1214x1536",
+    "specific": "Osphranter rufus"
+   }
+  ]
+ },
+ "camel": {
+  "common": "Dromedary",
+  "sci": "Camelus dromedarius",
+  "node": "Camelus dromedarius",
+  "node_uuid": "d95251db-ce6b-4763-9109-74883949be94",
+  "images": [
+   {
+    "uuid": "93c5e5b0-6606-4e10-97e8-699156c57042",
+    "title": "Camelus dromedarius",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Katy Lawler",
+    "attribution": "Katy Lawler",
+    "vector": "https://images.phylopic.org/images/93c5e5b0-6606-4e10-97e8-699156c57042/vector.svg",
+    "sizes": "1536x1182",
+    "specific": "Camelus dromedarius"
+   },
+   {
+    "uuid": "d3aa9186-85bf-466d-8810-79c690b2f38d",
+    "title": "Camelus dromedarius",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jody Taylor",
+    "attribution": "An Ignorant Atheist",
+    "vector": "https://images.phylopic.org/images/d3aa9186-85bf-466d-8810-79c690b2f38d/vector.svg",
+    "sizes": "176x139",
+    "specific": "Camelus dromedarius"
+   },
+   {
+    "uuid": "e52676dd-272c-4b14-8c99-ea5dc98942e5",
+    "title": "Camelus dromedarius",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/e52676dd-272c-4b14-8c99-ea5dc98942e5/vector.svg",
+    "sizes": "1536x1209",
+    "specific": "Camelus dromedarius"
+   }
+  ]
+ },
+ "tiger": {
+  "common": "Tiger",
+  "sci": "Panthera tigris",
+  "node": "Panthera tigris",
+  "node_uuid": "7065c054-bc11-45cf-909c-3d83df7bdfdb",
+  "images": [
+   {
+    "uuid": "135296df-6e7a-4c02-bd22-85ca4aefcc85",
+    "title": "Panthera tigris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/135296df-6e7a-4c02-bd22-85ca4aefcc85/vector.svg",
+    "sizes": "1536x894",
+    "specific": "Panthera tigris"
+   },
+   {
+    "uuid": "2d866913-d59f-4e48-93d8-19a0ce8201cb",
+    "title": "Panthera tigris altaica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/2d866913-d59f-4e48-93d8-19a0ce8201cb/vector.svg",
+    "sizes": "1536x703",
+    "specific": "Panthera tigris altaica"
+   },
+   {
+    "uuid": "54700084-8764-4729-be71-5ed14c461cf2",
+    "title": "Panthera tigris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/54700084-8764-4729-be71-5ed14c461cf2/vector.svg",
+    "sizes": "1536x1303",
+    "specific": "Panthera tigris"
+   },
+   {
+    "uuid": "9b08d795-bf7f-4371-b120-5ebd46b24ce8",
+    "title": "Panthera tigris",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Sarah Werning",
+    "attribution": "Sarah Werning",
+    "vector": "https://images.phylopic.org/images/9b08d795-bf7f-4371-b120-5ebd46b24ce8/vector.svg",
+    "sizes": "1536x728",
+    "specific": "Panthera tigris"
+   },
+   {
+    "uuid": "9e72c215-4f67-4031-bf00-03f0966ace4f",
+    "title": "Panthera tigris",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Jiekun He",
+    "attribution": "Jiekun He",
+    "vector": "https://images.phylopic.org/images/9e72c215-4f67-4031-bf00-03f0966ace4f/vector.svg",
+    "sizes": "1326x651",
+    "specific": "Panthera tigris"
+   },
+   {
+    "uuid": "e148eabb-f138-43c6-b1e4-5cda2180485a",
+    "title": "Panthera tigris altaica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Steven Traver",
+    "attribution": "Steven Traver",
+    "vector": "https://images.phylopic.org/images/e148eabb-f138-43c6-b1e4-5cda2180485a/vector.svg",
+    "sizes": "1536x687",
+    "specific": "Panthera tigris altaica"
+   },
+   {
+    "uuid": "70b87132-288e-4f1a-96b7-f9440850e0e6",
+    "title": "Panthera tigris altaica",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/70b87132-288e-4f1a-96b7-f9440850e0e6/vector.svg",
+    "sizes": "1536x703",
+    "specific": "Panthera tigris altaica"
+   }
+  ]
+ },
+ "gorilla": {
+  "common": "Western gorilla",
+  "sci": "Gorilla gorilla",
+  "node": "Gorilla gorilla",
+  "node_uuid": "388978a5-7a3b-4cef-ad8b-87dc76955af4",
+  "images": [
+   {
+    "uuid": "142e0571-3b5f-443d-a887-b572a224ea22",
+    "title": "Gorilla gorilla",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/142e0571-3b5f-443d-a887-b572a224ea22/vector.svg",
+    "sizes": "741x790",
+    "specific": "Gorilla gorilla"
+   },
+   {
+    "uuid": "d9af529d-e426-4c7a-922a-562d57a7872e",
+    "title": "Gorilla gorilla gorilla",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey (after Colin M. L. Burnett)",
+    "vector": "https://images.phylopic.org/images/d9af529d-e426-4c7a-922a-562d57a7872e/vector.svg",
+    "sizes": "1536x1385",
+    "specific": "Gorilla gorilla gorilla"
+   },
+   {
+    "uuid": "dd10acd5-fef8-41b4-b7af-fd8f651cc8b3",
+    "title": "Gorilla gorilla",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Andy Wilson",
+    "attribution": "Andy Wilson",
+    "vector": "https://images.phylopic.org/images/dd10acd5-fef8-41b4-b7af-fd8f651cc8b3/vector.svg",
+    "sizes": "1396x1536",
+    "specific": "Gorilla gorilla"
+   },
+   {
+    "uuid": "f9bb81be-bd1e-4513-a92e-2cee296fb357",
+    "title": "Gorilla gorilla",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "vector": "https://images.phylopic.org/images/f9bb81be-bd1e-4513-a92e-2cee296fb357/vector.svg",
+    "sizes": "476x680",
+    "specific": "Gorilla gorilla"
+   }
+  ]
+ },
+ "human": {
+  "common": "Human",
+  "sci": "Homo sapiens",
+  "node": "Homo sapiens",
+  "node_uuid": "1ee65cf3-53db-4a52-9960-a9f7093d845d",
+  "images": [
+   {
+    "uuid": "a146bf1b-c94d-46e1-9cd8-a0ac52a1e0a9",
+    "title": "Homo sapiens njarasensis",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey",
+    "vector": "https://images.phylopic.org/images/a146bf1b-c94d-46e1-9cd8-a0ac52a1e0a9/vector.svg",
+    "sizes": "762x1536",
+    "specific": "Homo sapiens njarasensis"
+   },
+   {
+    "uuid": "ad736445-7147-46f0-9932-d69243dea8f0",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "contributor": "Pedro de Siracusa",
+    "attribution": "Pedro de Siracusa",
+    "vector": "https://images.phylopic.org/images/ad736445-7147-46f0-9932-d69243dea8f0/vector.svg",
+    "sizes": "1392x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "c089caae-43ef-4e4e-bf26-973dd4cb65c5",
+    "title": "Homo sapiens idaltu",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey",
+    "vector": "https://images.phylopic.org/images/c089caae-43ef-4e4e-bf26-973dd4cb65c5/vector.svg",
+    "sizes": "560x1536",
+    "specific": "Homo sapiens idaltu"
+   },
+   {
+    "uuid": "036b96de-4bca-408e-adb6-2154fcd724ef",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Katy Lawler",
+    "attribution": "Katy Lawler",
+    "vector": "https://images.phylopic.org/images/036b96de-4bca-408e-adb6-2154fcd724ef/vector.svg",
+    "sizes": "602x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "22a441e9-f828-4b14-8d62-4cb62f771844",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Rukasuhebi",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/22a441e9-f828-4b14-8d62-4cb62f771844/vector.svg",
+    "sizes": "1536x526",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "2747ec84-c331-45ee-bc20-97ca134130a6",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Soledad Miranda-Rottmann",
+    "attribution": "Soledad Miranda-Rottmann",
+    "vector": "https://images.phylopic.org/images/2747ec84-c331-45ee-bc20-97ca134130a6/vector.svg",
+    "sizes": "121x280",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "2b4c32f6-99d0-43ba-9180-8013aa5bccd2",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey",
+    "vector": "https://images.phylopic.org/images/2b4c32f6-99d0-43ba-9180-8013aa5bccd2/vector.svg",
+    "sizes": "1247x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "30d16233-028d-4a70-9002-db349d73c0bc",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Tony Goldberg",
+    "attribution": "Jiro Wada",
+    "vector": "https://images.phylopic.org/images/30d16233-028d-4a70-9002-db349d73c0bc/vector.svg",
+    "sizes": "218x506",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "37536a9c-db56-42d3-8923-8c5ffdfa637b",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Carlo De Rito",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/37536a9c-db56-42d3-8923-8c5ffdfa637b/vector.svg",
+    "sizes": "469x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "41b127f6-0824-4594-a941-5ff571f32378",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/41b127f6-0824-4594-a941-5ff571f32378/vector.svg",
+    "sizes": "509x1191",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "4dd48260-40d1-4302-95af-92cd445203b0",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Andrew Farke",
+    "attribution": "Andrew A. Farke",
+    "vector": "https://images.phylopic.org/images/4dd48260-40d1-4302-95af-92cd445203b0/vector.svg",
+    "sizes": "712x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "4e0aeb0d-bd54-499f-8d01-8b2bf3e2f801",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Malio Kodis",
+    "attribution": "Mali'o Kodis, image from Brockhaus and Efron Encyclopedic Dictionary",
+    "vector": "https://images.phylopic.org/images/4e0aeb0d-bd54-499f-8d01-8b2bf3e2f801/vector.svg",
+    "sizes": "912x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "880baa26-af89-44ad-ae07-e92b84e3ff05",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Edwin Price",
+    "attribution": "Edwin Price",
+    "vector": "https://images.phylopic.org/images/880baa26-af89-44ad-ae07-e92b84e3ff05/vector.svg",
+    "sizes": "544x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "94d7d43b-4f0c-436e-bc87-021e65bfe083",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/94d7d43b-4f0c-436e-bc87-021e65bfe083/vector.svg",
+    "sizes": "1536x927",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "99388f0d-6e85-484a-96dd-7bce4c24a30d",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Abby Weber",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/99388f0d-6e85-484a-96dd-7bce4c24a30d/vector.svg",
+    "sizes": "750x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "99fcd192-7a35-4917-9e83-5ba19f855fad",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "contributor": "Gabriela Palomo-Munoz",
+    "attribution": "Gabriela Palomo-Munoz",
+    "vector": "https://images.phylopic.org/images/99fcd192-7a35-4917-9e83-5ba19f855fad/vector.svg",
+    "sizes": "1389x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "9fae30cd-fb59-4a81-a39c-e1826a35f612",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "NASA",
+    "vector": "https://images.phylopic.org/images/9fae30cd-fb59-4a81-a39c-e1826a35f612/vector.svg",
+    "sizes": "562x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "a60e5c46-58c9-4422-a7ac-981ef2a57209",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Cagri CEVRIM",
+    "attribution": "Cagri CEVRIM",
+    "vector": "https://images.phylopic.org/images/a60e5c46-58c9-4422-a7ac-981ef2a57209/vector.svg",
+    "sizes": "1073x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "a9f4ebd5-53d7-4de9-9e66-85ff6c2d513e",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "Yan Wong",
+    "attribution": "NASA",
+    "vector": "https://images.phylopic.org/images/a9f4ebd5-53d7-4de9-9e66-85ff6c2d513e/vector.svg",
+    "sizes": "1190x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "acf1cbec-f6ef-4a82-8ab5-be2f963b93f5",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "NASA",
+    "vector": "https://images.phylopic.org/images/acf1cbec-f6ef-4a82-8ab5-be2f963b93f5/vector.svg",
+    "sizes": "576x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "b042f8d5-d2c3-4659-8b2a-60b26d096f0c",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Andrew Farke",
+    "attribution": "Andrew A. Farke",
+    "vector": "https://images.phylopic.org/images/b042f8d5-d2c3-4659-8b2a-60b26d096f0c/vector.svg",
+    "sizes": "1536x1091",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "b8c16fc6-d16b-4fac-8a04-67182448157e",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Guillaume Dera",
+    "attribution": null,
+    "vector": "https://images.phylopic.org/images/b8c16fc6-d16b-4fac-8a04-67182448157e/vector.svg",
+    "sizes": "798x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "bb9756f5-f718-42f6-97f0-7ecf3f45f59f",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Edwin Price",
+    "attribution": "Edwin Price",
+    "vector": "https://images.phylopic.org/images/bb9756f5-f718-42f6-97f0-7ecf3f45f59f/vector.svg",
+    "sizes": "442x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "c59008c2-4a2f-47df-84dd-23c2f7f4d1e9",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "David Orr",
+    "attribution": "David Orr",
+    "vector": "https://images.phylopic.org/images/c59008c2-4a2f-47df-84dd-23c2f7f4d1e9/vector.svg",
+    "sizes": "929x1421",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "c8744df1-5187-454f-8887-5027f0dd8a07",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Cagri CEVRIM",
+    "attribution": "Cagri CEVRIM",
+    "vector": "https://images.phylopic.org/images/c8744df1-5187-454f-8887-5027f0dd8a07/vector.svg",
+    "sizes": "512x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "d1fe0625-e904-4e99-a36d-bad479fde06e",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Edwin Price",
+    "attribution": "Edwin Price",
+    "vector": "https://images.phylopic.org/images/d1fe0625-e904-4e99-a36d-bad479fde06e/vector.svg",
+    "sizes": "464x1086",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "e002646f-0bb6-4f04-a190-a6ff5658f116",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "kotik",
+    "vector": "https://images.phylopic.org/images/e002646f-0bb6-4f04-a190-a6ff5658f116/vector.svg",
+    "sizes": "1536x1225",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "e0bea866-820e-4ff7-b74c-07c60ca21ce6",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "Edwin Price",
+    "attribution": "Edwin Price",
+    "vector": "https://images.phylopic.org/images/e0bea866-820e-4ff7-b74c-07c60ca21ce6/vector.svg",
+    "sizes": "838x658",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "edc0ae24-6751-4ecf-987c-21656b94d86c",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Sarah Werning",
+    "attribution": "Sarah Werning",
+    "vector": "https://images.phylopic.org/images/edc0ae24-6751-4ecf-987c-21656b94d86c/vector.svg",
+    "sizes": "734x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "f33e111a-7257-4ad0-a2c1-663663784d3f",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "contributor": "T. Michael Keesey",
+    "attribution": "T. Michael Keesey",
+    "vector": "https://images.phylopic.org/images/f33e111a-7257-4ad0-a2c1-663663784d3f/vector.svg",
+    "sizes": "560x1536",
+    "specific": "Homo sapiens sapiens"
+   },
+   {
+    "uuid": "f444243e-7c2d-4386-93a3-8c5100966f03",
+    "title": "Homo sapiens sapiens",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "contributor": "Andrew Farke",
+    "attribution": "Andrew A. Farke",
+    "vector": "https://images.phylopic.org/images/f444243e-7c2d-4386-93a3-8c5100966f03/vector.svg",
+    "sizes": "884x1536",
+    "specific": "Homo sapiens sapiens"
+   }
+  ]
+ }
+}

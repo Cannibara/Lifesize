@@ -1,0 +1,65 @@
+<title>measure</title>
+<canvas id="c"></canvas>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="10" height="10" style="position:absolute;left:-9999px"></svg>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const g = parseInt(q.get('g') || '0');
+  const ch = await (await fetch('choices.json')).json();
+  const keys = Object.keys(ch);
+  const grp = keys.slice(g*18, g*18+18);
+  const COLS = 6, CW = 270, CH = 230, LH = 22;
+  const c = document.getElementById('c');
+  c.width = COLS*CW + 10; c.height = Math.ceil(grp.length/COLS)*(CH+LH) + 10;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height);
+  const s = document.getElementById('s');
+  const bboxes = window.__bbox = {};
+  const load = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  for (let i = 0; i < grp.length; i++) {
+    const key = grp[i];
+    const txt = await (await fetch(`phylo/${key}__${ch[key].uuid}.svg`)).text();
+    const doc = new DOMParser().parseFromString(txt, 'image/svg+xml');
+    const root = doc.documentElement;
+    const gg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    for (const n of Array.from(root.childNodes)) if (n.nodeType === 1 && n.nodeName !== 'metadata') gg.appendChild(document.importNode(n, true));
+    s.appendChild(gg);
+    const b = gg.getBBox();
+    s.removeChild(gg);
+    bboxes[key] = {x: b.x, y: b.y, w: b.width, h: b.height, viewBox: root.getAttribute('viewBox')};
+    const inner = new XMLSerializer().serializeToString(gg);
+    const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${b.x} ${b.y} ${b.width} ${b.height}" width="${b.width}" height="${b.height}">${inner}</svg>`;
+    const url = URL.createObjectURL(new Blob([svgStr], {type: 'image/svg+xml'}));
+    const img = await load(url);
+    const cx = 5 + (i % COLS)*CW, cy = 5 + Math.floor(i / COLS)*(CH+LH);
+    const pad = 28;
+    const sc = Math.min((CW-2*pad)/b.width, (CH-2*pad)/b.height);
+    const w = b.width*sc, h = b.height*sc;
+    const x0 = cx + pad, y0 = cy + pad + (CH-2*pad-h)/2;
+    ctx.strokeStyle = '#ccc'; ctx.strokeRect(cx, cy, CW-6, CH);
+    if (img) ctx.drawImage(img, x0, y0, w, h);
+    // horizontal 10% lines of silhouette height, labelled with % from ground (bottom)
+    ctx.font = '10px sans-serif'; ctx.textBaseline = 'middle';
+    for (let p = 0; p <= 10; p++) {
+      const yy = y0 + h - (p/10)*h;
+      ctx.strokeStyle = p % 5 === 0 ? 'rgba(200,0,0,0.8)' : 'rgba(200,0,0,0.35)';
+      ctx.beginPath(); ctx.moveTo(x0 - 12, yy); ctx.lineTo(x0 + w + 12, yy); ctx.stroke();
+      ctx.fillStyle = '#a00'; ctx.fillText(`${p*10}`, x0 + w + 14, yy);
+    }
+    // vertical 10% lines of width
+    for (let p = 0; p <= 10; p++) {
+      const xx = x0 + (p/10)*w;
+      ctx.strokeStyle = p % 5 === 0 ? 'rgba(0,80,200,0.7)' : 'rgba(0,80,200,0.25)';
+      ctx.beginPath(); ctx.moveTo(xx, y0 - 10); ctx.lineTo(xx, y0 + h + 10); ctx.stroke();
+      ctx.fillStyle = '#048'; if (p % 2 === 0) ctx.fillText(`${p*10}`, xx - 6, y0 - 16);
+    }
+    ctx.fillStyle = '#000'; ctx.font = 'bold 13px sans-serif';
+    ctx.fillText(`${key}  ar=${(b.width/b.height).toFixed(2)}`, cx + 4, cy + CH + 11);
+  }
+  await fetch(`/save?name=bbox_${g}.json`, {method:'POST', body: JSON.stringify(bboxes)});
+  c.toBlob(async blob => {
+    const r = await fetch(`/save?name=measure_${g}.png`, {method:'POST', body: blob});
+    document.title = 'saved ' + g + ' ' + (await r.text());
+  }, 'image/png');
+})();
+</script>
