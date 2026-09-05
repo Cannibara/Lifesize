@@ -116,6 +116,8 @@ button{cursor:pointer}
 #weigh .weave{fill:none;stroke:var(--graphite);stroke-width:1.4;opacity:.32}
 #weigh .count{font:700 46px var(--f-hand);fill:var(--pen-ink);stroke-width:6px;font-variant-numeric:tabular-nums}
 #weigh .pan-lbl{font-size:24px;font-weight:700;letter-spacing:.01em;fill:var(--text);stroke-width:6px}
+#weigh .pan-kg{font-size:18px;font-weight:700;fill:var(--pen-ink);stroke-width:6px;font-variant-numeric:tabular-nums}
+#weigh .frac{stroke:var(--pen-ink);stroke-width:4;stroke-linecap:round}
 #weigh .verdict-top{font-size:23px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;fill:var(--pen-ink)}
 #weigh .hint{font-size:13px;font-weight:600;fill:var(--muted)}
 
@@ -419,7 +421,7 @@ function fmt(m){
   const cm = m * 100;
   return cm >= 10 ? `${Math.round(cm)} cm` : `${cm.toFixed(1)} cm`;
 }
-function fmtKg(kg){
+function fmtKg(kg, compact){        // compact: tonnes on their own, for labels drawn in the scene
   if (S.unit === 'imperial'){
     const lb = kg * 2.20462;
     if (lb < 1) return `${(lb * 16).toFixed(1)} oz`;
@@ -429,7 +431,9 @@ function fmtKg(kg){
   if (kg < 1) return `${Math.round(kg * 1000)} g`;
   if (kg < 10) return `${kg.toFixed(1)} kg`;
   const s = `${Math.round(kg).toLocaleString('en')} kg`;
-  return kg >= 1000 ? `${s} (${(kg / 1000).toFixed(1)} t)` : s;
+  if (kg < 1000) return s;
+  const t = kg / 1000, ts = `${t < 10 ? t.toFixed(1) : Math.round(t)} t`;
+  return compact ? ts : `${s} (${ts})`;
 }
 const fmtMult = x => x < 10 ? String(+x.toFixed(1)) : String(Math.round(x));
 function setUnit(u){
@@ -726,6 +730,9 @@ const wsvg = $('weigh'), wGrid = $('wGrid'), wScene = $('wScene');
 const DW = 1200, DH = 700;                 // design space
 const PIVOT = {x: 600, y: 138}, HALF = 330, CHAIN = 262, PAN_HALF = 220, BASKET_R = 220, DISH_D = 40;
 const REF_H = 180, MAX_TILT = 10, LIP = 70, GRAV = 2600, MAX_ROT = 26;   // LIP: rim height that still holds the heap          // reference silhouette height (design px), beam tilt limit (deg)
+// the name sits 14 above the silhouette and the weight LBL_KG above it; both have to clear the
+// beam end knob, which hangs CHAIN - 10 above the pan, so the silhouette itself can only be so tall
+const LBL_KG = 41, REF_MAX = 188;
 const BUCKET = {x: 1010, y: 262};          // bottom-left corner, the pour pivot
 const Wg = {                                // weigh-game runtime
   active: false, ref: null, target: null, trueMult: 1, count: 0,
@@ -785,6 +792,7 @@ function buildWeighScene(){
   el('rect', {class: 'plate', x: -PAN_HALF - 6, y: -3, width: PAN_HALF * 2 + 12, height: 6, rx: 3}, E.plate);
   el('path', {class: 'vine', d: `M${-PAN_HALF - 4} -2 c-8 -10 -20 -8 -18 2 c2 9 13 8 11 0 M${PAN_HALF + 4} -2 c8 -10 20 -8 18 2 c-2 9 -13 8 -11 0`}, E.plate);
   E.ref = el('use', {class: 'ref', href: '#'}, E.plate);
+  E.lblLkg = el('text', {class: 'pan-kg', x: 0, y: -240, 'text-anchor': 'middle'}, E.plate);
   E.lblL = el('text', {class: 'pan-lbl', x: 0, y: -200, 'text-anchor': 'middle'}, E.plate);
   E.basket = el('g', {}, wScene);
   el('path', {class: 'basket', d: `M${-PAN_HALF} 0 A${BASKET_R} ${BASKET_R} 0 0 0 ${PAN_HALF} 0 Z`}, E.basket);
@@ -805,13 +813,15 @@ function buildWeighScene(){
   el('path', {class: 'plumb', d: `M0 12 V92`}, plumb);
   el('path', {class: 'brass', d: `M0 88 L-7 104 Q0 114 7 104 Z`}, plumb);
 
-  // --- running count and score mark, top centre above the pivot ---
+  // --- top centre: the running count, which the reveal turns into poured over balances ---
   E.count = el('text', {class: 'count', x: cx, y: 42, 'text-anchor': 'middle'}, wScene);
-  E.count2 = el('text', {class: 'count', x: cx + 34, y: 42, 'text-anchor': 'start'}, wScene);
-  E.verdictTop = el('text', {class: 'verdict-top', x: cx, y: 76, 'text-anchor': 'middle'}, wScene);
+  E.frac = el('line', {class: 'frac', x1: cx - 46, x2: cx + 46, y1: 45, y2: 45, visibility: 'hidden'}, wScene);
+  E.count2 = el('text', {class: 'count', x: cx, y: 86, 'text-anchor': 'middle'}, wScene);
+  E.verdictTop = el('text', {class: 'verdict-top', x: cx - 72, y: 52, 'text-anchor': 'end'}, wScene);
   E.mark = el('text', {class: 'mark', x: 56, y: 112, 'text-anchor': 'start'}, wScene);
   E.mark.textContent = '';
-  E.lblR = el('text', {class: 'pan-lbl', x: BUCKET.x + 50, y: BUCKET.y - 214, 'text-anchor': 'middle'}, wScene);
+  E.lblRkg = el('text', {class: 'pan-kg', x: BUCKET.x + 50, y: 22, 'text-anchor': 'middle'}, wScene);
+  E.lblR = el('text', {class: 'pan-lbl', x: BUCKET.x + 50, y: 52, 'text-anchor': 'middle'}, wScene);
 
   // --- the bucket: a rounded, shaded pail with animals peeking over the rim ---
   E.bucket = el('g', {class: 'bucket', transform: `translate(${BUCKET.x} ${BUCKET.y})`}, wScene);
@@ -1152,8 +1162,25 @@ function updateWeighLabels(){
   if (S.phase === 'wguess') E.count.textContent = Wg.count ? `×${Wg.count}` : '';
   E.lblL.textContent = Wg.ref.name;
   const pl = plural(Wg.target); E.lblR.textContent = pl.charAt(0).toUpperCase() + pl.slice(1);
+  // what each animal weighs, above its name on either side, only once the answer is out
+  const out = S.phase === 'wreveal';
+  E.lblL.setAttribute('y', -(Wg.refH + 14));
+  E.lblLkg.setAttribute('y', -(Wg.refH + LBL_KG));
+  E.lblLkg.textContent = out ? fmtKg(Wg.ref.kg, true) : '';
+  E.lblRkg.textContent = out ? `${fmtKg(Wg.target.kg, true)} each` : '';
   $('wVal').textContent = Wg.count;
   $('wLockBtn').disabled = Wg.count < 1;
+}
+// poured over balances, as one fraction above the pivot
+function showFraction(){
+  const E = Wg.els;
+  E.count.setAttribute('y', 36);
+  E.count.textContent = String(Wg.count);
+  E.count2.textContent = fmtMult(Wg.trueMult);
+  let w = 92;
+  try { w = Math.max(E.count.getBBox().width, E.count2.getBBox().width) + 22; } catch (e) {}
+  E.frac.setAttribute('x1', PIVOT.x - w / 2); E.frac.setAttribute('x2', PIVOT.x + w / 2);
+  E.frac.setAttribute('visibility', 'visible');
 }
 function weighFrame(ts){
   if (!Wg.active) return;
@@ -1210,13 +1237,13 @@ function nextWeighRound(){
   // reference on the plate
   // whole-scene scale: shrink both sides together (same proportion) when the target's token is so
   // large that a basketful could not fit. Depends only on the visible size ratio, never on the answer.
-  // the reference fills 70% of its platform's width, capped so tall animals clear the beam
+  // the reference fills 70% of its platform's width, capped at REF_MAX so that it and the two
+  // lines of label above it still clear the beam end, a fixed CHAIN above the pan
   let rw = 0.7 * PAN_HALF * 2, rh = rw / ar(Wg.ref);
-  if (rh > 200){ rh = 200; rw = rh * ar(Wg.ref); }
+  if (rh > REF_MAX){ rh = REF_MAX; rw = rh * ar(Wg.ref); }
   Wg.refH = rh; Wg.scale = 1;
-  Wg.els.lblL.setAttribute('y', -(rh + 14));
   Wg.els.verdictTop.textContent = ''; Wg.els.count2.textContent = '';
-  Wg.els.count.setAttribute('x', PIVOT.x); Wg.els.count.setAttribute('text-anchor', 'middle');
+  Wg.els.count.setAttribute('y', 42); Wg.els.frac.setAttribute('visibility', 'hidden');
   Wg.els.ref.setAttribute('href', '#sil-' + Wg.ref.key);
   Wg.els.ref.setAttribute('x', -rw / 2); Wg.els.ref.setAttribute('y', -rh); Wg.els.ref.setAttribute('width', rw); Wg.els.ref.setAttribute('height', rh);
   // peeking targets in the bucket
@@ -1242,9 +1269,7 @@ function lockWeigh(){
   Wg.thetaRest = clamp(9 * Math.log2(Wg.count / Wg.trueMult), -MAX_TILT, MAX_TILT);
   Wg.omega += 10 * Math.sign(Wg.thetaRest || 1);
   Wg.els.mark.textContent = `${score}/100`; Wg.els.mark.classList.add('pop');
-  Wg.els.count.setAttribute('x', PIVOT.x - 34); Wg.els.count.setAttribute('text-anchor', 'end');
-  Wg.els.count.textContent = `×${Wg.count} poured`;
-  Wg.els.count2.textContent = `×${fmtMult(Wg.trueMult)} balances`;
+  showFraction();
   Wg.els.verdictTop.textContent = score === 100 ? 'Balanced' : (Wg.count > Wg.trueMult ? 'Too many' : 'Too few');
   $('weighDock').hidden = true; $('revealDock').hidden = false;
   $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next weigh-in';
