@@ -95,6 +95,7 @@ button{cursor:pointer}
 #weigh .ref{fill:var(--ink)}
 #weigh .tok use{fill:var(--ink)}
 #weigh{cursor:pointer}
+#weigh.panning{cursor:grabbing}
 #weigh .bucket{cursor:pointer}
 #weigh .bucket .body{fill:url(#bucketGrad);stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
 #weigh .bucket .inside{fill:#b9c7d6;stroke:var(--ink);stroke-width:3}
@@ -271,7 +272,7 @@ button{cursor:pointer}
       <div class="who">
         <span class="eyebrow">Round <span id="wRound">1</span> · balance one</span>
         <span class="animal-name" id="wName">Horse <small>with</small> beavers</span>
-        <span class="sub">Click anywhere on the scale to drop one. Hold to pour. Nothing comes back out.</span>
+        <span class="sub">Click to drop one, hold to pour. Nothing comes back out. Scroll to zoom, drag to move.</span>
       </div>
       <div class="readout"><span class="eyebrow">Poured</span><span class="val" id="wVal">0</span></div>
       <button type="button" class="btn pen" id="wLockBtn" disabled>Lock it in</button>
@@ -308,7 +309,7 @@ button{cursor:pointer}
           <li><span class="n">3</span><span>Lock it in. Closer guesses score more, out of 100. Five animals, 500 points.</span></li>
         </ol>
         <ol class="how" id="howWeight" hidden>
-          <li><span class="n">1</span><span>Click anywhere on the scale to drop one animal. Hold the mouse down to tip the bucket and pour faster.</span></li>
+          <li><span class="n">1</span><span>Click anywhere on the scale to drop one animal. Hold the mouse down to tip the bucket and pour faster. Scroll, pinch or use the buttons to zoom in on the pan.</span></li>
           <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
           <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
         </ol>
@@ -494,10 +495,16 @@ function zoomAt(px, py, f){
   render();
 }
 let userZoomed = false;
-$('zoomIn').onclick = () => { userZoomed = true; zoomAt(W / 2, H / 2, 1.3); };
-$('zoomOut').onclick = () => { userZoomed = true; zoomAt(W / 2, H / 2, 1 / 1.3); };
-$('zoomFit').onclick = () => { userZoomed = false; fitBoth(); };
-$('zoomFocus').onclick = () => { userZoomed = true; fitAnimal(); };
+const weighView = () => S.mode === 'weight' && Wg.active;   // the same four buttons drive both scenes
+function setZoomLabels(weight){
+  const label = (id, t) => { const b = $(id); b.title = t; b.setAttribute('aria-label', t); };
+  label('zoomFit', weight ? 'Fit the whole scale' : 'Fit both of you');
+  label('zoomFocus', weight ? 'Zoom to the pan' : 'Zoom to the animal');
+}
+$('zoomIn').onclick = () => { if (weighView()) wZoomAt(W / 2, H / 2, 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1.3); } };
+$('zoomOut').onclick = () => { if (weighView()) wZoomAt(W / 2, H / 2, 1 / 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1 / 1.3); } };
+$('zoomFit').onclick = () => { if (weighView()){ wUserZoomed = false; layoutWeigh(); } else { userZoomed = false; fitBoth(); } };
+$('zoomFocus').onclick = () => { if (weighView()){ wUserZoomed = true; wFitBasket(); applyWeighCam(); } else { userZoomed = true; fitAnimal(); } };
 svg.addEventListener('wheel', e => { e.preventDefault(); userZoomed = true; const r = svg.getBoundingClientRect(); zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
 
 function drawGridInto(g, spacingPx, originX, originY, width, height){
@@ -659,7 +666,7 @@ function startSizeGame(setId){
   S.round = 0; S.results = [];
   $('themeChip').textContent = S.set.name;
   $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true);
-  $('rounds').hidden = false; $('totalBox').hidden = false; $('zoomCtl').hidden = false;
+  $('rounds').hidden = false; $('totalBox').hidden = false; $('zoomCtl').hidden = false; setZoomLabels(false);
   $('startScreen').hidden = true; $('endScreen').hidden = true;
   nextRound();
 }
@@ -821,13 +828,13 @@ function buildWeighScene(){
   el('path', {class: 'handle', d: `M-6 -126 C10 -200, 90 -200, 106 -126`}, E.bucketRot);
   el('rect', {class: 'hit', x: -70, y: -215, width: 250, height: 265}, E.bucket);
 
-  // pouring input: anywhere on the scale
-  const down = e => { if (S.phase !== 'wguess') return; e.preventDefault(); startPour(); try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {} };
-  const up = () => stopPour();
+  // pouring input: anywhere on the scale. Dragging or scrolling moves the view instead.
   wsvg.setAttribute('tabindex', '0');
-  wsvg.addEventListener('pointerdown', down);
-  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) wsvg.addEventListener(t, up);
-  window.addEventListener('pointerup', up);
+  wsvg.addEventListener('pointerdown', wDown);
+  wsvg.addEventListener('pointermove', wMove);
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) wsvg.addEventListener(t, wUp);
+  window.addEventListener('pointerup', wUp);
+  wsvg.addEventListener('wheel', e => { e.preventDefault(); const r = wsvg.getBoundingClientRect(); wZoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
   wsvg.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat && S.phase === 'wguess'){ e.preventDefault(); spawnToken(); } });
 }
 function startPour(){ if (Wg.pouring) return; Wg.pouring = true; Wg.holdT = 0; Wg.acc = 0.55; spawnToken(); }
@@ -1002,16 +1009,119 @@ function stepPour(dt){
     if (Wg.tilt < 0.05) Wg.tilt = 0;
   }
 }
+// ---------- camera: the pan and zoom the size game has, in design space ----------
+const wcam = {s: 1, x: 0, y: 0};                    // screen = design * s + (x, y)
+let wUserZoomed = false;
+const wToDesign = (sx, sy) => [(sx - wcam.x) / wcam.s, (sy - wcam.y) / wcam.s];
+function weighAvail(){                              // stage height left above the dock
+  const dock = document.querySelector('.dock:not([hidden])');
+  return Math.max(H * 0.5, H - (dock ? dock.offsetHeight + 30 : 90));
+}
+const wFitScale = () => Math.max(0.12, Math.min(W / DW, weighAvail() / DH));
+const WS_MIN = () => wFitScale() * 0.4, WS_MAX = () => wFitScale() * 20;
+function wFitAll(){                                 // the whole scale, the default framing
+  const k = wFitScale();
+  wcam.s = k; wcam.x = (W - DW * k) / 2; wcam.y = Math.max(10, (weighAvail() - DH * k) / 2);
+}
+function wFitBox(x0, y0, x1, y1){
+  const avail = weighAvail(), pad = 26;
+  const aw = Math.max(60, W - pad * 2), ah = Math.max(60, avail - pad * 2);
+  wcam.s = clamp(Math.min(aw / Math.max(1, x1 - x0), ah / Math.max(1, y1 - y0)), WS_MIN(), WS_MAX());
+  wcam.x = W / 2 - (x0 + x1) / 2 * wcam.s;
+  wcam.y = avail / 2 - (y0 + y1) / 2 * wcam.s;
+}
+function wFitBasket(){                              // the pan the animals land in, heap and all
+  const R = panPos(1);
+  let top = -PAN_HALF * 0.8;
+  for (const k of Wg.tokens) top = Math.min(top, k.y - k.h / 2 - 20);
+  wFitBox(R.x - PAN_HALF * 1.35, R.y + top, R.x + PAN_HALF * 1.35, R.y + BASKET_R + 30);
+}
+function applyWeighCam(){
+  wScene.setAttribute('transform', `translate(${wcam.x.toFixed(2)} ${wcam.y.toFixed(2)}) scale(${wcam.s.toFixed(5)})`);
+  const steps = [5, 10, 20, 40, 80, 160, 320, 640];   // graph paper keeps a readable pitch at any zoom
+  let m = steps[steps.length - 1];
+  for (const st of steps){ if (st * wcam.s >= 26){ m = st; break; } }
+  drawGridInto(wGrid, m * wcam.s, wcam.x, wcam.y, W, H);
+}
+function wZoomAt(px, py, f){
+  const [dx, dy] = wToDesign(px, py);
+  wUserZoomed = true;
+  wcam.s = clamp(wcam.s * f, WS_MIN(), WS_MAX());
+  wcam.x = px - dx * wcam.s; wcam.y = py - dy * wcam.s;
+  applyWeighCam();
+}
+function wPanBy(dx, dy){ wcam.x += dx; wcam.y += dy; wUserZoomed = true; applyWeighCam(); }
 function layoutWeigh(){
+  const oldW = W, oldH = H;
   W = stage.clientWidth || W; H = stage.clientHeight || H;
   wsvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  const dock = document.querySelector('.dock:not([hidden])');
-  const avail = Math.max(H * 0.5, H - (dock ? dock.offsetHeight + 30 : 90));
-  const k = Math.max(0.12, Math.min(W / DW, avail / DH));
-  const ox = (W - DW * k) / 2, oy = Math.max(10, (avail - DH * k) / 2);
-  wScene.setAttribute('transform', `translate(${ox} ${oy}) scale(${k})`);
-  drawGridInto(wGrid, Math.max(22, 40 * k), ox, oy, W, H);
+  if (wUserZoomed){                                 // keep the view the player chose, just re-centre it
+    wcam.x += (W - oldW) / 2; wcam.y += (H - oldH) / 2;
+    wcam.s = clamp(wcam.s, WS_MIN(), WS_MAX());
+  } else wFitAll();
+  applyWeighCam();
 }
+
+// ---------- pouring and view control share one pointer ----------
+const wPointers = new Map();
+let wDrag = null;                                   // {mode:'pour'|'pan'|'pinch', id, ...}
+const PAN_SLOP = 9;                                 // px of travel that turns a press into a pan
+const wPoint = e => { const r = wsvg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+function beginPour(id, p){
+  const from = Wg.count;
+  startPour();
+  return {mode: 'pour', id, start: p, t0: performance.now(), from, tok: Wg.tokens[Wg.tokens.length - 1]};
+}
+function undoPour(d){                               // a press that turned into a drag drops nothing
+  stopPour();
+  const i = d.tok ? Wg.tokens.indexOf(d.tok) : -1;
+  if (i < 0 || Wg.count !== d.from + 1) return;
+  Wg.tokens.splice(i, 1); d.tok.el.remove(); Wg.count = d.from; Wg.acc = 0;
+  updateWeighLabels();
+}
+function wDown(e){
+  const p = wPoint(e);
+  wPointers.set(e.pointerId, p);
+  try { wsvg.setPointerCapture(e.pointerId); } catch (x) {}
+  e.preventDefault();
+  if (wPointers.size >= 2){                         // a second finger is always a pinch, never a pour
+    if (wDrag && wDrag.mode === 'pour') undoPour(wDrag);
+    wDrag = {mode: 'pinch'}; wsvg.classList.remove('panning'); return;
+  }
+  if (S.phase === 'wguess') wDrag = beginPour(e.pointerId, p);
+  else { wDrag = {mode: 'pan', id: e.pointerId, last: p}; wsvg.classList.add('panning'); }
+}
+function wMove(e){
+  if (!wPointers.has(e.pointerId)) return;
+  const p = wPoint(e), prev = wPointers.get(e.pointerId);
+  wPointers.set(e.pointerId, p);
+  const d = wDrag;
+  if (!d) return;
+  if (d.mode === 'pour' && e.pointerId === d.id){
+    // a press that travels straight away was meant to move the view; a settled pour is never cancelled
+    const far = Math.hypot(p[0] - d.start[0], p[1] - d.start[1]) > PAN_SLOP;
+    if (far && performance.now() - d.t0 < 400 && Wg.count <= d.from + 1){
+      undoPour(d);
+      wDrag = {mode: 'pan', id: d.id, last: d.start}; wsvg.classList.add('panning');
+      wPanBy(p[0] - d.start[0], p[1] - d.start[1]); wDrag.last = p;
+    }
+  } else if (d.mode === 'pan' && e.pointerId === d.id){
+    wPanBy(p[0] - d.last[0], p[1] - d.last[1]); d.last = p;
+  } else if (d.mode === 'pinch' && wPointers.size >= 2){
+    const o = [...wPointers.entries()].find(([id]) => id !== e.pointerId)[1];
+    const now = Math.hypot(p[0] - o[0], p[1] - o[1]), was = Math.hypot(prev[0] - o[0], prev[1] - o[1]);
+    if (was > 0) wZoomAt((p[0] + o[0]) / 2, (p[1] + o[1]) / 2, now / was);
+  }
+}
+function wUp(e){
+  if (e && e.pointerId != null) wPointers.delete(e.pointerId);
+  if (wPointers.size === 0) wRelease();
+  else if (wPointers.size === 1 && wDrag && wDrag.mode === 'pinch'){
+    const [id, q] = [...wPointers.entries()][0];
+    wDrag = {mode: 'pan', id, last: q};
+  }
+}
+function wRelease(){ stopPour(); wPointers.clear(); wDrag = null; wsvg.classList.remove('panning'); }
 function drawWeigh(){
   const E = Wg.els, t = Wg.theta * Math.PI / 180;
   E.beam.setAttribute('transform', `translate(${PIVOT.x} ${PIVOT.y}) rotate(${Wg.theta})`);
@@ -1078,7 +1188,8 @@ function startWeightGame(){
   S.queue = makeWeighQueue();
   S.round = 0; S.results = []; S.set = null; S.animal = null;
   $('themeChip').textContent = 'Counterweight';
-  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false); $('zoomCtl').hidden = true;
+  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false);
+  $('zoomCtl').hidden = false; setZoomLabels(true);
   $('rounds').hidden = false; $('totalBox').hidden = false;
   $('startScreen').hidden = true; $('endScreen').hidden = true;
   try {
@@ -1117,6 +1228,7 @@ function nextWeighRound(){
   $('wName').innerHTML = `${Wg.ref.name} <small>with</small> ${plural(Wg.target)}`;
   setDots(S.round, false);
   $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true;
+  wUserZoomed = false;
   updateWeighLabels(); layoutWeigh(); drawWeigh(); refreshText();
 }
 function lockWeigh(){
@@ -1137,6 +1249,7 @@ function lockWeigh(){
   $('weighDock').hidden = true; $('revealDock').hidden = false;
   $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next weigh-in';
   setDots(S.round, true);
+  wUserZoomed = false;                               // the reveal is worth seeing whole
   refreshText(); layoutWeigh();
   $('nextBtn').focus({preventScroll: true});
 }
@@ -1243,12 +1356,12 @@ $('modeWeight').onclick = () => setMode('weight');
 })();
 
 new ResizeObserver(() => { if (Wg.active) layoutWeigh(); }).observe(stage);
-window.addEventListener('blur', stopPour);
+window.addEventListener('blur', wRelease);
 
 (function boot(){
   cam.s = Math.max(60, Math.min(stage.clientWidth || 800, stage.clientHeight || 600) / 3); cam.x = 1.0; cam.y = 0.9;
   render();
 })();
-window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, get W(){ return W; }, get H(){ return H; }};
+window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
 })();
 </script>
