@@ -9,6 +9,7 @@
   --grid:#dbe6f1; --grid-major:#bad0e6;
   --ink:#10151b; --graphite:#485466; --brass:#8a6d3b; --brass-light:#c9ad6a;
   --pen:#d0323a; --pen-ink:#b0262d; --pen-soft:rgba(208,50,58,.10);
+  --stamp:#0f6156; --stamp-paper:#f1f8f6;
   --text:#1b2430; --muted:#65758a; --line:#c9d6e4; --chrome:#f6f9fc;
   --shadow:0 12px 32px rgba(24,39,64,.16); --focus:#1d6fd6;
   --f-display:'Fraunces', Georgia, 'Times New Roman', serif;
@@ -73,10 +74,6 @@ button{cursor:pointer}
 #scene .guide.pen{stroke:var(--pen)}
 #scene .tag{font-size:15px;font-weight:700;fill:var(--pen-ink);font-variant-numeric:tabular-nums}
 #scene .tag.actual{font-weight:600;font-size:14px}
-#scene .mark,#weigh .mark{font:700 50px var(--f-hand);fill:var(--pen);stroke:none !important;transform-box:fill-box;transform-origin:center;transform:rotate(-8deg)}
-#scene .mark.pop,#weigh .mark.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
-@keyframes pop{from{opacity:0;transform:rotate(-8deg) scale(.4)}to{opacity:1;transform:rotate(-8deg) scale(1)}}
-@media (prefers-reduced-motion: reduce){#scene .mark.pop,#weigh .mark.pop{animation:none}}
 
 /* weigh scene */
 #weigh .stone{fill:var(--graphite)}
@@ -94,9 +91,11 @@ button{cursor:pointer}
 #weigh .basket-front{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}
 #weigh .ref{fill:var(--ink)}
 #weigh .tok use{fill:var(--ink)}
-#weigh{cursor:pointer}
+#weigh{cursor:grab}
 #weigh.panning{cursor:grabbing}
-#weigh .bucket{cursor:pointer}
+#weigh .bucket{cursor:grab}
+#weigh .bucket.held{cursor:grabbing}
+#weigh .bucket.held .body{stroke:var(--pen)}
 #weigh .bucket .body{fill:url(#bucketGrad);stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
 #weigh .bucket .inside{fill:#b9c7d6;stroke:var(--ink);stroke-width:3}
 #weigh .bucket .lip{fill:none;stroke:var(--ink);stroke-width:3.5}
@@ -128,6 +127,19 @@ button{cursor:pointer}
 .zoom button:hover{border-color:var(--ink)}
 .zoom button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
+/* round score: an ink stamp pressed into the corner, not a mark out of ten */
+.stamp{position:absolute;top:14px;right:14px;width:96px;height:96px;border-radius:50%;box-sizing:border-box;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:var(--stamp-paper);border:3px solid var(--stamp);color:var(--stamp);
+  box-shadow:inset 0 0 0 3px var(--stamp-paper), inset 0 0 0 4.5px var(--stamp), 0 6px 18px rgba(15,97,86,.18);
+  transform:rotate(-6deg);pointer-events:none}
+.stamp[hidden]{display:none}
+.stamp .n{font:italic 600 36px/1 var(--f-display);letter-spacing:-.02em}
+.stamp .d{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.stamp.press{animation:press .45s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes press{from{opacity:0;transform:rotate(-18deg) scale(1.7)}55%{opacity:1;transform:rotate(3deg) scale(.94)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@media (prefers-reduced-motion: reduce){.stamp.press{animation:none}}
+
 /* dock */
 .dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(680px, calc(100% - 120px));background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:16px;box-sizing:border-box}
 .dock[hidden]{display:none}
@@ -153,8 +165,6 @@ button{cursor:pointer}
 .reveal .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .reveal .verdict{font:italic 600 22px/1.15 var(--f-display);text-wrap:balance}
 .reveal .verdict b{font-style:normal;color:var(--pen-ink)}
-.reveal .score{font:700 44px/1 var(--f-hand);color:var(--pen);white-space:nowrap;flex:0 0 auto}
-.reveal .score small{font-size:22px;color:var(--pen-ink)}
 .reveal .fact{margin:0;color:var(--text);font-size:15px;max-width:62ch}
 .reveal details{font-size:13px;color:var(--muted)}
 .reveal details summary{cursor:pointer;font-weight:600}
@@ -195,7 +205,7 @@ button{cursor:pointer}
 .results th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
 .results td{padding:8px;border-bottom:1px solid var(--grid)}
 .results td.num,.results th.num{text-align:right}
-.results td.sc{font:700 24px/1 var(--f-hand);color:var(--pen);text-align:right}
+.results td.sc{font:italic 600 23px/1 var(--f-display);color:var(--stamp);text-align:right}
 .results .thumb{width:44px;height:34px;display:block}
 .results .thumb use{fill:var(--ink)}
 .results td.nm{font-weight:600}
@@ -217,7 +227,10 @@ button{cursor:pointer}
   .brand .name{font-size:20px}
   .rounds span{display:none}
   .dock{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:10px;flex-wrap:wrap}
-  .zoom{bottom:auto;top:12px;flex-direction:row}
+  .zoom{bottom:auto;top:12px;left:12px;right:auto;flex-direction:row}
+  .stamp{width:76px;height:76px;top:10px;right:10px}
+  .stamp .n{font-size:29px}
+  .stamp .d{font-size:7px;letter-spacing:.06em}
   .dock .who .animal-name{font-size:19px}
   .dock .readout .val{font-size:22px}
   .sheet{padding:24px 20px}
@@ -260,6 +273,11 @@ button{cursor:pointer}
       <button type="button" id="zoomFocus" title="Zoom to the animal" aria-label="Zoom to the animal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
     </div>
 
+    <div class="stamp" id="scoreStamp" hidden aria-live="polite">
+      <span class="n" id="stampNum">0</span>
+      <span class="d">out of 100</span>
+    </div>
+
     <div class="dock" id="guessDock" hidden>
       <div class="who">
         <span class="eyebrow">Round <span id="gRound">1</span> · how big is a</span>
@@ -274,7 +292,7 @@ button{cursor:pointer}
       <div class="who">
         <span class="eyebrow">Round <span id="wRound">1</span> · balance one</span>
         <span class="animal-name" id="wName">Horse <small>with</small> beavers</span>
-        <span class="sub">Click to drop one, hold to pour. Nothing comes back out. Scroll to zoom, drag to move.</span>
+        <span class="sub">Click the bucket to drop one, hold to pour, drag to carry it. Drag elsewhere to move the view.</span>
       </div>
       <div class="readout"><span class="eyebrow">Poured</span><span class="val" id="wVal">0</span></div>
       <button type="button" class="btn pen" id="wLockBtn" disabled>Lock it in</button>
@@ -283,7 +301,6 @@ button{cursor:pointer}
     <div class="dock reveal" id="revealDock" hidden>
       <div class="row1">
         <div class="verdict" id="rVerdict"></div>
-        <div class="score" id="rScore"></div>
       </div>
       <p class="fact" id="rFact"></p>
       <details id="rDetails"><summary id="rSummary">How this silhouette was sized</summary><p id="rSizing"></p><p id="rSource"></p></details>
@@ -311,7 +328,7 @@ button{cursor:pointer}
           <li><span class="n">3</span><span>Lock it in. Closer guesses score more, out of 100. Five animals, 500 points.</span></li>
         </ol>
         <ol class="how" id="howWeight" hidden>
-          <li><span class="n">1</span><span>Click anywhere on the scale to drop one animal. Hold the mouse down to tip the bucket and pour faster. Scroll, pinch or use the buttons to zoom in on the pan.</span></li>
+          <li><span class="n">1</span><span>Click the bucket to drop one animal. Hold it to tip it and pour faster, and drag it wherever you want to pour. Scroll or pinch to zoom.</span></li>
           <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
           <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
         </ol>
@@ -454,6 +471,13 @@ function setDots(current, lockedCurrent){
   $('roundText').textContent = `Round ${current} of 5`;
 }
 function totalScore(){ return S.results.reduce((a, r) => a + r.score, 0); }
+function showStamp(score){
+  const st = $('scoreStamp');
+  $('stampNum').textContent = score;
+  st.hidden = false;
+  st.classList.remove('press'); void st.offsetWidth; st.classList.add('press');   // re-press on every reveal
+}
+const hideStamp = () => { $('scoreStamp').hidden = true; };
 function scoreFor(g, t){
   if (!(g > 0) || !(t > 0)) return 0;
   const err = Math.max(g / t, t / g) - 1;   // 0 = perfect, 1 = double or half
@@ -551,7 +575,7 @@ function place(use, rec, wx, wtop, hM){
   use.setAttribute('x', sx); use.setAttribute('y', sy);
   use.setAttribute('width', wM * cam.s); use.setAttribute('height', hM * cam.s);
 }
-let popMark = false, handleHadFocus = false;
+let handleHadFocus = false;
 function render(){
   if (S.mode === 'weight' && S.phase !== 'start') return;
   W = stage.clientWidth || W; H = stage.clientHeight || H;
@@ -593,11 +617,6 @@ function render(){
     el('path', {class: 'guide pen', d: `M${tx0} ${ty}H${right + 22}`}, gUi);
     const at = el('text', {class: 'tag actual', x: right + 26, y: ty + 5}, gUi);
     at.textContent = `actual ${fmt(S.trueH)}`;
-    const res = S.results[S.results.length - 1];
-    const mx = Math.min(W - 90, Math.max(70, right + 40)), my = Math.max(70, Math.min(ty, by0) - 40);
-    const mark = el('text', {class: 'mark' + (popMark ? ' pop' : ''), x: mx, y: my, 'text-anchor': 'middle'}, gUi);
-    mark.textContent = `${res.score}/100`;
-    popMark = false;
   }
 }
 new ResizeObserver(() => { if (S.mode === 'size' && S.phase === 'guess' && !userZoomed) fitBoth(); else render(); }).observe(stage);
@@ -683,14 +702,14 @@ function nextRound(){
   S.phase = 'guess'; userZoomed = false; handleHadFocus = false;
   $('gRound').textContent = S.round; $('gName').textContent = S.animal.name;
   setDots(S.round, false);
-  $('guessDock').hidden = false; $('revealDock').hidden = true;
+  $('guessDock').hidden = false; $('revealDock').hidden = true; hideStamp();
   refreshText(); fitBoth();
 }
 function lockIn(){
   if (S.phase !== 'guess') return;
   const score = scoreFor(S.guessH, S.trueH);
   S.results.push({key: S.animal.key, name: S.animal.name, guess: S.guessH, actual: S.trueH, score});
-  S.phase = 'reveal'; popMark = true;
+  S.phase = 'reveal'; showStamp(score);
   $('guessDock').hidden = true; $('revealDock').hidden = false;
   $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next animal';
   setDots(S.round, true);
@@ -709,7 +728,6 @@ function fillReveal(){
   else if (ratio > 1) verdict = `You made the ${A.name.toLowerCase()} <b>${pct}% too big</b>.`;
   else verdict = `You made the ${A.name.toLowerCase()} <b>${pct}% too small</b>.`;
   $('rVerdict').innerHTML = verdict;
-  $('rScore').innerHTML = `${r.score}<small>/100</small>`;
   $('rFact').textContent = A.fact;
   $('rDetails').hidden = false;
   $('rSummary').textContent = 'How this silhouette was sized';
@@ -733,12 +751,14 @@ const REF_H = 180, MAX_TILT = 10, LIP = 70, GRAV = 2600, MAX_ROT = 26;   // LIP:
 // the name sits 14 above the silhouette and the weight LBL_KG above it; both have to clear the
 // beam end knob, which hangs CHAIN - 10 above the pan, so the silhouette itself can only be so tall
 const LBL_KG = 41, REF_MAX = 188;
-const BUCKET = {x: 1010, y: 262};          // bottom-left corner, the pour pivot
+const BUCKET = {x: 1010, y: 262};          // bottom-left corner, the pour pivot; where each round starts it
+const BUCKET_BOUNDS = {x0: 180, x1: DW - 130, y0: 200, y1: DH - 20};   // far enough in that the pour still lands on the paper
 const Wg = {                                // weigh-game runtime
   active: false, ref: null, target: null, trueMult: 1, count: 0,
   theta: -9, omega: 0, thetaRest: -9, truthful: false,
   pouring: false, holdT: 0, tilt: 0, acc: 0,
   tokens: [], ground: [], els: {}, last: 0, raf: 0, scale: 1, refH: 180,
+  bucket: {x: BUCKET.x, y: BUCKET.y},       // the player can carry it anywhere and pour there
 };
 // Targets are drawn on the same scale as the reference (true height ratio), with a small
 // legibility floor so a hedgehog beside a giraffe is still a hedgehog and not a speck.
@@ -818,10 +838,8 @@ function buildWeighScene(){
   E.frac = el('line', {class: 'frac', x1: cx - 46, x2: cx + 46, y1: 45, y2: 45, visibility: 'hidden'}, wScene);
   E.count2 = el('text', {class: 'count', x: cx, y: 86, 'text-anchor': 'middle'}, wScene);
   E.verdictTop = el('text', {class: 'verdict-top', x: cx - 72, y: 52, 'text-anchor': 'end'}, wScene);
-  E.mark = el('text', {class: 'mark', x: 56, y: 112, 'text-anchor': 'start'}, wScene);
-  E.mark.textContent = '';
-  E.lblRkg = el('text', {class: 'pan-kg', x: BUCKET.x + 50, y: 22, 'text-anchor': 'middle'}, wScene);
-  E.lblR = el('text', {class: 'pan-lbl', x: BUCKET.x + 50, y: 52, 'text-anchor': 'middle'}, wScene);
+  E.lblRkg = el('text', {class: 'pan-kg', x: PIVOT.x + HALF, y: 22, 'text-anchor': 'middle'}, wScene);
+  E.lblR = el('text', {class: 'pan-lbl', x: PIVOT.x + HALF, y: 52, 'text-anchor': 'middle'}, wScene);
 
   // --- the bucket: a rounded, shaded pail with animals peeking over the rim ---
   E.bucket = el('g', {class: 'bucket', transform: `translate(${BUCKET.x} ${BUCKET.y})`}, wScene);
@@ -855,17 +873,17 @@ function spawnToken(){
   const T = Wg.target, {w, h} = tokenDims(T);
   const r = collider(w, h);
   const t = Wg.tilt * Math.PI / 180;
-  const lipX = BUCKET.x + (-14) * Math.cos(t) + (-120) * Math.sin(t);
-  const lipY = BUCKET.y - (-14) * Math.sin(t) + (-120) * Math.cos(t);
+  const lipX = Wg.bucket.x + (-14) * Math.cos(t) + (-120) * Math.sin(t);
+  const lipY = Wg.bucket.y - (-14) * Math.sin(t) + (-120) * Math.cos(t);
   const pan = panPos(1);
   const sx = lipX - pan.x + rnd(-10, 10), sy = lipY - pan.y + rnd(-10, 0);
   const pileTop = Wg.tokens.length ? Math.min(0, Math.min(...Wg.tokens.map(k => k.y)) - r) : 0;
   const drop = Math.max(60, pileTop - sy), vy0 = 150 + rnd(0, 80);
   const tFall = (-vy0 + Math.sqrt(vy0 * vy0 + 2 * GRAV * drop)) / GRAV;
-  const aimX = rnd(-0.45, 0.45) * PAN_HALF;                      // land across the bowl, not on one edge
+  const aimX = sx + rnd(-0.76 * PAN_HALF, 0.14 * PAN_HALF);       // out of the leaning lip, spread so they do not stack
   const tok = {
     x: sx, y: sy,
-    vx: (aimX - sx) / tFall + rnd(-30, 30), vy: vy0,
+    vx: clamp((aimX - sx) / tFall, -700, 700) + rnd(-30, 30), vy: vy0,
     rot: rnd(-6, 6), vrot: rnd(-12, 12), r, w, h, slow: 0, asleep: false, px: sx, py: sy,
   };
   const g = el('g', {class: 'tok'}, Wg.els.tokLayer);
@@ -1030,8 +1048,10 @@ function weighAvail(){                              // stage height left above t
 const wFitScale = () => Math.max(0.12, Math.min(W / DW, weighAvail() / DH));
 const WS_MIN = () => wFitScale() * 0.4, WS_MAX = () => wFitScale() * 20;
 function wFitAll(){                                 // the whole scale, the default framing
-  const k = wFitScale();
-  wcam.s = k; wcam.x = (W - DW * k) / 2; wcam.y = Math.max(10, (weighAvail() - DH * k) / 2);
+  const k = wFitScale(), slack = Math.max(0, weighAvail() - DH * k);
+  const pad = $('scoreStamp').hidden ? 10 : 96;     // while the stamp is out, sit below it if there is room
+  wcam.s = k; wcam.x = (W - DW * k) / 2;
+  wcam.y = Math.max(10, Math.min(pad, slack), slack / 2);
 }
 function wFitBox(x0, y0, x1, y1){
   const avail = weighAvail(), pad = 26;
@@ -1075,19 +1095,14 @@ function layoutWeigh(){
 // ---------- pouring and view control share one pointer ----------
 const wPointers = new Map();
 let wDrag = null;                                   // {mode:'pour'|'pan'|'pinch', id, ...}
-const PAN_SLOP = 9;                                 // px of travel that turns a press into a pan
 const wPoint = e => { const r = wsvg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-function beginPour(id, p){
-  const from = Wg.count;
-  startPour();
-  return {mode: 'pour', id, start: p, t0: performance.now(), from, tok: Wg.tokens[Wg.tokens.length - 1]};
-}
-function undoPour(d){                               // a press that turned into a drag drops nothing
-  stopPour();
-  const i = d.tok ? Wg.tokens.indexOf(d.tok) : -1;
-  if (i < 0 || Wg.count !== d.from + 1) return;
-  Wg.tokens.splice(i, 1); d.tok.el.remove(); Wg.count = d.from; Wg.acc = 0;
-  updateWeighLabels();
+// hold the bucket to pour from it and to carry it; the animals count wherever they land
+function grabBucket(id, p){ Wg.els.bucket.classList.add('held'); startPour(); return {mode: 'bucket', id, last: p}; }
+function dropBucket(){ stopPour(); if (Wg.els.bucket) Wg.els.bucket.classList.remove('held'); }
+function moveBucket(dx, dy){
+  const B = BUCKET_BOUNDS;
+  Wg.bucket.x = clamp(Wg.bucket.x + dx, B.x0, B.x1);
+  Wg.bucket.y = clamp(Wg.bucket.y + dy, B.y0, B.y1);
 }
 function wDown(e){
   const p = wPoint(e);
@@ -1095,10 +1110,11 @@ function wDown(e){
   try { wsvg.setPointerCapture(e.pointerId); } catch (x) {}
   e.preventDefault();
   if (wPointers.size >= 2){                         // a second finger is always a pinch, never a pour
-    if (wDrag && wDrag.mode === 'pour') undoPour(wDrag);
+    dropBucket();
     wDrag = {mode: 'pinch'}; wsvg.classList.remove('panning'); return;
   }
-  if (S.phase === 'wguess') wDrag = beginPour(e.pointerId, p);
+  const onBucket = e.target.closest && e.target.closest('.bucket');
+  if (onBucket && S.phase === 'wguess') wDrag = grabBucket(e.pointerId, p);
   else { wDrag = {mode: 'pan', id: e.pointerId, last: p}; wsvg.classList.add('panning'); }
 }
 function wMove(e){
@@ -1107,14 +1123,8 @@ function wMove(e){
   wPointers.set(e.pointerId, p);
   const d = wDrag;
   if (!d) return;
-  if (d.mode === 'pour' && e.pointerId === d.id){
-    // a press that travels straight away was meant to move the view; a settled pour is never cancelled
-    const far = Math.hypot(p[0] - d.start[0], p[1] - d.start[1]) > PAN_SLOP;
-    if (far && performance.now() - d.t0 < 400 && Wg.count <= d.from + 1){
-      undoPour(d);
-      wDrag = {mode: 'pan', id: d.id, last: d.start}; wsvg.classList.add('panning');
-      wPanBy(p[0] - d.start[0], p[1] - d.start[1]); wDrag.last = p;
-    }
+  if (d.mode === 'bucket' && e.pointerId === d.id){
+    moveBucket((p[0] - d.last[0]) / wcam.s, (p[1] - d.last[1]) / wcam.s); d.last = p;
   } else if (d.mode === 'pan' && e.pointerId === d.id){
     wPanBy(p[0] - d.last[0], p[1] - d.last[1]); d.last = p;
   } else if (d.mode === 'pinch' && wPointers.size >= 2){
@@ -1131,7 +1141,7 @@ function wUp(e){
     wDrag = {mode: 'pan', id, last: q};
   }
 }
-function wRelease(){ stopPour(); wPointers.clear(); wDrag = null; wsvg.classList.remove('panning'); }
+function wRelease(){ dropBucket(); wPointers.clear(); wDrag = null; wsvg.classList.remove('panning'); }
 function drawWeigh(){
   const E = Wg.els, t = Wg.theta * Math.PI / 180;
   E.beam.setAttribute('transform', `translate(${PIVOT.x} ${PIVOT.y}) rotate(${Wg.theta})`);
@@ -1153,6 +1163,7 @@ function drawWeigh(){
   });
   E.plate.setAttribute('transform', `translate(${L.x} ${L.y})`);
   E.basket.setAttribute('transform', `translate(${R.x} ${R.y})`);
+  E.bucket.setAttribute('transform', `translate(${Wg.bucket.x.toFixed(1)} ${Wg.bucket.y.toFixed(1)})`);
   E.bucketRot.setAttribute('transform', `rotate(${-Wg.tilt})`);
   for (const k of Wg.tokens) k.el.setAttribute('transform', `translate(${k.x.toFixed(1)} ${k.y.toFixed(1)}) rotate(${k.rot.toFixed(1)})`);
   for (const k of Wg.ground) k.el.setAttribute('transform', `translate(${k.x.toFixed(1)} ${k.y.toFixed(1)}) rotate(${k.rot.toFixed(1)})`);
@@ -1233,7 +1244,7 @@ function nextWeighRound(){
   Wg.trueMult = Wg.ref.kg / Wg.target.kg;
   Wg.count = 0; Wg.tokens = []; Wg.ground = []; Wg.els.tokLayer.innerHTML = ''; Wg.els.groundLayer.innerHTML = '';
   Wg.theta = -8; Wg.omega = 0; Wg.thetaRest = -8; Wg.truthful = false; Wg.pouring = false; Wg.tilt = 0;
-  Wg.els.mark.textContent = ''; Wg.els.mark.classList.remove('pop');
+  Wg.bucket = {x: BUCKET.x, y: BUCKET.y};
   // reference on the plate
   // whole-scene scale: shrink both sides together (same proportion) when the target's token is so
   // large that a basketful could not fit. Depends only on the visible size ratio, never on the answer.
@@ -1254,7 +1265,7 @@ function nextWeighRound(){
   $('wRound').textContent = S.round;
   $('wName').innerHTML = `${Wg.ref.name} <small>with</small> ${plural(Wg.target)}`;
   setDots(S.round, false);
-  $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true;
+  $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true; hideStamp();
   wUserZoomed = false;
   updateWeighLabels(); layoutWeigh(); drawWeigh(); refreshText();
 }
@@ -1268,7 +1279,7 @@ function lockWeigh(){
   Wg.truthful = true;
   Wg.thetaRest = clamp(9 * Math.log2(Wg.count / Wg.trueMult), -MAX_TILT, MAX_TILT);
   Wg.omega += 10 * Math.sign(Wg.thetaRest || 1);
-  Wg.els.mark.textContent = `${score}/100`; Wg.els.mark.classList.add('pop');
+  showStamp(score);
   showFraction();
   Wg.els.verdictTop.textContent = score === 100 ? 'Balanced' : (Wg.count > Wg.trueMult ? 'Too many' : 'Too few');
   $('weighDock').hidden = true; $('revealDock').hidden = false;
@@ -1287,7 +1298,6 @@ function fillWeighReveal(){
   else if (ratio > 1) verdict = `<b>Too many.</b> ${fmtMult(r.actual)} ${tl} balance one ${rl}; you poured ${r.count}.`;
   else verdict = `<b>Too few.</b> ${fmtMult(r.actual)} ${tl} balance one ${rl}; you poured ${r.count}.`;
   $('rVerdict').innerHTML = verdict;
-  $('rScore').innerHTML = `${r.score}<small>/100</small>`;
   $('rFact').textContent = `A ${rl} weighs about ${fmtKg(R.kg)}; a ${T.name.toLowerCase()} about ${fmtKg(T.kg)}. ${fmtKg(R.kg)} ÷ ${fmtKg(T.kg)} ≈ ${fmtMult(r.actual)}.`;
   $('rDetails').hidden = false;
   $('rSummary').textContent = 'Where the weights come from';
@@ -1303,7 +1313,7 @@ $('wLockBtn').onclick = lockWeigh;
 function showEnd(){
   S.phase = 'end';
   Wg.active = false; cancelAnimationFrame(Wg.raf); stopPour();
-  $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('zoomCtl').hidden = true;
+  $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('zoomCtl').hidden = true; hideStamp();
   const total = totalScore();
   $('endTotal').innerHTML = `${total}<small>/500</small>`;
   $('endWord').textContent = total >= 450 ? 'Uncanny.' : total >= 350 ? 'Sharp eye.' : total >= 250 ? 'Not bad at all.' : total >= 150 ? 'Getting there.' : 'Everything looks bigger in real life.';
@@ -1328,7 +1338,7 @@ function showEnd(){
 $('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else startSizeGame('random'); };
 $('changeBtn').onclick = () => {
   S.phase = 'start'; S.animal = null; Wg.active = false; cancelAnimationFrame(Wg.raf);
-  $('endScreen').hidden = true; $('startScreen').hidden = false; $('rounds').hidden = true; $('totalBox').hidden = true; $('themeChip').textContent = '';
+  $('endScreen').hidden = true; $('startScreen').hidden = false; $('rounds').hidden = true; $('totalBox').hidden = true; $('themeChip').textContent = ''; hideStamp();
   $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); render();
 };
 

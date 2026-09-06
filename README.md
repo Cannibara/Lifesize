@@ -3,7 +3,7 @@
 Two small browser games about how big animals really are.
 
 - **Lineup (size).** Enter your height. An animal silhouette stands beside your own on graph paper. Drag the red corner until it looks life-size, lock it in, and score up to 100 for accuracy. Five animals, 500 points.
-- **Counterweight (weight).** A large animal sits on one side of a balance. Click anywhere to drop one smaller animal onto the other side, hold to pour faster. Nothing comes back out. Lock in when you think it balances; the true weights and the correct multiple are then revealed.
+- **Counterweight (weight).** A large animal sits on one side of a balance. Click the bucket to drop one smaller animal, hold it to pour faster, and carry it anywhere you like to pour there — wherever they land, they count. Nothing comes back out. Lock in when you think it balances; the reveal stacks what you poured over what balances, and says what each animal weighs.
 
 Both games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the animal you are judging.
 
