@@ -93,7 +93,7 @@ button{cursor:pointer}
 #weigh .tok use{fill:var(--ink)}
 #weigh{cursor:grab}
 #weigh.panning{cursor:grabbing}
-#weigh .bucket{cursor:grab}
+#weigh .bucket{cursor:pointer}
 #weigh .bucket.held{cursor:grabbing}
 #weigh .bucket.held .body{stroke:var(--pen)}
 #weigh .bucket .body{fill:url(#bucketGrad);stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
@@ -292,7 +292,7 @@ button{cursor:pointer}
       <div class="who">
         <span class="eyebrow">Round <span id="wRound">1</span> · balance one</span>
         <span class="animal-name" id="wName">Horse <small>with</small> beavers</span>
-        <span class="sub">Click the bucket to drop one, hold to pour, drag to carry it. Drag elsewhere to move the view.</span>
+        <span class="sub">Click the bucket to drop one, hold to pour. Right-drag it (or touch-drag) to carry it anywhere.</span>
       </div>
       <div class="readout"><span class="eyebrow">Poured</span><span class="val" id="wVal">0</span></div>
       <button type="button" class="btn pen" id="wLockBtn" disabled>Lock it in</button>
@@ -328,7 +328,7 @@ button{cursor:pointer}
           <li><span class="n">3</span><span>Lock it in. Closer guesses score more, out of 100. Five animals, 500 points.</span></li>
         </ol>
         <ol class="how" id="howWeight" hidden>
-          <li><span class="n">1</span><span>Click the bucket to drop one animal. Hold it to tip it and pour faster, and drag it wherever you want to pour. Scroll or pinch to zoom.</span></li>
+          <li><span class="n">1</span><span>Click the bucket to drop one animal, and hold to tip it and pour faster. Right-drag the bucket — or drag it with a finger — to carry it anywhere on the paper and pour there. Scroll or pinch to zoom.</span></li>
           <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
           <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
         </ol>
@@ -752,7 +752,9 @@ const REF_H = 180, MAX_TILT = 10, LIP = 70, GRAV = 2600, MAX_ROT = 26;   // LIP:
 // beam end knob, which hangs CHAIN - 10 above the pan, so the silhouette itself can only be so tall
 const LBL_KG = 41, REF_MAX = 188;
 const BUCKET = {x: 1010, y: 262};          // bottom-left corner, the pour pivot; where each round starts it
-const BUCKET_BOUNDS = {x0: 180, x1: DW - 130, y0: 200, y1: DH - 20};   // far enough in that the pour still lands on the paper
+// the whole sheet of paper, less the bucket's own reach, so it never carries off the edge:
+// 114 to the right of its origin, 190 above it for the handle, 11 below for the base
+const BUCKET_BOUNDS = {x0: 20, x1: DW - 120, y0: 200, y1: DH - 15};
 const Wg = {                                // weigh-game runtime
   active: false, ref: null, target: null, trueMult: 1, count: 0,
   theta: -9, omega: 0, thetaRest: -9, truthful: false,
@@ -862,6 +864,7 @@ function buildWeighScene(){
   wsvg.addEventListener('pointermove', wMove);
   for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) wsvg.addEventListener(t, wUp);
   window.addEventListener('pointerup', wUp);
+  wsvg.addEventListener('contextmenu', e => e.preventDefault());   // the right button carries the bucket
   wsvg.addEventListener('wheel', e => { e.preventDefault(); const r = wsvg.getBoundingClientRect(); wZoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
   wsvg.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat && S.phase === 'wguess'){ e.preventDefault(); spawnToken(); } });
 }
@@ -880,7 +883,9 @@ function spawnToken(){
   const pileTop = Wg.tokens.length ? Math.min(0, Math.min(...Wg.tokens.map(k => k.y)) - r) : 0;
   const drop = Math.max(60, pileTop - sy), vy0 = 150 + rnd(0, 80);
   const tFall = (-vy0 + Math.sqrt(vy0 * vy0 + 2 * GRAV * drop)) / GRAV;
-  const aimX = sx + rnd(-0.76 * PAN_HALF, 0.14 * PAN_HALF);       // out of the leaning lip, spread so they do not stack
+  // out of the leaning lip, spread so they do not stack, but never thrown off the paper
+  const edge = 20 - pan.x + rnd(0, 0.2 * PAN_HALF);
+  const aimX = Math.max(edge, sx + rnd(-0.76 * PAN_HALF, 0.14 * PAN_HALF));
   const tok = {
     x: sx, y: sy,
     vx: clamp((aimX - sx) / tFall, -700, 700) + rnd(-30, 30), vy: vy0,
@@ -999,6 +1004,10 @@ function stepPhysics(dt){
         if (k.vy > 0){ k.vy = -k.vy * 0.2; k.vrot += (k.vx / k.r) * 57.3 * 0.1; }
         k.vx *= 0.8;
       }
+      // the paper has edges: a heap poured against one banks up rather than sliding off
+      const wx0 = 12 + k.r, wx1 = DW - 12 - k.r;
+      if (k.x < wx0){ k.x = wx0; if (k.vx < 0) k.vx = -k.vx * 0.3; }
+      if (k.x > wx1){ k.x = wx1; if (k.vx > 0) k.vx = -k.vx * 0.3; }
     }
   }
   // anything past the rim edge and heading down leaves the bowl for the ground
@@ -1007,6 +1016,7 @@ function stepPhysics(dt){
     const over = (a.y > 0 && Math.hypot(a.x, a.y) > br) || (Math.abs(a.x) > bw + a.r * 0.5);
     if (over){
       a.x += pan.x; a.y += pan.y; a.slow = 0; a.asleep = false;
+      a.x = clamp(a.x, 12 + a.r, DW - 12 - a.r);       // onto the paper, however hard the heap flung it
       Wg.els.groundLayer.appendChild(a.el);
       G.push(a); T.splice(i, 1);
     }
@@ -1097,7 +1107,11 @@ const wPointers = new Map();
 let wDrag = null;                                   // {mode:'pour'|'pan'|'pinch', id, ...}
 const wPoint = e => { const r = wsvg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
 // hold the bucket to pour from it and to carry it; the animals count wherever they land
-function grabBucket(id, p){ Wg.els.bucket.classList.add('held'); startPour(); return {mode: 'bucket', id, last: p}; }
+function grabBucket(id, p, pours, carries){
+  Wg.els.bucket.classList.add('held');
+  if (pours) startPour(); else stopPour();
+  return {mode: 'bucket', id, last: p, carries};
+}
 function dropBucket(){ stopPour(); if (Wg.els.bucket) Wg.els.bucket.classList.remove('held'); }
 function moveBucket(dx, dy){
   const B = BUCKET_BOUNDS;
@@ -1114,7 +1128,11 @@ function wDown(e){
     wDrag = {mode: 'pinch'}; wsvg.classList.remove('panning'); return;
   }
   const onBucket = e.target.closest && e.target.closest('.bucket');
-  if (onBucket && S.phase === 'wguess') wDrag = grabBucket(e.pointerId, p);
+  const right = e.pointerType === 'mouse' && e.button === 2;
+  // on a mouse the left button pours where the bucket stands and the right one carries it;
+  // a finger has no second button, so a drag on the bucket does both
+  if (onBucket && S.phase === 'wguess') wDrag = grabBucket(e.pointerId, p, !right, right || e.pointerType !== 'mouse');
+  else if (right) wDrag = null;                     // the right button only ever moves the bucket
   else { wDrag = {mode: 'pan', id: e.pointerId, last: p}; wsvg.classList.add('panning'); }
 }
 function wMove(e){
@@ -1124,7 +1142,8 @@ function wMove(e){
   const d = wDrag;
   if (!d) return;
   if (d.mode === 'bucket' && e.pointerId === d.id){
-    moveBucket((p[0] - d.last[0]) / wcam.s, (p[1] - d.last[1]) / wcam.s); d.last = p;
+    if (d.carries) moveBucket((p[0] - d.last[0]) / wcam.s, (p[1] - d.last[1]) / wcam.s);
+    d.last = p;
   } else if (d.mode === 'pan' && e.pointerId === d.id){
     wPanBy(p[0] - d.last[0], p[1] - d.last[1]); d.last = p;
   } else if (d.mode === 'pinch' && wPointers.size >= 2){
@@ -1397,6 +1416,6 @@ window.addEventListener('blur', wRelease);
   cam.s = Math.max(60, Math.min(stage.clientWidth || 800, stage.clientHeight || 600) / 3); cam.x = 1.0; cam.y = 0.9;
   render();
 })();
-window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
+window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, BUCKET_BOUNDS, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
 })();
 </script>
