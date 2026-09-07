@@ -55,10 +55,10 @@ button{cursor:pointer}
 
 /* ---------- stage ---------- */
 .stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper)}
-#scene,#weigh{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+#scene,#weigh,#logscene{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
 #scene{cursor:grab}
 #scene.panning{cursor:grabbing}
-#scene[hidden],#weigh[hidden]{display:none}
+#scene[hidden],#weigh[hidden],#logscene[hidden]{display:none}
 .grid{stroke:var(--grid);stroke-width:1;fill:none;shape-rendering:crispEdges}
 .grid-major{stroke:var(--grid-major);stroke-width:1;fill:none;shape-rendering:crispEdges}
 #scene .below{fill:var(--below)}
@@ -73,7 +73,7 @@ button{cursor:pointer}
 #scene .handle:hover circle.ring, #scene .handle.active circle.ring{stroke-width:4}
 #scene .handle:focus-visible{outline:none}
 #scene .handle:focus-visible circle.ring{stroke:var(--focus)}
-#scene text,#weigh text{font-family:var(--f-ui);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;fill:var(--text)}
+#scene text,#weigh text,#logscene text{font-family:var(--f-ui);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;fill:var(--text)}
 .lbl{font-size:13px;font-weight:600}
 #scene .lbl.you{fill:var(--graphite)}
 #scene .guide{stroke:var(--graphite);stroke-width:1.5;stroke-dasharray:2 4;fill:none}
@@ -125,6 +125,38 @@ button{cursor:pointer}
 #weigh .frac{stroke:var(--pen-ink);stroke-width:4;stroke-linecap:round}
 #weigh .verdict-top{font-size:23px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;fill:var(--pen-ink)}
 #weigh .hint{font-size:13px;font-weight:600;fill:var(--muted)}
+
+/* balance-log scene: wood and stone on the same paper as the other two boards */
+#logscene{cursor:crosshair}
+#logscene.panning{cursor:grabbing}
+#logscene .below{fill:var(--below)}
+#logscene .ground{stroke:var(--ink);stroke-width:2;shape-rendering:crispEdges}
+#logscene .rock{fill:var(--graphite)}
+#logscene .rock-facet{fill:#fff;opacity:.09}
+#logscene .rock-line{fill:none;stroke:var(--paper);stroke-width:2;opacity:.45;stroke-linecap:round}
+#logscene .log-body{fill:#c08a4c;stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
+#logscene .log-shade{fill:none;stroke:#9a6a33;stroke-width:9;stroke-linecap:round;opacity:.5}
+#logscene .log-grain{fill:none;stroke:#8a5a2c;stroke-width:2;stroke-linecap:round;opacity:.7}
+#logscene .log-knot{fill:none;stroke:#8a5a2c;stroke-width:2;opacity:.7}
+#logscene .log-cap{fill:#d8ab74;stroke:var(--ink);stroke-width:3.5}
+#logscene .log-ring{fill:none;stroke:#a86f36;stroke-width:1.8}
+#logscene .tok use{fill:var(--ink)}
+#logscene .tok.gone use{fill:var(--graphite);opacity:.4}
+#logscene .tok.gone .cog,#logscene .tok.gone .wt{display:none}
+#logscene .cog-ring{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+#logscene .cog-q{fill:var(--ink)}
+#logscene .wt{font-size:15px;font-weight:700;fill:#fff;stroke:var(--ink);stroke-width:4.5px;paint-order:stroke;stroke-linejoin:round;font-variant-numeric:tabular-nums}
+#logscene .ghost{opacity:.4}
+#logscene .ghost use{fill:var(--pen)}
+#logscene .ghost.off use{fill:var(--muted)}
+#logscene .drop{fill:none;stroke:var(--pen);stroke-width:2.5;stroke-dasharray:9 8;stroke-linecap:round;opacity:.85}
+#logscene .arm{fill:none;stroke:var(--pen);stroke-width:3.5;stroke-linecap:round}
+#logscene .arm-tick{fill:none;stroke:var(--pen);stroke-width:3;stroke-linecap:round}
+#logscene .armtag{font-size:18px;font-weight:700;fill:var(--pen-ink);font-variant-numeric:tabular-nums}
+#logscene .count{font:700 46px var(--f-hand);fill:var(--pen-ink);stroke-width:6px;font-variant-numeric:tabular-nums}
+#logscene .side{font-size:20px;font-weight:700;fill:var(--text);stroke-width:6px;font-variant-numeric:tabular-nums}
+#logscene .sidecap{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;fill:var(--muted);stroke-width:5px}
+#logscene .verdict-top{font-size:23px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;fill:var(--pen-ink)}
 
 /* zoom controls */
 .zoom{position:absolute;right:14px;bottom:18px;display:flex;flex-direction:column;gap:6px}
@@ -244,16 +276,17 @@ button{cursor:pointer}
 #startScreen .tagline em{font-style:normal;color:var(--isl-terra-dk);font-weight:700}
 
 /* game picker */
-#startScreen .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}
+#startScreen .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px}
 #startScreen .mode{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 8px 12px;border:3px solid var(--isl-bark);border-radius:20px;background:var(--isl-sand);color:#77603c;box-shadow:0 6px 0 rgba(109,69,32,.45);transition:transform .08s ease,box-shadow .08s ease,background .15s ease,color .15s ease}
 #startScreen .mode svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
-#startScreen .mode .t{font:800 clamp(15px,3.7vw,19px)/1.1 var(--f-round)}
-#startScreen .mode .s{font:600 12.5px/1 var(--f-round)}
+#startScreen .mode .t{font:800 clamp(14px,3.2vw,17.5px)/1.1 var(--f-round);text-wrap:balance}
+#startScreen .mode .s{font:600 12px/1 var(--f-round)}
 #startScreen .mode:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(109,69,32,.45)}
 #startScreen .mode:active{transform:translateY(6px);box-shadow:0 0 0 rgba(109,69,32,.45)}
 #startScreen .mode[aria-pressed="true"]{color:#fffaea;text-shadow:0 2px 0 rgba(60,40,16,.3)}
 #startScreen .mode.size[aria-pressed="true"]{background:linear-gradient(180deg,#7cc95f,#57ab46);border-color:var(--isl-leaf-dk);box-shadow:0 6px 0 #35762f}
 #startScreen .mode.weight[aria-pressed="true"]{background:linear-gradient(180deg,#eda553,var(--isl-terra));border-color:var(--isl-terra-dk);box-shadow:0 6px 0 #a75c22}
+#startScreen .mode.balance[aria-pressed="true"]{background:linear-gradient(180deg,var(--isl-wood),var(--isl-wood-dk));border-color:var(--isl-bark-dk);box-shadow:0 6px 0 #5b3a18}
 #startScreen .mode[aria-pressed="true"]::after{content:"\2713";position:absolute;top:-12px;right:-10px;width:28px;height:28px;box-sizing:border-box;border-radius:50%;background:var(--isl-sun);border:3px solid var(--isl-bark-dk);color:var(--isl-bark-dk);font:800 14px/1 var(--f-round);text-shadow:none;display:grid;place-items:center}
 
 #startScreen .lede{margin:0 0 12px;font:500 15.5px/1.45 var(--f-round);color:var(--isl-text)}
@@ -262,11 +295,12 @@ button{cursor:pointer}
 #startScreen .steps .n{flex:0 0 auto;width:26px;height:26px;box-sizing:border-box;border:3px solid var(--isl-bark);border-radius:50%;background:var(--isl-leaf);color:#fffaea;font:800 13px/1 var(--f-round);display:grid;place-items:center}
 #startScreen .steps li:nth-child(2) .n{background:var(--isl-sun);color:var(--isl-bark-dk)}
 #startScreen .steps li:nth-child(3) .n{background:#6cc4e0}
+#startScreen .mode svg .fill{fill:currentColor;stroke:none}
 
 /* fields */
 #startScreen .rows{display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start}
 #startScreen .row{display:flex;flex-direction:column;gap:8px;margin:0 0 14px}
-#startScreen #weighField{grid-column:1/-1}
+#startScreen #weighField,#startScreen #balanceField{grid-column:1/-1}
 #startScreen .tag{align-self:flex-start;font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:#fffaea;background:var(--isl-bark);border-radius:999px;padding:6px 12px}
 #startScreen .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 #startScreen input,#startScreen select{border:3px solid var(--isl-bark);border-radius:14px;padding:9px 12px;font:700 19px/1.2 var(--f-round);color:var(--isl-text);background:var(--isl-cream);box-shadow:0 3px 0 rgba(109,69,32,.22);min-width:0}
@@ -370,6 +404,11 @@ button{cursor:pointer}
       <g id="wScene"></g>
     </svg>
 
+    <svg id="logscene" xmlns="http://www.w3.org/2000/svg" aria-label="Balance log: a wooden log across a rock, with animals dropped onto it" hidden>
+      <g id="lGrid"></g>
+      <g id="lScene"></g>
+    </svg>
+
     <div class="zoom" id="zoomCtl" hidden>
       <button type="button" id="zoomIn" title="Zoom in (or scroll)" aria-label="Zoom in">+</button>
       <button type="button" id="zoomOut" title="Zoom out (or scroll)" aria-label="Zoom out">−</button>
@@ -400,6 +439,16 @@ button{cursor:pointer}
       </div>
       <div class="readout"><span class="eyebrow">Poured</span><span class="val" id="wVal">0</span></div>
       <button type="button" class="btn pen" id="wLockBtn" disabled>Lock it in</button>
+    </div>
+
+    <div class="dock" id="balanceDock" hidden>
+      <div class="who">
+        <span class="eyebrow">Round <span id="bRound">1</span> · <span id="bSet">Hedgerow</span> · next up</span>
+        <span class="animal-name" id="bName">Rabbit <small>2 kg</small></span>
+        <span class="sub" id="bHint">Click above the log to drop it. Drag to move the view, scroll to zoom.</span>
+      </div>
+      <div class="readout"><span class="eyebrow">On the log</span><span class="val" id="bVal">0 / 10</span></div>
+      <button type="button" class="btn pen" id="bLockBtn" disabled>Lock it in</button>
     </div>
 
     <div class="dock reveal" id="revealDock" hidden>
@@ -447,10 +496,16 @@ button{cursor:pointer}
             <span class="t">Counterweight</span>
             <span class="s">How heavy?</span>
           </button>
+          <button type="button" class="mode balance" id="modeBalance" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 10.2 21.5 14.6M7.5 21 12 12.4 16.5 21M3.5 21h17"/><circle cx="3.6" cy="9.9" r="1.5"/><circle cx="20.4" cy="14.9" r="1.5"/></svg>
+            <span class="t">Balance Log</span>
+            <span class="s">How far out?</span>
+          </button>
         </div>
 
         <p class="lede" id="ledeSize">An animal stands next to you on graph paper. Resize it to how big you think it really is.</p>
         <p class="lede" id="ledeWeight" hidden>A big animal sits on one side of a scale. Pour smaller animals onto the other side until they balance. Weights stay hidden until you lock in.</p>
+        <p class="lede" id="ledeBalance" hidden>A log lies across a rock like a seesaw. Drop animals onto it and keep it level — weight far from the rock counts for far more than weight near it.</p>
         <ol class="steps" id="howSize">
           <li><span class="n">1</span><span>Enter your height. That is your silhouette, drawn to scale.</span></li>
           <li><span class="n">2</span><span>Drag the red corner on the animal until it looks life-size beside you.</span></li>
@@ -460,6 +515,11 @@ button{cursor:pointer}
           <li><span class="n">1</span><span>Click the bucket to drop one animal, and hold to tip it and pour faster. Right-drag the bucket — or drag it with a finger — to carry it anywhere on the paper and pour there. Scroll or pinch to zoom.</span></li>
           <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
           <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
+        </ol>
+        <ol class="steps" id="howBalance" hidden>
+          <li><span class="n">1</span><span>Click anywhere above the log to drop the animal waiting in the dock. It falls, bounces once and settles where it lands.</span></li>
+          <li><span class="n">2</span><span>Turning force is weight × distance from the rock, so the heavy ones belong close in and the light ones far out. Every animal carries its weight at its centre of gravity.</span></li>
+          <li><span class="n">3</span><span>Ten animals a load. Tip too far and they slide off and are lost. Ten points for every one still aboard, so 500 across five loads.</span></li>
         </ol>
 
         <div class="rows">
@@ -483,6 +543,10 @@ button{cursor:pointer}
         <div class="row" id="weighField" hidden>
           <span class="tag">Weigh-ins</span>
           <div class="hint">Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from all 27 animals; the answer is always between 3 and 60.</div>
+        </div>
+        <div class="row" id="balanceField" hidden>
+          <span class="tag">Loads</span>
+          <div class="hint">Five loads, from hedgerow animals up to elephants. Everything on one log is drawn to the same scale, and every weight is the real one.</div>
         </div>
         <div class="row unitrow">
           <span class="tag">Units</span>
@@ -682,16 +746,17 @@ function zoomAt(px, py, f){
   render();
 }
 let userZoomed = false;
-const weighView = () => S.mode === 'weight' && Wg.active;   // the same four buttons drive both scenes
-function setZoomLabels(weight){
+const weighView = () => S.mode === 'weight' && Wg.active;   // the same four buttons drive all three scenes
+const logView = () => S.mode === 'balance' && Lg.active;
+function setZoomLabels(mode){
   const label = (id, t) => { const b = $(id); b.title = t; b.setAttribute('aria-label', t); };
-  label('zoomFit', weight ? 'Fit the whole scale' : 'Fit both of you');
-  label('zoomFocus', weight ? 'Zoom to the pan' : 'Zoom to the animal');
+  label('zoomFit', mode === 'weight' ? 'Fit the whole scale' : mode === 'balance' ? 'Fit the whole scene' : 'Fit both of you');
+  label('zoomFocus', mode === 'weight' ? 'Zoom to the pan' : mode === 'balance' ? 'Zoom to the log' : 'Zoom to the animal');
 }
-$('zoomIn').onclick = () => { if (weighView()) wZoomAt(W / 2, H / 2, 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1.3); } };
-$('zoomOut').onclick = () => { if (weighView()) wZoomAt(W / 2, H / 2, 1 / 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1 / 1.3); } };
-$('zoomFit').onclick = () => { if (weighView()){ wUserZoomed = false; layoutWeigh(); } else { userZoomed = false; fitBoth(); } };
-$('zoomFocus').onclick = () => { if (weighView()){ wUserZoomed = true; wFitBasket(); applyWeighCam(); } else { userZoomed = true; fitAnimal(); } };
+$('zoomIn').onclick = () => { if (logView()) lZoomAt(W / 2, H / 2, 1.3); else if (weighView()) wZoomAt(W / 2, H / 2, 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1.3); } };
+$('zoomOut').onclick = () => { if (logView()) lZoomAt(W / 2, H / 2, 1 / 1.3); else if (weighView()) wZoomAt(W / 2, H / 2, 1 / 1.3); else { userZoomed = true; zoomAt(W / 2, H / 2, 1 / 1.3); } };
+$('zoomFit').onclick = () => { if (logView()){ lUserZoomed = false; layoutLog(); } else if (weighView()){ wUserZoomed = false; layoutWeigh(); } else { userZoomed = false; fitBoth(); } };
+$('zoomFocus').onclick = () => { if (logView()){ lUserZoomed = true; lFitLog(); applyLogCam(); } else if (weighView()){ wUserZoomed = true; wFitBasket(); applyWeighCam(); } else { userZoomed = true; fitAnimal(); } };
 svg.addEventListener('wheel', e => { e.preventDefault(); userZoomed = true; const r = svg.getBoundingClientRect(); zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
 
 function drawGridInto(g, spacingPx, originX, originY, width, height){
@@ -736,7 +801,7 @@ function place(use, rec, wx, wtop, hM){
 }
 let handleHadFocus = false;
 function render(){
-  if (S.mode === 'weight' && S.phase !== 'start') return;
+  if (S.mode !== 'size' && S.phase !== 'start') return;
   W = stage.clientWidth || W; H = stage.clientHeight || H;
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   drawGrid();
@@ -839,7 +904,9 @@ function refreshText(){
   $('totalNum').textContent = totalScore();
   if (S.phase === 'reveal') fillReveal();
   if (S.phase === 'wreveal') fillWeighReveal();
+  if (S.phase === 'breveal') fillBalanceReveal();
   if (S.mode === 'weight' && Wg.active) updateWeighLabels();
+  if (S.mode === 'balance' && Lg.active) updateBalanceLabels();
 }
 function startSizeGame(setId){
   const sets = DATA.sets;
@@ -847,8 +914,9 @@ function startSizeGame(setId){
   S.queue = shuffle([...S.set.members]).slice(0, 5);
   S.round = 0; S.results = [];
   $('themeChip').textContent = S.set.name;
-  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true);
-  $('rounds').hidden = false; $('totalBox').hidden = false; $('zoomCtl').hidden = false; setZoomLabels(false);
+  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', true);
+  Lg.active = false; cancelAnimationFrame(Lg.raf);
+  $('rounds').hidden = false; $('totalBox').hidden = false; $('zoomCtl').hidden = false; setZoomLabels('size');
   $('startScreen').hidden = true; $('endScreen').hidden = true;
   nextRound();
 }
@@ -861,7 +929,7 @@ function nextRound(){
   S.phase = 'guess'; userZoomed = false; handleHadFocus = false;
   $('gRound').textContent = S.round; $('gName').textContent = S.animal.name;
   setDots(S.round, false);
-  $('guessDock').hidden = false; $('revealDock').hidden = true; hideStamp();
+  $('guessDock').hidden = false; $('revealDock').hidden = true; $('weighDock').hidden = true; $('balanceDock').hidden = true; hideStamp();
   refreshText(); fitBoth();
 }
 function lockIn(){
@@ -896,8 +964,10 @@ function fillReveal(){
 }
 $('lockBtn').onclick = lockIn;
 $('nextBtn').onclick = () => {
-  if (S.mode === 'weight'){ if (S.round >= 5) showEnd(); else nextWeighRound(); }
-  else { if (S.round >= 5) showEnd(); else nextRound(); }
+  if (S.round >= 5){ showEnd(); return; }
+  if (S.mode === 'weight') nextWeighRound();
+  else if (S.mode === 'balance') nextBalanceRound();
+  else nextRound();
 };
 
 // =====================================================================
@@ -1210,20 +1280,20 @@ function stepPour(dt){
 const wcam = {s: 1, x: 0, y: 0};                    // screen = design * s + (x, y)
 let wUserZoomed = false;
 const wToDesign = (sx, sy) => [(sx - wcam.x) / wcam.s, (sy - wcam.y) / wcam.s];
-function weighAvail(){                              // stage height left above the dock
+function stageAvail(){                              // stage height left above the dock
   const dock = document.querySelector('.dock:not([hidden])');
   return Math.max(H * 0.5, H - (dock ? dock.offsetHeight + 30 : 90));
 }
-const wFitScale = () => Math.max(0.12, Math.min(W / DW, weighAvail() / DH));
+const wFitScale = () => Math.max(0.12, Math.min(W / DW, stageAvail() / DH));
 const WS_MIN = () => wFitScale() * 0.4, WS_MAX = () => wFitScale() * 20;
 function wFitAll(){                                 // the whole scale, the default framing
-  const k = wFitScale(), slack = Math.max(0, weighAvail() - DH * k);
+  const k = wFitScale(), slack = Math.max(0, stageAvail() - DH * k);
   const pad = $('scoreStamp').hidden ? 10 : 96;     // while the stamp is out, sit below it if there is room
   wcam.s = k; wcam.x = (W - DW * k) / 2;
   wcam.y = Math.max(10, Math.min(pad, slack), slack / 2);
 }
 function wFitBox(x0, y0, x1, y1){
-  const avail = weighAvail(), pad = 26;
+  const avail = stageAvail(), pad = 26;
   const aw = Math.max(60, W - pad * 2), ah = Math.max(60, avail - pad * 2);
   wcam.s = clamp(Math.min(aw / Math.max(1, x1 - x0), ah / Math.max(1, y1 - y0)), WS_MIN(), WS_MAX());
   wcam.x = W / 2 - (x0 + x1) / 2 * wcam.s;
@@ -1404,8 +1474,9 @@ function startWeightGame(){
   S.queue = makeWeighQueue();
   S.round = 0; S.results = []; S.set = null; S.animal = null;
   $('themeChip').textContent = 'Counterweight';
-  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false);
-  $('zoomCtl').hidden = false; setZoomLabels(true);
+  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false); $('logscene').toggleAttribute('hidden', true);
+  Lg.active = false; cancelAnimationFrame(Lg.raf);
+  $('zoomCtl').hidden = false; setZoomLabels('weight');
   $('rounds').hidden = false; $('totalBox').hidden = false;
   $('startScreen').hidden = true; $('endScreen').hidden = true;
   try {
@@ -1486,12 +1557,537 @@ function fillWeighReveal(){
 $('wLockBtn').onclick = lockWeigh;
 
 // =====================================================================
+//  BALANCE GAME  (Balance Log)
+// =====================================================================
+const lsvg = $('logscene'), lGrid = $('lGrid'), lScene = $('lScene');
+const LDW = 1600, LDH = 840;                       // design space, about the shape of a stage
+const LGROUND = 748, TIP_DEG = 24;                 // the earth, and the tilt at which the log rests on it
+const TIP = TIP_DEG * Math.PI / 180;
+const LOG_HALF = 690, LOG_T = 44;                  // half length and thickness of the log, design px
+// the boulder stands exactly as tall as the log needs it: at full tilt the low end kisses the earth
+const ROCK_H = Math.round(LOG_HALF * Math.sin(TIP) + LOG_T / 2 * Math.cos(TIP)), ROCK_TOP = LGROUND - ROCK_H;
+// its crown, as depths below the apex in fractions of that height. The drawing and the collision
+// read one list, so an animal never stands off the stone or sinks into it.
+const ROCK = [[-410, 1], [-380, .86], [-344, .63], [-296, .41], [-238, .22], [-172, .115],
+              [-104, .05], [-44, .011], [0, 0], [48, .02], [108, .07], [172, .17], [230, .3],
+              [280, .52], [326, .76], [358, .92], [380, 1]].map(([x, f]) => [x * .64, f * ROCK_H]);
+const FULCRUM = {x: LDW / 2, y: ROCK_TOP - LOG_T / 2};   // the log turns about its own centre line
+const DROPS = 10, TOKEN_TALL = 118;                // animals per load; height of the tallest, design px
+const MIN_DROP = 90;                               // an animal always falls at least this far
+const LG_G = 2600;                                 // gravity for the falling animals, design px/s^2
+const MU_LOG = 0.36, MU_PAIR = 0.55, MU_GND = 0.6; // bark holds an animal to about 20 degrees of tilt
+const E_LOG = 0.28, E_PAIR = 0.06, E_GND = 0.18;   // the small bounce on landing
+const SOFT = 120;                                  // under this closing speed a landing does not bounce
+const LOG_MASS = 3, COM_DROP = 0.08, LOG_DAMP = 0.55;   // the log's own mass, hang and damping
+const G_SI = 9.81;
+const NUM = ['Nothing', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+const Lg = {
+  active: false, set: null, queue: [], next: 0, mpp: 1, locking: false, settleT: 0,
+  theta: 0, omega: 0, mLog: 1, iLog: 1, inertia: 1, dcom: 1, tqL: 0, tqR: 0, calmT: 0,
+  animals: [], els: {}, raf: 0, last: 0,
+  ghost: {x: LDW / 2, y: 200, seen: false},
+};
+// every animal on one log shares a scale, so a sheep beside a wolf is honestly a sheep beside a wolf
+function logTok(rec){ const h = rec.h / Lg.mpp; return {w: h * ar(rec), h}; }
+function fmtTorque(kgm){        // weight times distance: tonne-metres once kilogramme-metres run long
+  if (S.unit === 'imperial'){
+    const lbft = kgm * 7.2330;
+    if (lbft >= 20000) return `${Math.round(lbft / 2000).toLocaleString('en')} ton·ft`;
+    return `${lbft < 10 ? +lbft.toFixed(1) : Math.round(lbft).toLocaleString('en')} lb·ft`;
+  }
+  if (kgm >= 10000) return `${Math.round(kgm / 1000).toLocaleString('en')} t·m`;
+  return `${kgm < 10 ? +kgm.toFixed(1) : Math.round(kgm).toLocaleString('en')} kg·m`;
+}
+
+// ---------- the shape of the world ----------
+function groundY(x){
+  const d = x - FULCRUM.x;
+  if (d <= ROCK[0][0] || d >= ROCK[ROCK.length - 1][0]) return LGROUND;
+  for (let i = 1; i < ROCK.length; i++){
+    const [x0, y0] = ROCK[i - 1], [x1, y1] = ROCK[i];
+    if (d <= x1) return ROCK_TOP + y0 + (y1 - y0) * (d - x0) / (x1 - x0);
+  }
+  return LGROUND;
+}
+function groundSlope(x){
+  const d = x - FULCRUM.x;
+  if (d <= ROCK[0][0] || d >= ROCK[ROCK.length - 1][0]) return 0;
+  for (let i = 1; i < ROCK.length; i++){
+    const [x0, y0] = ROCK[i - 1], [x1, y1] = ROCK[i];
+    if (d <= x1) return clamp((y1 - y0) / (x1 - x0), -3, 3);
+  }
+  return 0;
+}
+function logArm(x){                       // how far along the log the point under x sits, in design px
+  return (x - (FULCRUM.x + LOG_T / 2 * Math.sin(Lg.theta))) / Math.cos(Lg.theta);
+}
+function surfaceY(x){                     // the top of the log under x, or the earth beyond its ends
+  const lam = logArm(x);
+  if (Math.abs(lam) > LOG_HALF) return groundY(x);
+  return FULCRUM.y - LOG_T / 2 * Math.cos(Lg.theta) + lam * Math.sin(Lg.theta);
+}
+
+// ---------- physics ----------
+// The animals are solved as upright boxes against three surfaces - the log, each other and the
+// earth - with real Coulomb friction, so they bounce once, slide only past about 20 degrees, and
+// never spin. The log itself is a beam: the animals resting on it turn it by weight x distance.
+function logKick(k, rx, ry, imp, nx, ny){
+  const m = Lg.mpp;                       // the reaction to a landing, felt as a shove on the beam
+  Lg.omega = clamp(Lg.omega - (rx * ny - ry * nx) * m * m * imp / Lg.inertia, -0.8, 0.8);
+}
+function lPairs(A){
+  for (let i = 0; i < A.length; i++){
+    const a = A[i];
+    for (let j = i + 1; j < A.length; j++){
+      const b = A[j];
+      const dx = b.x - a.x, ox = a.hw + b.hw - Math.abs(dx);
+      if (ox <= 0) continue;
+      const dy = (b.y - b.bh / 2) - (a.y - a.bh / 2), oy = (a.bh + b.bh) / 2 - Math.abs(dy);
+      if (oy <= 0) continue;
+      let nx, ny, pen;
+      if (ox < oy){ nx = dx < 0 ? -1 : 1; ny = 0; pen = ox; }
+      else { nx = 0; ny = dy < 0 ? -1 : 1; pen = oy; }
+      a.x -= nx * pen / 2; a.y -= ny * pen / 2; b.x += nx * pen / 2; b.y += ny * pen / 2;
+      const rvx = b.vx - a.vx, rvy = b.vy - a.vy, vn = rvx * nx + rvy * ny;
+      if (vn < 0){
+        const jn = -(1 + E_PAIR) * vn / 2;
+        a.vx -= jn * nx; a.vy -= jn * ny; b.vx += jn * nx; b.vy += jn * ny;
+        const tx = -ny, ty = nx, cap = MU_PAIR * jn;
+        const dvt = clamp(-(rvx * tx + rvy * ty) / 2, -cap, cap);
+        a.vx -= dvt * tx; a.vy -= dvt * ty; b.vx += dvt * tx; b.vy += dvt * ty;
+      }
+      if (ny !== 0){                      // whatever is on top rides on whatever is under it
+        const [lo, hi] = dy < 0 ? [a, b] : [b, a];
+        if (lo.touch && !hi.touch) hi.touch = 1;
+        if (lo.fallen && !hi.touch) hi.fallen = true;
+      }
+    }
+  }
+}
+function lGroundHit(k){
+  const gy = groundY(k.x);
+  if (k.y < gy) return;
+  k.y = gy;
+  const sl = groundSlope(k.x), len = Math.hypot(1, sl), nx = sl / len, ny = -1 / len;
+  const vn = k.vx * nx + k.vy * ny;
+  if (vn < 0){
+    const jn = -(1 + (vn < -SOFT ? E_GND : 0)) * vn;
+    k.vx += jn * nx; k.vy += jn * ny;
+    const ux = -ny, uy = nx, cap = MU_GND * jn;
+    const dvt = clamp(-(k.vx * ux + k.vy * uy), -cap, cap);
+    k.vx += dvt * ux; k.vy += dvt * uy;
+  }
+  if (!k.touch) k.touch = 1;
+}
+function lPhysics(dt){
+  const A = Lg.animals;
+  const ct = Math.cos(Lg.theta), st = Math.sin(Lg.theta);
+  const nx = st, ny = -ct, ux = ct, uy = st;
+  for (const k of A){ k.vy += LG_G * dt; k.x += k.vx * dt; k.y += k.vy * dt; }
+  for (let it = 0; it < 3; it++){
+    for (const k of A){
+      if (k.fallen) continue;
+      const dx = k.x - FULCRUM.x, dy = k.y - FULCRUM.y;
+      const s = dx * ct + dy * st, q = dx * st - dy * ct;
+      if (Math.abs(s) > LOG_HALF){ if (q < LOG_T) k.fallen = true; continue; }
+      const pen = LOG_T / 2 - q;
+      if (pen <= 0) continue;
+      k.x += nx * pen; k.y += ny * pen;
+      const rx = k.x - FULCRUM.x, ry = k.y - FULCRUM.y;
+      const rvx = k.vx + Lg.omega * ry, rvy = k.vy - Lg.omega * rx;   // relative to the moving bark
+      const vn = rvx * nx + rvy * ny, vt = rvx * ux + rvy * uy;
+      if (vn < 0){
+        const jn = -(1 + (vn < -SOFT ? E_LOG : 0)) * vn, cap = MU_LOG * jn;
+        const dvt = clamp(-vt, -cap, cap);
+        k.vx += jn * nx + dvt * ux; k.vy += jn * ny + dvt * uy;
+        if (it === 0 && vn < -SOFT) logKick(k, rx, ry, jn * k.kg, nx, ny);
+      }
+      k.touch = 3;
+    }
+    lPairs(A);
+    for (const k of A) lGroundHit(k);
+  }
+  for (const k of A) k.x = clamp(k.x, 14 + k.hw, LDW - 14 - k.hw);
+}
+function lBeam(dt){
+  let torque = 0, inert = Lg.iLog, tqL = 0, tqR = 0;
+  for (const k of Lg.animals){
+    if (k.fallen || !k.touch) continue;
+    const dxm = (k.x - FULCRUM.x) * Lg.mpp, dym = (k.y - FULCRUM.y) * Lg.mpp;
+    torque += k.kg * G_SI * dxm;
+    inert += k.kg * (dxm * dxm + dym * dym);
+    if (dxm < 0) tqL -= k.kg * dxm; else tqR += k.kg * dxm;
+  }
+  Lg.tqL = tqL; Lg.tqR = tqR; Lg.inertia = inert;
+  const stiff = Lg.mLog * G_SI * Lg.dcom;            // the log hangs a little below its rest, so it
+  torque -= stiff * Math.sin(Lg.theta);              // forgives a small imbalance and no more
+  torque -= LOG_DAMP * 2 * Math.sqrt(stiff * inert) * Lg.omega;
+  Lg.omega += torque / inert * dt;
+  Lg.theta += Lg.omega * dt;
+  if (Lg.theta > TIP){ Lg.theta = TIP; if (Lg.omega > 0) Lg.omega *= -0.16; }
+  if (Lg.theta < -TIP){ Lg.theta = -TIP; if (Lg.omega < 0) Lg.omega *= -0.16; }
+}
+const balanceKept = () => Lg.animals.reduce((n, k) => n + (!k.fallen && k.touch > 0 ? 1 : 0), 0);
+// the load is only settled when the beam has genuinely stopped, not merely slowed: a log still
+// creeping over would go on tipping through the reveal and make a liar of the score
+function lCalm(){
+  if (Math.abs(Lg.omega) > 0.012) return false;
+  for (const k of Lg.animals){ if (!k.fallen && (Math.abs(k.vx) > 25 || Math.abs(k.vy) > 25)) return false; }
+  return true;
+}
+
+// ---------- the scene ----------
+function buildLogScene(){
+  lScene.innerHTML = '';
+  const E = Lg.els, F = FULCRUM;
+  el('rect', {class: 'below', x: -600, y: LGROUND, width: LDW + 1200, height: LDH - LGROUND + 400}, lScene);
+  el('line', {class: 'ground', x1: -600, x2: LDW + 600, y1: LGROUND, y2: LGROUND}, lScene);
+
+  // --- the rock: one boulder, drawn on the same outline the animals stand on ---
+  const RX = dx => F.x + dx * .64, RY = f => ROCK_TOP + f * ROCK_H;
+  const crown = ROCK.map(([x, y]) => `${F.x + x} ${ROCK_TOP + y}`).join('L');
+  el('path', {class: 'rock', d: `M${F.x + ROCK[0][0]} ${LGROUND}L${crown}L${F.x + ROCK[ROCK.length - 1][0]} ${LGROUND}Z`}, lScene);
+  el('path', {class: 'rock-facet', d: `M${RX(-44)} ${RY(.011)}L${RX(-172)} ${RY(.115)}L${RX(-296)} ${RY(.41)}L${RX(-262)} ${RY(.82)}L${RX(-140)} ${RY(.66)}L${RX(-78)} ${RY(.3)}Z`}, lScene);
+  el('path', {class: 'rock-facet', d: `M${RX(172)} ${RY(.17)}L${RX(280)} ${RY(.52)}L${RX(250)} ${RY(.94)}L${RX(150)} ${RY(.7)}Z`}, lScene);
+  el('path', {class: 'rock-line', d: `M${RX(-78)} ${RY(.3)}L${RX(-140)} ${RY(.66)}L${RX(-262)} ${RY(.82)}M${RX(-140)} ${RY(.66)}L${RX(-118)} ${RY(1)}M${RX(48)} ${RY(.02)}L${RX(96)} ${RY(.36)}L${RX(150)} ${RY(.7)}L${RX(250)} ${RY(.94)}M${RX(96)} ${RY(.36)}L${RX(40)} ${RY(.74)}L${RX(58)} ${RY(1)}`}, lScene);
+
+  // --- the log: a sawn trunk, grain along it and end grain at both ends ---
+  E.log = el('g', {}, lScene);
+  el('rect', {class: 'log-body', x: -LOG_HALF, y: -LOG_T / 2, width: LOG_HALF * 2, height: LOG_T, rx: 5}, E.log);
+  el('path', {class: 'log-shade', d: `M${-LOG_HALF + 12} ${LOG_T / 2 - 7}H${LOG_HALF - 12}`}, E.log);
+  let grain = '';
+  for (const [y0, x0, x1] of [[-11, -636, -170], [4, -470, 190], [-5, 40, 596], [11, -560, -300], [10, 250, 618], [-12, -110, 330], [1, -320, 260]])
+    grain += `M${x0} ${y0}Q${(x0 + x1) / 2} ${y0 - 4} ${x1} ${y0}`;
+  el('path', {class: 'log-grain', d: grain}, E.log);
+  el('path', {class: 'log-knot', d: `M-372 -2a9 6 0 1 0 .1 0M296 4a7 5 0 1 0 .1 0`}, E.log);
+  for (const x of [-LOG_HALF, LOG_HALF]){
+    el('ellipse', {class: 'log-cap', cx: x, cy: 0, rx: 13, ry: LOG_T / 2}, E.log);
+    el('ellipse', {class: 'log-ring', cx: x, cy: 0, rx: 8, ry: LOG_T / 2 - 7}, E.log);
+    el('ellipse', {class: 'log-ring', cx: x, cy: 0, rx: 3.4, ry: LOG_T / 2 - 14}, E.log);
+  }
+
+  E.animLayer = el('g', {}, lScene);
+
+  // --- the aim: where this one lands, and how far out from the rock that is ---
+  E.aim = el('g', {}, lScene);
+  E.arm = el('path', {class: 'arm'}, E.aim);
+  E.armTick = el('path', {class: 'arm-tick'}, E.aim);
+  E.drop = el('path', {class: 'drop'}, E.aim);
+  E.armTag = el('text', {class: 'armtag', 'text-anchor': 'middle'}, E.aim);
+  E.ghost = el('g', {class: 'ghost'}, lScene);
+  E.ghostUse = el('use', {href: '#'}, E.ghost);
+
+  // --- the readout: how many are aboard, and what each side is pulling with ---
+  E.count = el('text', {class: 'count', x: F.x, y: 52, 'text-anchor': 'middle'}, lScene);
+  E.verdictTop = el('text', {class: 'verdict-top', x: F.x, y: 52, 'text-anchor': 'middle'}, lScene);
+  for (const [side, key] of [[-1, 'tqL'], [1, 'tqR']]){
+    const x = F.x + side * 400;
+    const cap = el('text', {class: 'sidecap', x, y: 88, 'text-anchor': 'middle'}, lScene);
+    cap.textContent = side < 0 ? 'Pulling left' : 'Pulling right';
+    E[key + 'El'] = el('text', {class: 'side', x, y: 112, 'text-anchor': 'middle'}, lScene);
+  }
+
+  lsvg.setAttribute('tabindex', '0');
+  lsvg.addEventListener('pointerdown', lDown);
+  lsvg.addEventListener('pointermove', lMove);
+  for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) lsvg.addEventListener(t, lUp);
+  lsvg.addEventListener('pointerleave', () => { Lg.ghost.seen = false; });
+  lsvg.addEventListener('contextmenu', e => e.preventDefault());
+  lsvg.addEventListener('wheel', e => { e.preventDefault(); const r = lsvg.getBoundingClientRect(); lZoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
+  lsvg.addEventListener('keydown', e => {
+    if (S.phase !== 'bguess') return;
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); Lg.ghost.seen = true; dropNext(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
+      e.preventDefault(); Lg.ghost.seen = true;
+      Lg.ghost.x += (e.key === 'ArrowLeft' ? -1 : 1) * (e.shiftKey ? 90 : 26);
+      drawLog();
+    }
+  });
+}
+function dropNext(){
+  if (S.phase !== 'bguess' || Lg.locking || Lg.next >= DROPS) return;
+  const rec = DATA.animals[Lg.queue[Lg.next]], d = logTok(rec);
+  const x = clamp(Lg.ghost.x, 40, LDW - 40);
+  const y = Math.max(14 + d.h, Math.min(Lg.ghost.y, surfaceY(x) - MIN_DROP));
+  Lg.next++;
+  const k = {
+    key: rec.key, kg: rec.kg, name: rec.name, x, y, vx: 0, vy: 0,
+    w: d.w, h: d.h, hw: d.w * 0.4, bh: d.h * 0.84, cog: d.h * 0.45,
+    touch: 0, fallen: false, grey: false,
+  };
+  const g = el('g', {class: 'tok'}, Lg.els.animLayer);
+  el('use', {href: '#sil-' + rec.key, x: -d.w / 2, y: -d.h, width: d.w, height: d.h}, g);
+  const c = el('g', {class: 'cog', transform: `translate(0 ${(-k.cog).toFixed(1)})`}, g);
+  const r = clamp(d.h * 0.08, 5.5, 9);
+  el('circle', {class: 'cog-ring', r}, c);
+  el('path', {class: 'cog-q', d: `M0 ${-r}A${r} ${r} 0 0 1 ${r} 0L0 0ZM0 ${r}A${r} ${r} 0 0 1 ${-r} 0L0 0Z`}, c);
+  k.lbl = el('text', {class: 'wt', x: 0, y: (-k.cog - r - 7).toFixed(1), 'text-anchor': 'middle'}, g);
+  k.lbl.textContent = fmtKg(rec.kg, true);
+  k.el = g;
+  Lg.animals.push(k);
+  if (Lg.next >= DROPS){ Lg.locking = true; Lg.settleT = 0; Lg.calmT = 0; }
+  updateBalanceLabels();
+}
+function drawGhost(){
+  const E = Lg.els, key = Lg.queue[Lg.next];
+  const show = S.phase === 'bguess' && !Lg.locking && key && Lg.ghost.seen;
+  E.ghost.setAttribute('visibility', show ? 'visible' : 'hidden');
+  E.aim.setAttribute('visibility', show ? 'visible' : 'hidden');
+  if (!show) return;
+  const rec = DATA.animals[key], d = logTok(rec);
+  const x = clamp(Lg.ghost.x, 40, LDW - 40), sy = surfaceY(x);
+  const y = Math.max(14 + d.h, Math.min(Lg.ghost.y, sy - MIN_DROP));
+  E.ghostUse.setAttribute('href', '#sil-' + key);
+  E.ghostUse.setAttribute('x', -d.w / 2); E.ghostUse.setAttribute('y', -d.h);
+  E.ghostUse.setAttribute('width', d.w); E.ghostUse.setAttribute('height', d.h);
+  E.ghost.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  const lam = logArm(x), on = Math.abs(lam) <= LOG_HALF;
+  E.ghost.setAttribute('class', on ? 'ghost' : 'ghost off');
+  E.drop.setAttribute('d', `M${x.toFixed(1)} ${(y + 6).toFixed(1)}V${(sy - 4).toFixed(1)}`);
+  if (!on){ E.arm.setAttribute('d', ''); E.armTick.setAttribute('d', ''); E.armTag.textContent = ''; return; }
+  // the lever arm itself, drawn along the log from the rock out to where this one will land
+  const ct = Math.cos(Lg.theta), st = Math.sin(Lg.theta), tick = LOG_T / 2 + 7, tag = LOG_T / 2 + 30;
+  const ax = FULCRUM.x, ay = FULCRUM.y, bx = ax + lam * ct, by = ay + lam * st;
+  E.arm.setAttribute('d', `M${ax.toFixed(1)} ${ay.toFixed(1)}L${bx.toFixed(1)} ${by.toFixed(1)}`);
+  E.armTick.setAttribute('d', `M${(ax - st * tick).toFixed(1)} ${(ay + ct * tick).toFixed(1)}l${(st * tick * 2).toFixed(1)} ${(-ct * tick * 2).toFixed(1)}M${(bx - st * tick).toFixed(1)} ${(by + ct * tick).toFixed(1)}l${(st * tick * 2).toFixed(1)} ${(-ct * tick * 2).toFixed(1)}`);
+  E.armTag.setAttribute('x', ((ax + bx) / 2 - st * tag).toFixed(1));
+  E.armTag.setAttribute('y', ((ay + by) / 2 + ct * tag).toFixed(1));
+  E.armTag.textContent = fmt(Math.abs(lam) * Lg.mpp) + ' out';
+}
+function drawLog(){
+  const E = Lg.els;
+  E.log.setAttribute('transform', `translate(${FULCRUM.x} ${FULCRUM.y}) rotate(${(Lg.theta * 180 / Math.PI).toFixed(3)})`);
+  for (const k of Lg.animals){
+    k.el.setAttribute('transform', `translate(${k.x.toFixed(1)} ${k.y.toFixed(1)})`);
+    if (k.fallen && !k.grey){ k.grey = true; k.el.setAttribute('class', 'tok gone'); }
+  }
+  const on = balanceKept();
+  E.count.textContent = S.phase === 'bguess' ? (on ? `×${on}` : '') : '';
+  E.tqLEl.textContent = fmtTorque(Lg.tqL);
+  E.tqREl.textContent = fmtTorque(Lg.tqR);
+  drawGhost();
+  if (S.phase === 'bguess'){
+    $('bVal').textContent = `${on} / ${DROPS}`;
+    $('bLockBtn').disabled = on < 1 || Lg.locking;
+  }
+}
+function updateBalanceLabels(){
+  if (!Lg.els.count) return;
+  for (const k of Lg.animals) k.lbl.textContent = fmtKg(k.kg, true);
+  const key = Lg.queue[Lg.next];
+  if (Lg.locking) $('bName').innerHTML = 'Letting it settle <small>hold still</small>';
+  else if (key){ const r = DATA.animals[key]; $('bName').innerHTML = `${r.name} <small>${fmtKg(r.kg)}</small>`; }
+  $('bHint').textContent = Lg.locking ? 'Anything that slides off now is still lost.'
+    : `${DROPS - Lg.next} left in this load. Click above the log to drop it; drag to move the view.`;
+  drawLog();
+}
+
+// ---------- camera: the pan and zoom the other two boards have ----------
+const lcam = {s: 1, x: 0, y: 0};
+let lUserZoomed = false;
+const lToDesign = (sx, sy) => [(sx - lcam.x) / lcam.s, (sy - lcam.y) / lcam.s];
+const lFitScale = () => Math.max(0.1, Math.min(W / LDW, stageAvail() / LDH));
+const LS_MIN = () => lFitScale() * 0.5, LS_MAX = () => lFitScale() * 14;
+function lFitAll(){
+  const k = lFitScale(), slack = Math.max(0, stageAvail() - LDH * k);
+  lcam.s = k; lcam.x = (W - LDW * k) / 2; lcam.y = Math.max(6, slack / 2);
+}
+function lFitLog(){
+  const pad = 24, avail = stageAvail();
+  const x0 = FULCRUM.x - LOG_HALF - 40, x1 = FULCRUM.x + LOG_HALF + 40;
+  const y0 = FULCRUM.y - 320, y1 = LGROUND + 14;
+  lcam.s = clamp(Math.min((W - pad * 2) / (x1 - x0), (avail - pad * 2) / (y1 - y0)), LS_MIN(), LS_MAX());
+  lcam.x = W / 2 - (x0 + x1) / 2 * lcam.s;
+  lcam.y = avail / 2 - (y0 + y1) / 2 * lcam.s;
+}
+function applyLogCam(){
+  lScene.setAttribute('transform', `translate(${lcam.x.toFixed(2)} ${lcam.y.toFixed(2)}) scale(${lcam.s.toFixed(5)})`);
+  const steps = [5, 10, 20, 40, 80, 160, 320, 640];
+  let m = steps[steps.length - 1];
+  for (const st of steps){ if (st * lcam.s >= 26){ m = st; break; } }
+  drawGridInto(lGrid, m * lcam.s, lcam.x, lcam.y, W, H);
+}
+function lZoomAt(px, py, f){
+  const [dx, dy] = lToDesign(px, py);
+  lUserZoomed = true;
+  lcam.s = clamp(lcam.s * f, LS_MIN(), LS_MAX());
+  lcam.x = px - dx * lcam.s; lcam.y = py - dy * lcam.s;
+  applyLogCam();
+}
+function layoutLog(){
+  const oldW = W, oldH = H;
+  W = stage.clientWidth || W; H = stage.clientHeight || H;
+  lsvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  if (lUserZoomed){ lcam.x += (W - oldW) / 2; lcam.y += (H - oldH) / 2; lcam.s = clamp(lcam.s, LS_MIN(), LS_MAX()); }
+  else lFitAll();
+  applyLogCam();
+}
+
+// ---------- dropping and view control share one pointer ----------
+const lPointers = new Map();
+let lDrag = null;
+const lPoint = e => { const r = lsvg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+function lSetGhost(p){ const [dx, dy] = lToDesign(p[0], p[1]); Lg.ghost.x = dx; Lg.ghost.y = dy; Lg.ghost.seen = true; }
+function lDown(e){
+  const p = lPoint(e);
+  lPointers.set(e.pointerId, p);
+  try { lsvg.setPointerCapture(e.pointerId); } catch (x) {}
+  e.preventDefault();
+  if (lPointers.size >= 2){ lDrag = {mode: 'pinch'}; lsvg.classList.remove('panning'); return; }
+  // a click drops where the cursor is; anything that moves is a pan, and the right button always is
+  if (e.pointerType === 'mouse' && e.button !== 0){ lDrag = {mode: 'pan', id: e.pointerId, last: p}; lsvg.classList.add('panning'); return; }
+  lSetGhost(p);
+  lDrag = {mode: 'tap', id: e.pointerId, last: p, from: p};
+  drawLog();
+}
+function lMove(e){
+  const p = lPoint(e);
+  if (!lPointers.has(e.pointerId)){ if (e.pointerType === 'mouse'){ lSetGhost(p); drawLog(); } return; }
+  const prev = lPointers.get(e.pointerId);
+  lPointers.set(e.pointerId, p);
+  const d = lDrag; if (!d) return;
+  if (d.mode === 'pinch'){
+    if (lPointers.size < 2) return;
+    const o = [...lPointers.entries()].find(([id]) => id !== e.pointerId)[1];
+    const now = Math.hypot(p[0] - o[0], p[1] - o[1]), was = Math.hypot(prev[0] - o[0], prev[1] - o[1]);
+    if (was > 0) lZoomAt((p[0] + o[0]) / 2, (p[1] + o[1]) / 2, now / was);
+    return;
+  }
+  if (e.pointerId !== d.id) return;
+  if (d.mode === 'tap' && Math.hypot(p[0] - d.from[0], p[1] - d.from[1]) > 7){ d.mode = 'pan'; lsvg.classList.add('panning'); }
+  if (d.mode === 'pan'){ lcam.x += p[0] - d.last[0]; lcam.y += p[1] - d.last[1]; lUserZoomed = true; applyLogCam(); }
+  else lSetGhost(p);
+  d.last = p;
+}
+function lUp(e){
+  if (e && e.pointerId != null){
+    const d = lDrag;
+    if (d && d.mode === 'tap' && e.pointerId === d.id){ lSetGhost(lPoint(e)); dropNext(); }
+    lPointers.delete(e.pointerId);
+  }
+  if (lPointers.size === 0){ lDrag = null; lsvg.classList.remove('panning'); }
+  else if (lPointers.size === 1 && lDrag && lDrag.mode === 'pinch'){
+    const [id, q] = [...lPointers.entries()][0];
+    lDrag = {mode: 'pan', id, last: q};
+  }
+}
+function lRelease(){ lPointers.clear(); lDrag = null; lsvg.classList.remove('panning'); }
+
+// ---------- rounds ----------
+function logFrame(ts){
+  if (!Lg.active) return;
+  try { logStep(ts); } catch (err){ Lg.active = false; window.__lslErr('Balance loop failed: ' + err.message); return; }
+  Lg.raf = requestAnimationFrame(logFrame);
+}
+function logStep(ts){
+  const dt = Math.min(0.04, (ts - (Lg.last || ts)) / 1000); Lg.last = ts;
+  if (S.phase !== 'bguess'){ drawLog(); return; }        // the reveal holds the position it scored
+  for (const k of Lg.animals) if (k.touch) k.touch--;
+  const sub = 3;
+  for (let i = 0; i < sub; i++){ lPhysics(dt / sub); lBeam(dt / sub); }
+  drawLog();
+  if (Lg.locking){
+    Lg.settleT += dt;
+    Lg.calmT = lCalm() ? Lg.calmT + dt : 0;
+    if (Lg.calmT > 1.1 || Lg.settleT > 6) lockBalance();
+  }
+}
+function makeDropQueue(members){
+  const q = [];
+  while (q.length < DROPS) for (const k of shuffle([...members])) if (q.length < DROPS) q.push(k);
+  return shuffle(q);
+}
+function startBalanceGame(){
+  S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = [];
+  $('themeChip').textContent = 'Balance Log';
+  $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', false);
+  Wg.active = false; cancelAnimationFrame(Wg.raf);
+  $('zoomCtl').hidden = false; setZoomLabels('balance');
+  $('rounds').hidden = false; $('totalBox').hidden = false;
+  $('startScreen').hidden = true; $('endScreen').hidden = true;
+  try {
+    if (!Lg.els.log) buildLogScene();
+    Lg.active = true; Lg.last = 0;
+    cancelAnimationFrame(Lg.raf); Lg.raf = requestAnimationFrame(logFrame);
+    nextBalanceRound();
+  } catch (err){ window.__lslErr('Balance scene failed: ' + err.message); }
+}
+function nextBalanceRound(){
+  S.round++;
+  const set = DATA.logSets[(S.round - 1) % DATA.logSets.length];
+  Lg.set = set;
+  Lg.queue = makeDropQueue(set.members);
+  Lg.next = 0; Lg.locking = false; Lg.settleT = 0; Lg.calmT = 0;
+  Lg.animals = []; Lg.els.animLayer.innerHTML = '';
+  Lg.theta = 0; Lg.omega = 0;
+  // one scale for the whole load, set by its tallest animal; the log is as long as it needs to be
+  Lg.mpp = Math.max(...set.members.map(k => DATA.animals[k].h)) / TOKEN_TALL;
+  const halfM = LOG_HALF * Lg.mpp;
+  Lg.mLog = LOG_MASS * Lg.queue.reduce((a, k) => a + DATA.animals[k].kg, 0);
+  Lg.dcom = COM_DROP * halfM;
+  Lg.iLog = Lg.mLog * halfM * halfM / 3;
+  Lg.inertia = Lg.iLog;
+  Lg.tqL = 0; Lg.tqR = 0;
+  Lg.ghost = {x: FULCRUM.x + 240, y: FULCRUM.y - 250, seen: false};
+  S.phase = 'bguess';
+  $('bRound').textContent = S.round; $('bSet').textContent = set.name;
+  Lg.els.verdictTop.textContent = '';
+  setDots(S.round, false);
+  $('balanceDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true; $('weighDock').hidden = true;
+  hideStamp();
+  lUserZoomed = false;
+  updateBalanceLabels(); layoutLog(); drawLog(); refreshText();
+}
+function heaviestAboard(){
+  let best = null;
+  for (const k of Lg.animals){ if (!k.fallen && k.touch && (!best || k.kg > best.kg)) best = k; }
+  return best ? {name: best.name, kg: best.kg, arm: Math.abs(best.x - FULCRUM.x) * Lg.mpp} : null;
+}
+function lockBalance(){
+  if (S.phase !== 'bguess') return;
+  const kept = balanceKept(), score = Math.round(100 * kept / DROPS);
+  S.results.push({
+    setId: Lg.set.id, name: Lg.set.name, members: Lg.set.members.slice(),
+    kept, drops: Lg.next, score, tilt: Math.abs(Lg.theta * 180 / Math.PI),
+    tqL: Lg.tqL, tqR: Lg.tqR, heavy: heaviestAboard(),
+  });
+  S.phase = 'breveal'; Lg.locking = false;
+  showStamp(score);
+  Lg.els.verdictTop.textContent = kept === DROPS ? 'All aboard' : kept === 0 ? 'Cleared off' : `${kept} aboard`;
+  $('balanceDock').hidden = true; $('revealDock').hidden = false;
+  $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next load';
+  setDots(S.round, true);
+  lUserZoomed = false;
+  refreshText(); layoutLog();
+  $('nextBtn').focus({preventScroll: true});
+}
+function fillBalanceReveal(){
+  const r = S.results[S.results.length - 1], lost = r.drops - r.kept, tilt = Math.round(r.tilt);
+  const level = tilt < 1 ? 'dead level' : `${tilt}° off level`;
+  let verdict;
+  if (r.kept === r.drops && r.kept === DROPS) verdict = `<b>All ten aboard.</b> The log finished ${level}.`;
+  else if (r.kept === 0) verdict = `<b>Nothing left aboard.</b> All ${NUM[lost].toLowerCase()} of them slid off.`;
+  else verdict = `<b>${NUM[r.kept]} aboard.</b> ${NUM[lost]} slid off, and the log finished ${level}.`;
+  $('rVerdict').innerHTML = verdict;
+  let fact = `Turning force is weight × distance from the rock. You finished with ${fmtTorque(r.tqL)} pulling left against ${fmtTorque(r.tqR)} pulling right.`;
+  if (r.heavy) fact += ` The heaviest still aboard was the ${r.heavy.name.toLowerCase()}: ${fmtKg(r.heavy.kg)} sitting ${fmt(r.heavy.arm)} out, ${fmtTorque(r.heavy.kg * r.heavy.arm)} on its own.`;
+  $('rFact').textContent = fact;
+  $('rDetails').hidden = false;
+  $('rSummary').textContent = 'What was on this log';
+  $('rSizing').textContent = `${r.name}: ` + r.members.map(k => `${DATA.animals[k].name.toLowerCase()} ${fmtKg(DATA.animals[k].kg)}`).join(', ') + '.';
+  $('rSource').textContent = 'Source: Wikipedia species pages, typical adult mass. Every animal on one log is drawn to the same scale.';
+  $('rNums').innerHTML = `<span>Aboard <b>${r.kept}</b></span><span>Dropped <b>${r.drops}</b></span><span>Finished <b>${tilt}°</b> off level</span>`;
+}
+$('bLockBtn').onclick = () => { if (S.phase === 'bguess' && !Lg.locking && balanceKept() > 0){ Lg.locking = true; Lg.settleT = 0; Lg.calmT = 0; updateBalanceLabels(); } };
+
+// =====================================================================
 //  END / START / CREDITS
 // =====================================================================
 function showEnd(){
   S.phase = 'end';
   Wg.active = false; cancelAnimationFrame(Wg.raf); stopPour();
-  $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('zoomCtl').hidden = true; hideStamp();
+  Lg.active = false; cancelAnimationFrame(Lg.raf); lRelease();
+  $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('balanceDock').hidden = true; $('zoomCtl').hidden = true; hideStamp();
   const total = totalScore();
   $('endTotal').innerHTML = `${total}<small>/500</small>`;
   $('endWord').textContent = total >= 450 ? 'Uncanny.' : total >= 350 ? 'Sharp eye.' : total >= 250 ? 'Not bad at all.' : total >= 150 ? 'Getting there.' : 'Everything looks bigger in real life.';
@@ -1502,6 +2098,14 @@ function showEnd(){
       return `<tr><td><svg class="thumb" viewBox="${R.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.ref}"/></svg></td><td class="nm">${R.name}<small>in ${plural(T)}</small></td><td class="num">${r.count}</td><td class="num">${fmtMult(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
     }).join('');
     $('againBtn').textContent = 'Weigh another five';
+  } else if (S.mode === 'balance'){
+    $('endHead').innerHTML = `<tr><th></th><th>Load</th><th class="num">Aboard</th><th class="num">Dropped</th><th class="num">Score</th></tr>`;
+    $('endRows').innerHTML = S.results.map(r => {
+      const heavy = r.members.reduce((a, k) => DATA.animals[k].kg > DATA.animals[a].kg ? k : a, r.members[0]);
+      const A = DATA.animals[heavy];
+      return `<tr><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${heavy}"/></svg></td><td class="nm">${r.name}<small>${r.members.length} kinds, ${r.drops} dropped</small></td><td class="num">${r.kept}</td><td class="num">${r.drops}</td><td class="sc">${r.score}</td></tr>`;
+    }).join('');
+    $('againBtn').textContent = 'Load another five';
   } else {
     $('endHead').innerHTML = `<tr><th></th><th>Animal</th><th class="num">Your guess</th><th class="num">Actual</th><th class="num">Score</th></tr>`;
     $('endRows').innerHTML = S.results.map(r => {
@@ -1513,25 +2117,28 @@ function showEnd(){
   $('endScreen').hidden = false;
   render();
 }
-$('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else startSizeGame('random'); };
+$('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else if (S.mode === 'balance') startBalanceGame(); else startSizeGame('random'); };
 $('changeBtn').onclick = () => {
-  S.phase = 'start'; S.animal = null; Wg.active = false; cancelAnimationFrame(Wg.raf);
+  S.phase = 'start'; S.animal = null;
+  Wg.active = false; cancelAnimationFrame(Wg.raf);
+  Lg.active = false; cancelAnimationFrame(Lg.raf);
   $('endScreen').hidden = true; $('startScreen').hidden = false; $('rounds').hidden = true; $('totalBox').hidden = true; $('themeChip').textContent = ''; hideStamp();
-  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); render();
+  $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', true); render();
 };
 
 function setMode(m){
   S.mode = m;
-  const w = m === 'weight';
-  $('modeSize').setAttribute('aria-pressed', !w); $('modeWeight').setAttribute('aria-pressed', w);
-  $('ledeSize').hidden = w; $('ledeWeight').hidden = !w;
-  $('howSize').hidden = w; $('howWeight').hidden = !w;
-  $('heightField').hidden = w; $('setField').hidden = w; $('weighField').hidden = !w;
-  $('startBtn').textContent = w ? 'Start weighing' : 'Start the lineup';
+  const sz = m === 'size', w = m === 'weight', b = m === 'balance';
+  $('modeSize').setAttribute('aria-pressed', sz); $('modeWeight').setAttribute('aria-pressed', w); $('modeBalance').setAttribute('aria-pressed', b);
+  $('ledeSize').hidden = !sz; $('ledeWeight').hidden = !w; $('ledeBalance').hidden = !b;
+  $('howSize').hidden = !sz; $('howWeight').hidden = !w; $('howBalance').hidden = !b;
+  $('heightField').hidden = !sz; $('setField').hidden = !sz; $('weighField').hidden = !w; $('balanceField').hidden = !b;
+  $('startBtn').textContent = w ? 'Start weighing' : b ? 'Start balancing' : 'Start the lineup';
   try { localStorage.setItem('lsl-mode', m); } catch (e) {}
 }
 $('modeSize').onclick = () => setMode('size');
 $('modeWeight').onclick = () => setMode('weight');
+$('modeBalance').onclick = () => setMode('balance');
 
 (function initStart(){
   const sel = $('setSel');
@@ -1540,7 +2147,7 @@ $('modeWeight').onclick = () => setMode('weight');
   sel.onchange = blurb; blurb();
   try {
     const u = localStorage.getItem('lsl-unit'); if (u) setUnit(u);
-    const m = localStorage.getItem('lsl-mode'); if (m === 'weight' || m === 'size') setMode(m);
+    const m = localStorage.getItem('lsl-mode'); if (m === 'weight' || m === 'size' || m === 'balance') setMode(m);
     const h = parseFloat(localStorage.getItem('lsl-height'));
     if (h > 0){ $('hCm').value = Math.round(h * 100); $('hFt').value = Math.floor(h / 0.3048); $('hIn').value = Math.round((h / 0.0254) % 12); }
   } catch (e) {}
@@ -1548,6 +2155,7 @@ $('modeWeight').onclick = () => setMode('weight');
     e.preventDefault();
     try {
     if (S.mode === 'weight'){ startWeightGame(); return; }
+    if (S.mode === 'balance'){ startBalanceGame(); return; }
     let m;
     if (S.unit === 'metric'){ const v = parseFloat($('hCm').value); m = v < 3 ? v : v / 100; }
     else { m = (parseFloat($('hFt').value) || 0) * 0.3048 + (parseFloat($('hIn').value) || 0) * 0.0254; }
@@ -1568,13 +2176,13 @@ $('modeWeight').onclick = () => setMode('weight');
   $('creditsClose').onclick = () => { $('creditsScreen').hidden = true; };
 })();
 
-new ResizeObserver(() => { if (Wg.active) layoutWeigh(); }).observe(stage);
-window.addEventListener('blur', wRelease);
+new ResizeObserver(() => { if (Wg.active) layoutWeigh(); if (Lg.active) layoutLog(); }).observe(stage);
+window.addEventListener('blur', () => { wRelease(); lRelease(); });
 
 (function boot(){
   cam.s = Math.max(60, Math.min(stage.clientWidth || 800, stage.clientHeight || 600) / 3); cam.x = 1.0; cam.y = 0.9;
   render();
 })();
-window.LSL = {S, Wg, fmt, fmtKg, setMode, setUnit, startWeightGame, startSizeGame, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, BUCKET_BOUNDS, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
+window.LSL = {S, Wg, Lg, fmt, fmtKg, fmtTorque, setMode, setUnit, startWeightGame, startSizeGame, startBalanceGame, nextBalanceRound, dropNext, lockBalance, balanceKept, logStep, lFitLog, layoutLog, applyLogCam, lZoomAt, surfaceY, logArm, groundY, FULCRUM, LOG_HALF, LDW, LDH, DROPS, TIP, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, BUCKET_BOUNDS, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
 })();
 </script>

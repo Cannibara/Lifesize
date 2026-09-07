@@ -1,11 +1,13 @@
 # Life-Size Lineup
 
-Two small browser games about how big animals really are.
+Three small browser games about how big and how heavy animals really are.
 
 - **Lineup (size).** Enter your height. An animal silhouette stands beside your own on graph paper. Drag the red corner until it looks life-size, lock it in, and score up to 100 for accuracy. Five animals, 500 points.
 - **Counterweight (weight).** A large animal sits on one side of a balance. Click the bucket to drop one smaller animal and hold to pour faster; right-drag the bucket (or drag it with a finger) to carry it anywhere on the paper and pour there — wherever they land, they count. Nothing comes back out. Lock in when you think it balances; the reveal stacks what you poured over what balances, and says what each animal weighs.
 
-Both games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the animal you are judging.
+- **Balance Log (balance).** A wooden log lies across a boulder like a seesaw. Click above it to drop the animal waiting in the dock; it falls, bounces once and settles, carrying its weight at its centre of gravity. The log turns on the sum of weight × distance from the rock, so a pig near the middle answers four dogs out at the end. Tip past about twenty degrees and animals slide off and are lost. Ten animals a load, ten points for each one still aboard, five loads.
+
+All three games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the part you are judging.
 
 Play it online: https://claude.ai/code/artifact/ed0eeb0a-ec6d-494f-a9f5-700baa3f6643
 
@@ -38,6 +40,20 @@ This rewrites `index.html` at the top of the folder. Python 3 is the only requir
 ## How the sizes were worked out
 
 Each animal's height in the size game is the height of the highest point of its silhouette. Sources quote shoulder height or body length, so the silhouette's own proportions convert the quoted figure to the silhouette height. The reasoning for every animal is written into `src/build.py` and shown in the game after each round. Weights are typical adult masses matching the adult each silhouette depicts, for example a male lion and a bull elephant. Sources are Wikipedia species pages checked in September 2026, plus breed references for sheep and pigs.
+
+## How the balance log works
+
+The log is a beam turning about the boulder's crown. Every animal resting on it contributes
+weight × distance from the rock, and the log turns on the sum, slowed by its own rotational
+inertia — which is why a load of elephants swings more slowly than a load of mice. It hangs a
+little below its rest, so it forgives a small imbalance and no more. Animals are solved as
+upright boxes against three surfaces — the log, each other and the earth — with real Coulomb
+friction: they bounce once on landing, hold their footing up to about twenty degrees of tilt,
+slide below the friction limit past that, and never spin.
+
+Each load draws its animals to one shared scale, set by the tallest of them, so the log is as
+long in metres as those animals need it to be. That is what the lever arms shown on the board
+are measured in.
 
 ## Adding animals
 

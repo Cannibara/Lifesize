@@ -40,8 +40,8 @@ Defined as custom properties on `:root` in `src/template.html`, prefixed `--isl-
 | --- | --- | --- |
 | `--isl-bark` | `#8a5a2c` | Card frame, control borders, label pills, the solid edge under things |
 | `--isl-bark-dk` | `#6d4520` | Sign frame, badge outlines, the darker half of an edge |
-| `--isl-wood` | `#c08a4c` | Sign face (top of its gradient) |
-| `--isl-wood-dk` | `#a86f36` | Sign face (bottom of its gradient) |
+| `--isl-wood` | `#c08a4c` | Sign face (top of its gradient), the balance game's tile |
+| `--isl-wood-dk` | `#a86f36` | Sign face (bottom of its gradient), the balance game's tile |
 | `--isl-leaf` | `#63bc4f` | The size game, step 1, vine leaves, the start button |
 | `--isl-leaf-dk` | `#3f8b3a` | Start button border; `#35762f` is its pressed edge |
 | `--isl-leaf-lt` | `#8ed06a` | Second leaf tone, lighter foliage |
@@ -58,6 +58,12 @@ Scene colours are literal rather than tokenised, since they only exist once: sky
 `#86d3f5 → #b3e6fb → #ddf3fd`, far hills `#9ad97f`, near hills `#74c25f`, field
 `#63b352 → #458a3c`, silhouettes `#1d4f28` at 40% opacity. Step 3 uses `#6cc4e0`, a
 sky blue that belongs to the scene rather than the palette. Errors are `#c0492b`.
+
+The game boards do the same where an object needs a material: the scale's ropes are
+`#6f5a3e` and its leaves `#5f8f62`; the balance log is `#c08a4c` with `#9a6a33` underneath,
+`#8a5a2c` grain and `#d8ab74` end grain. Everything else on a board — outlines, stone, the
+graph paper — stays on the paper-and-pen tokens, so the wood reads as one object in the
+drawing rather than as a second palette.
 
 The paper-and-pen tokens (`--ink`, `--pen`, `--grid`, …) still drive the game board
 and are unchanged; the two sets do not mix on one surface.
@@ -95,7 +101,7 @@ and are unchanged; the two sets do not mix on one surface.
 - Hiding is `[hidden]`, and any rule that sets `display` on a hideable element must
   also carry a `[hidden]{display:none}` at equal or greater specificity. An id
   selector setting `display:flex` silently defeats `.overlay[hidden]`.
-- Tap targets stay at 44px or more; the two mode tiles become one column and go
+- Tap targets stay at 44px or more; the three mode tiles become one column and go
   horizontal below 600px.
 
 ## Motion
@@ -113,6 +119,6 @@ animates position or size of text a player is reading.
 ## Working on it
 
 Edit `src/template.html` — the styles live in one `<style>` block, with the start menu
-in its own section — then run `python src/build.py` to rebuild `life-size-lineup.html`.
+in its own section — then run `python src/build.py` to rebuild `index.html`.
 The webfonts load from Google Fonts with real fallbacks, so the page still works
 offline, just in the fallback stack.

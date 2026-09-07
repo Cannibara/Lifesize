@@ -213,16 +213,35 @@ SETS = [
          members=["mouse", "rat", "guineapig", "squirrel", "hedgehog", "beaver", "capybara"]),
 ]
 
+# Loads for the balance-log game. Everything on one log shares a scale and a weight range, so the
+# round is a torque puzzle rather than a single elephant surrounded by dust. Ordered small to large:
+# round 1 is the hedgerow, round 5 the heavyweights.
+LOG_SETS = [
+    dict(id="hedgerow", name="Hedgerow", blurb="Rat, squirrel, hedgehog, guinea pig, rabbit, cat.",
+         members=["rat", "squirrel", "hedgehog", "guineapig", "rabbit", "cat"]),
+    dict(id="riverbank", name="Riverbank", blurb="Cat, fox, beaver, lynx, Labrador, capybara.",
+         members=["cat", "fox", "beaver", "lynx", "dog", "capybara"]),
+    dict(id="pasture", name="Pasture", blurb="Wolf, sheep, reindeer, lion, brown bear, pig.",
+         members=["wolf", "sheep", "reindeer", "lion", "bear", "pig"]),
+    dict(id="highland", name="Highland", blurb="Red deer, zebra, horse, moose, Holstein cow.",
+         members=["reddeer", "zebra", "horse", "moose", "cow"]),
+    dict(id="heavyweights", name="Heavyweights", blurb="Cow, giraffe, hippo, rhino, elephant.",
+         members=["cow", "giraffe", "hippo", "rhino", "elephant"]),
+]
+for _s in LOG_SETS:
+    assert all(m in ANIMALS for m in _s["members"]), _s["id"]
+
 data = {
     "human": record("human"),
     "animals": {k: record(k, v) for k, v in ANIMALS.items()},
     "sets": SETS,
+    "logSets": LOG_SETS,
 }
 payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 html = open(os.path.join(HERE, "template.html"), encoding="utf-8").read().replace("/*__DATA__*/", payload)
 
 out = os.path.join(OUT_DIR, OUT_NAME)
 open(out, "w", encoding="utf-8", newline=chr(10)).write(html)
-print(f"wrote {out} ({os.path.getsize(out)/1024:.0f} KB), {len(ANIMALS)} animals in {len(SETS)} sets")
+print(f"wrote {out} ({os.path.getsize(out)/1024:.0f} KB), {len(ANIMALS)} animals in {len(SETS)} sets and {len(LOG_SETS)} loads")
 for k, v in ANIMALS.items():
     b = bbox[k]; print(f"  {k:10s} {v['name']:24s} h={v['h']:5.2f} m  w={v['h']*b['w']/b['h']:5.2f} m")
