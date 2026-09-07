@@ -15,6 +15,7 @@ Or open `life-size-lineup.html` in any browser. It is a single file with everyth
 | --- | --- |
 | `life-size-lineup.html` | The finished game. This is the only file players need. |
 | `src/template.html` | The game's page, styles and code, without the silhouette data. Edit this. |
+| `DESIGN.md` | The house style: principles, colour tokens, type, shape and motion. Follow it. |
 | `src/build.py` | Stitches the template, the silhouettes and the size table into the finished file. |
 | `src/choices.json` | Which PhyloPic silhouette was chosen for each animal, with licence and credit. |
 | `src/bbox.json` | Measured bounding box of each silhouette. |
