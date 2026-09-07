@@ -3,17 +3,19 @@
 Two small browser games about how big animals really are.
 
 - **Lineup (size).** Enter your height. An animal silhouette stands beside your own on graph paper. Drag the red corner until it looks life-size, lock it in, and score up to 100 for accuracy. Five animals, 500 points.
-- **Counterweight (weight).** A large animal sits on one side of a balance. Click anywhere to drop one smaller animal onto the other side, hold to pour faster. Nothing comes back out. Lock in when you think it balances; the true weights and the correct multiple are then revealed.
+- **Counterweight (weight).** A large animal sits on one side of a balance. Click the bucket to drop one smaller animal and hold to pour faster; right-drag the bucket (or drag it with a finger) to carry it anywhere on the paper and pour there — wherever they land, they count. Nothing comes back out. Lock in when you think it balances; the reveal stacks what you poured over what balances, and says what each animal weighs.
+
+Both games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the animal you are judging.
 
 Play it online: https://claude.ai/code/artifact/ed0eeb0a-ec6d-494f-a9f5-700baa3f6643
 
-Or open `life-size-lineup.html` in any browser. It is a single file with everything embedded and works offline.
+Or open `index.html` in any browser. It is a single file with everything embedded and works offline.
 
 ## Project layout
 
 | Path | What it is |
 | --- | --- |
-| `life-size-lineup.html` | The finished game. This is the only file players need. |
+| `index.html` | The finished game. This is the only file players need. |
 | `src/template.html` | The game's page, styles and code, without the silhouette data. Edit this. |
 | `DESIGN.md` | The house style: principles, colour tokens, type, shape and motion. Follow it. |
 | `src/build.py` | Stitches the template, the silhouettes and the size table into the finished file. |
@@ -31,7 +33,7 @@ Edit `src/template.html` (page and code) or the size and weight tables inside `s
 python src/build.py
 ```
 
-This rewrites `life-size-lineup.html` at the top of the folder. Python 3 is the only requirement.
+This rewrites `index.html` at the top of the folder. Python 3 is the only requirement.
 
 ## How the sizes were worked out
 

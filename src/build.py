@@ -1,4 +1,4 @@
-"""Assemble life-size-lineup.html from template.html, the chosen PhyloPic SVGs and the size table below.
+"""Assemble index.html from template.html, the chosen PhyloPic SVGs and the size table below.
 
 Sizing method (per animal): take the best-documented real-world dimension (usually shoulder height,
 for small mammals body length), find where that dimension sits in the silhouette (fraction of the
@@ -9,7 +9,7 @@ import json, re, os, shutil
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR = os.path.dirname(HERE)   # the repository root
-OUT_NAME = "life-size-lineup.html"
+OUT_NAME = "index.html"
 
 choices = json.load(open(os.path.join(HERE, "choices.json")))
 bbox = json.load(open(os.path.join(HERE, "bbox.json")))
