@@ -542,11 +542,11 @@ button{cursor:pointer}
         </div>
         <div class="row" id="weighField" hidden>
           <span class="tag">Weigh-ins</span>
-          <div class="hint">Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from all 27 animals; the answer is always between 3 and 60.</div>
+          <div class="hint" id="weighHint">Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from the whole library; the answer is always between 3 and 60.</div>
         </div>
         <div class="row" id="balanceField" hidden>
           <span class="tag">Loads</span>
-          <div class="hint">Five loads, from hedgerow animals up to elephants. Everything on one log is drawn to the same scale, and every weight is the real one.</div>
+          <div class="hint" id="balanceHint">Five loads, from the smallest animals up to elephants. Everything on one log is drawn to the same scale, and every weight is the real one.</div>
         </div>
         <div class="row unitrow">
           <span class="tag">Units</span>
@@ -1514,7 +1514,7 @@ function nextWeighRound(){
   $('wRound').textContent = S.round;
   $('wName').innerHTML = `${Wg.ref.name} <small>with</small> ${plural(Wg.target)}`;
   setDots(S.round, false);
-  $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true; hideStamp();
+  $('weighDock').hidden = false; $('revealDock').hidden = true; $('guessDock').hidden = true; $('balanceDock').hidden = true; hideStamp();
   wUserZoomed = false;
   updateWeighLabels(); layoutWeigh(); drawWeigh(); refreshText();
 }
@@ -1992,13 +1992,23 @@ function logStep(ts){
     if (Lg.calmT > 1.1 || Lg.settleT > 6) lockBalance();
   }
 }
+// Five loads a game, one drawn from each fifth of DATA.logSets. The list is kept lightest-first,
+// so a game still climbs from the small animals to the heavyweights however many loads exist.
+function pickLoads(){
+  const n = DATA.logSets.length, out = [];
+  for (let i = 0; i < 5; i++){
+    const a = Math.floor(i * n / 5), b = Math.max(a + 1, Math.floor((i + 1) * n / 5));
+    out.push(a + Math.floor(Math.random() * (b - a)));
+  }
+  return out;
+}
 function makeDropQueue(members){
   const q = [];
   while (q.length < DROPS) for (const k of shuffle([...members])) if (q.length < DROPS) q.push(k);
   return shuffle(q);
 }
 function startBalanceGame(){
-  S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = [];
+  S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = pickLoads();
   $('themeChip').textContent = 'Balance Log';
   $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', false);
   Wg.active = false; cancelAnimationFrame(Wg.raf);
@@ -2014,7 +2024,7 @@ function startBalanceGame(){
 }
 function nextBalanceRound(){
   S.round++;
-  const set = DATA.logSets[(S.round - 1) % DATA.logSets.length];
+  const set = DATA.logSets[S.queue[S.round - 1] ?? (S.round - 1) % DATA.logSets.length];
   Lg.set = set;
   Lg.queue = makeDropQueue(set.members);
   Lg.next = 0; Lg.locking = false; Lg.settleT = 0; Lg.calmT = 0;
@@ -2143,6 +2153,10 @@ $('modeBalance').onclick = () => setMode('balance');
 (function initStart(){
   const sel = $('setSel');
   sel.innerHTML = `<option value="random">Surprise me</option>` + DATA.sets.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+  // the library is one list shared by all three games, so the menu counts it rather than guessing
+  const nAnimals = Object.keys(DATA.animals).length, nLoads = DATA.logSets.length;
+  $('weighHint').textContent = `Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from all ${nAnimals} animals; the answer is always between 3 and 60.`;
+  $('balanceHint').textContent = `Five loads out of ${nLoads}, from the smallest animals up to elephants. Everything on one log is drawn to the same scale, and every weight is the real one.`;
   const blurb = () => { const s = DATA.sets.find(x => x.id === sel.value); $('setBlurb').textContent = s ? s.blurb : 'A random themed set of five animals.'; };
   sel.onchange = blurb; blurb();
   try {
@@ -2183,6 +2197,6 @@ window.addEventListener('blur', () => { wRelease(); lRelease(); });
   cam.s = Math.max(60, Math.min(stage.clientWidth || 800, stage.clientHeight || 600) / 3); cam.x = 1.0; cam.y = 0.9;
   render();
 })();
-window.LSL = {S, Wg, Lg, fmt, fmtKg, fmtTorque, setMode, setUnit, startWeightGame, startSizeGame, startBalanceGame, nextBalanceRound, dropNext, lockBalance, balanceKept, logStep, lFitLog, layoutLog, applyLogCam, lZoomAt, surfaceY, logArm, groundY, FULCRUM, LOG_HALF, LDW, LDH, DROPS, TIP, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, BUCKET_BOUNDS, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
+window.LSL = {DATA, S, Wg, Lg, fmt, fmtKg, fmtTorque, setMode, setUnit, startWeightGame, startSizeGame, startBalanceGame, nextBalanceRound, dropNext, lockBalance, balanceKept, logStep, lFitLog, layoutLog, applyLogCam, lZoomAt, surfaceY, logArm, groundY, FULCRUM, LOG_HALF, LDW, LDH, DROPS, TIP, spawnToken, startPour, stopPour, stepPour, stepPhysics, stepBeam, drawWeigh, lockWeigh, lockIn, nextRound, nextWeighRound, weighFrame, updateWeighLabels, toScreen, cam, wcam, BUCKET_BOUNDS, wZoomAt, wFitBasket, wFitAll, layoutWeigh, applyWeighCam, get W(){ return W; }, get H(){ return H; }, get userZoomed(){ return userZoomed; }, get wUserZoomed(){ return wUserZoomed; }};
 })();
 </script>

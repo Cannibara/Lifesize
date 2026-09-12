@@ -1,8 +1,21 @@
+"""Download candidate silhouettes from PhyloPic for every species in the roster below.
+
+The roster is the library the three games share, and it is deliberately longer than what is
+wired up: a species here is a candidate, and only becomes an animal in the game once someone
+picks one of its silhouettes into src/choices.json, measures it with src/tools/measure.html and
+gives it a size, a weight and a fact in src/build.py. Run this from anywhere:
+
+    python src/fetch_phylo.py
+
+It writes up to eight candidates per species into src/phylo/ and a catalogue of everything it
+found into src/phylo/catalog.json, then lists which species are still waiting to be chosen.
+"""
 import json, urllib.request, urllib.parse, os, time, sys, re
 
 API = "https://api.phylopic.org"
 BUILD = 553
-OUT = "phylo"
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "phylo")
 os.makedirs(OUT, exist_ok=True)
 
 def get(url):
@@ -19,41 +32,81 @@ def get(url):
 def getj(path):
     return json.loads(get(API + path).decode("utf-8"))
 
+# key: (common name, scientific name). Grouped the way the lineup sets are grouped; a set wants
+# seven or eight members so that the five it shows are a different five next time.
 species = {
-  # key: (common name, scientific name)
+  # ---- Farm & Home ----
   "cat": ("Domestic cat", "Felis catus"),
   "rabbit": ("European rabbit", "Oryctolagus cuniculus"),
   "dog": ("Domestic dog", "Canis familiaris"),
   "sheep": ("Sheep", "Ovis aries"),
+  "goat": ("Goat", "Capra hircus"),
   "horse": ("Horse", "Equus caballus"),
+  "donkey": ("Donkey", "Equus asinus"),
   "pig": ("Domestic pig", "Sus domesticus"),
   "cow": ("Cattle", "Bos taurus"),
+  "chicken": ("Chicken", "Gallus gallus"),
+  # ---- African Savanna ----
   "lion": ("Lion", "Panthera leo"),
+  "cheetah": ("Cheetah", "Acinonyx jubatus"),
   "zebra": ("Plains zebra", "Equus quagga"),
+  "wildebeest": ("Blue wildebeest", "Connochaetes taurinus"),
+  "buffalo": ("African buffalo", "Syncerus caffer"),
+  "warthog": ("Common warthog", "Phacochoerus africanus"),
+  "ostrich": ("Common ostrich", "Struthio camelus"),
   "hippo": ("Hippopotamus", "Hippopotamus amphibius"),
   "elephant": ("African bush elephant", "Loxodonta africana"),
   "giraffe": ("Giraffe", "Giraffa camelopardalis"),
   "rhino": ("White rhinoceros", "Ceratotherium simum"),
+  # ---- Northern Forest ----
   "fox": ("Red fox", "Vulpes vulpes"),
+  "badger": ("European badger", "Meles meles"),
+  "otter": ("European otter", "Lutra lutra"),
+  "raccoon": ("Raccoon", "Procyon lotor"),
   "wolf": ("Grey wolf", "Canis lupus"),
+  "lynx": ("Eurasian lynx", "Lynx lynx"),
+  "boar": ("Wild boar", "Sus scrofa"),
   "bear": ("Brown bear", "Ursus arctos"),
   "moose": ("Moose", "Alces alces"),
   "reindeer": ("Reindeer", "Rangifer tarandus"),
   "reddeer": ("Red deer", "Cervus elaphus"),
-  "lynx": ("Eurasian lynx", "Lynx lynx"),
+  # ---- Asia ----
+  "tiger": ("Tiger", "Panthera tigris"),
+  "snowleopard": ("Snow leopard", "Panthera uncia"),
+  "panda": ("Giant panda", "Ailuropoda melanoleuca"),
+  "orangutan": ("Bornean orangutan", "Pongo pygmaeus"),
+  "camel": ("Dromedary", "Camelus dromedarius"),
+  "waterbuffalo": ("Water buffalo", "Bubalus bubalis"),
+  "yak": ("Domestic yak", "Bos grunniens"),
+  "gorilla": ("Western gorilla", "Gorilla gorilla"),
+  # ---- Australia ----
+  "kangaroo": ("Red kangaroo", "Osphranter rufus"),
+  "koala": ("Koala", "Phascolarctos cinereus"),
+  "wombat": ("Common wombat", "Vombatus ursinus"),
+  "emu": ("Emu", "Dromaius novaehollandiae"),
+  "platypus": ("Platypus", "Ornithorhynchus anatinus"),
+  # ---- Ice & Coast ----
+  "polarbear": ("Polar bear", "Ursus maritimus"),
+  "walrus": ("Walrus", "Odobenus rosmarus"),
+  "penguin": ("Emperor penguin", "Aptenodytes forsteri"),
+  "muskox": ("Muskox", "Ovibos moschatus"),
+  # ---- Rodents & Co. ----
   "mouse": ("House mouse", "Mus musculus"),
+  "rat": ("Brown rat", "Rattus norvegicus"),
+  "hamster": ("Golden hamster", "Mesocricetus auratus"),
   "guineapig": ("Guinea pig", "Cavia porcellus"),
+  "chipmunk": ("Eastern chipmunk", "Tamias striatus"),
   "squirrel": ("Red squirrel", "Sciurus vulgaris"),
   "greysquirrel": ("Eastern grey squirrel", "Sciurus carolinensis"),
+  "hedgehog": ("European hedgehog", "Erinaceus europaeus"),
+  "mole": ("European mole", "Talpa europaea"),
+  "porcupine": ("Crested porcupine", "Hystrix cristata"),
+  "skunk": ("Striped skunk", "Mephitis mephitis"),
+  "meerkat": ("Meerkat", "Suricata suricatta"),
   "beaver": ("North American beaver", "Castor canadensis"),
   "eurbeaver": ("Eurasian beaver", "Castor fiber"),
   "capybara": ("Capybara", "Hydrochoerus hydrochaeris"),
-  "rat": ("Brown rat", "Rattus norvegicus"),
-  "hedgehog": ("European hedgehog", "Erinaceus europaeus"),
-  "kangaroo": ("Red kangaroo", "Osphranter rufus"),
-  "camel": ("Dromedary", "Camelus dromedarius"),
-  "tiger": ("Tiger", "Panthera tigris"),
-  "gorilla": ("Western gorilla", "Gorilla gorilla"),
+  # ---- the player ----
   "human": ("Human", "Homo sapiens"),
 }
 
@@ -115,4 +168,13 @@ for key, (common, sci) in species.items():
     time.sleep(0.3)
 
 json.dump(result, open(os.path.join(OUT, "catalog.json"), "w"), indent=1)
-print("done")
+
+# what is downloaded but not yet part of the game
+chosen_path = os.path.join(HERE, "choices.json")
+chosen = set(json.load(open(chosen_path))) if os.path.exists(chosen_path) else set()
+waiting = [k for k in species if k not in chosen and result.get(k, {}).get("images")]
+print(f"\ndone: {len(species)} species, {len(chosen)} already chosen into choices.json")
+if waiting:
+    print(f"{len(waiting)} still to pick a silhouette for: {', '.join(sorted(waiting))}")
+    print("for each: choose one from src/phylo/, record it in src/choices.json, measure it with")
+    print("src/tools/measure.html, then give it a size and weight in src/build.py.")

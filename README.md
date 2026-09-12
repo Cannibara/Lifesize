@@ -25,6 +25,7 @@ Or open `index.html` in any browser. It is a single file with everything embedde
 | `src/bbox.json` | Measured bounding box of each silhouette. |
 | `src/phylo/` | The silhouette SVG files and PhyloPic catalogue of candidates. |
 | `src/fetch_phylo.py` | Downloads candidate silhouettes from the PhyloPic API for a list of species. |
+| `src/tools/audit_scale.py` | Checks every animal's size against the drawing it is taken from. |
 | `src/tools/` | Helper pages used during development to rasterise and measure silhouettes. |
 
 ## Rebuilding after a change
@@ -35,11 +36,58 @@ Edit `src/template.html` (page and code) or the size and weight tables inside `s
 python src/build.py
 ```
 
-This rewrites `index.html` at the top of the folder. Python 3 is the only requirement.
+This rewrites `index.html` at the top of the folder. Python 3 is the only requirement. If you
+touched a size, run the audit too:
+
+```
+python src/tools/audit_scale.py
+```
+
+## The animal library
+
+All three games draw on one library, the `ANIMALS` table in `src/build.py`. The size game shows a
+themed five of it, the weight game pairs any two of it, and the balance game loads a log from it;
+`check_library()` refuses to build if an animal is missing from either the lineup sets or the log
+loads, because an animal a game cannot reach is an animal nobody will ever see.
+
+There are 31 animals today. The roster in `src/fetch_phylo.py` is longer — around sixty, which is
+the size worth aiming for: eight themed sets of seven or eight, so the five a lineup shows are a
+different five next time, enough spread from a mouse to an elephant that the weight game never
+repeats a pairing, and still one offline file of about 400 KB. Past sixty you start reaching for
+animals a player cannot picture, and guessing at an animal you have never seen is not a game.
 
 ## How the sizes were worked out
 
-Each animal's height in the size game is the height of the highest point of its silhouette. Sources quote shoulder height or body length, so the silhouette's own proportions convert the quoted figure to the silhouette height. The reasoning for every animal is written into `src/build.py` and shown in the game after each round. Weights are typical adult masses matching the adult each silhouette depicts, for example a male lion and a bull elephant. Sources are Wikipedia species pages checked in September 2026, plus breed references for sheep and pigs.
+Each animal's height in the size game is the height of the highest point of its silhouette — ear
+tips, antlers, the crown of a hump. Sources quote shoulder height, or for small mammals body
+length, so the silhouette's own proportions convert the quoted figure into that height. What makes
+this work or fail is one number: where in the drawing the quoted dimension actually falls. A cow's
+withers at 93% of the drawing and a cow's withers at 97% are two cows 5 cm apart in real life.
+
+Every animal records that measurement as data rather than prose, in its `scale` field:
+
+| field | meaning |
+| --- | --- |
+| `at` | the landmark the height figure describes — withers, shoulder hump, ear tips |
+| `h_m` | that landmark's real height above the ground, in metres |
+| `h_f` | where it sits in the drawing, as a fraction of the silhouette's height |
+| `l_m`, `l_f` | a real length, and the fraction of the drawing's width it spans |
+| `how` | which of the two the scale follows: `height`, `length`, or `mean` for both at once |
+
+`src/tools/audit_scale.py` rasterises the silhouettes and checks those numbers: that every `h`
+still follows from its measurement, and that no landmark is recorded above the drawing's own
+outline. Run it after changing any figure. `--sheets` draws the animals into `src/tools/audit/`
+with a percentage grid and a green line at the recorded fraction — if the line does not land on
+the withers, the number is wrong, and you can see it in a second.
+
+Where a silhouette is stylised enough that its height and its length cannot both be true — the
+mouse, the rat and the beaver are drawn far deeper-bodied than the animals are — `how` is `mean`
+and the scale splits the error between the two instead of loading it all onto one. The audit
+prints those cases so the compromise stays visible.
+
+Weights are typical adult masses matching the adult each silhouette depicts, for example a male
+lion and a bull elephant. Sources are Wikipedia species pages checked in September 2026, plus
+breed references for sheep and pigs.
 
 ## How the balance log works
 
@@ -57,9 +105,14 @@ are measured in.
 
 ## Adding animals
 
-1. Add the species to `src/fetch_phylo.py` and run it to download candidate silhouettes.
-2. Pick one, record it in `src/choices.json`, and measure it with `src/tools/measure.html` served by `src/tools/serve.py`.
-3. Add its size, weight, fact and sizing note to `src/build.py`, put it in a lineup, and rebuild.
+1. Add the species to the roster in `src/fetch_phylo.py` and run it to download candidate
+   silhouettes. It prints which species are still waiting for one to be chosen.
+2. Pick one, record it in `src/choices.json`, and measure its bounding box with
+   `src/tools/measure.html` served by `src/tools/serve.py`.
+3. Add it to `ANIMALS` in `src/build.py` with its `scale` measurement, size, weight, fact and
+   source, put it in a lineup set and a log load, and rebuild.
+4. Run `python src/tools/audit_scale.py --sheets` and look at the animal on its sheet. The green
+   line has to land on the landmark `at` names.
 
 ## Credits
 
@@ -95,5 +148,9 @@ Silhouettes are from [PhyloPic](https://www.phylopic.org). Most are public domai
 | European hedgehog | Steven Traver | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/6ecff71e-fcfc-4cb9-b773-9e6e21607587) |
 | North American beaver | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/be8670c2-a5bd-4b44-88e8-92f8b0c7f4c6) |
 | Capybara | Skye M | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/9c234021-ce53-45d9-8fdd-b0ca3115a451) |
+| Tiger | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/135296df-6e7a-4c02-bd22-85ca4aefcc85) |
+| Dromedary | Steven Traver | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/e52676dd-272c-4b14-8c99-ea5dc98942e5) |
+| Western gorilla | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/142e0571-3b5f-443d-a887-b572a224ea22) |
+| Red kangaroo | Guillaume Dera | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/b1619eda-7265-4c5a-9af5-527875ab2677) |
 
 Game design by the repository owner; code written with Claude.
