@@ -8,6 +8,10 @@ all three games. This rasterises the SVGs and checks the claims.
     python src/tools/audit_scale.py            report every animal, flag the doubtful ones
     python src/tools/audit_scale.py --sheets   also draw contact sheets into src/tools/audit/
 
+It checks three things: that each height still follows from its recorded measurement, that each
+weight sits inside the range its source gives, and that the weight game draws every animal at its
+true height against the animal it is weighed against.
+
 The sheets carry a percentage grid and a green line at the recorded fraction: if the line does not
 land on the withers (or whichever landmark `at` names), the number is wrong. Needs nothing but
 Python 3 - the PhyloPic files are potrace output using only M, c and z, so it rasterises them here
@@ -203,6 +207,85 @@ def report():
     return 1 if bad else 0
 
 
+# ---------------------------------------------------------------- weights
+def weights():
+    """Weights against their sources, and against the space the drawing takes up.
+
+    The hard check is in build.check_weights(): kg has to sit inside the sourced range. The column
+    printed here is a softer sanity read - the average thickness a body would need to weigh what we
+    say it weighs, given the area of ink the drawing covers. It varies honestly with body plan (a
+    giraffe is mostly neck and leg) and it undercounts animals drawn as line work rather than solid
+    ink, the zebra and the tiger, so it is here to make a badly wrong figure obvious, not to pass
+    or fail one.
+    """
+    print(f"\n{'animal':11s}{'kg':>9s}{'sourced range':>22s}{'in range':>10s}   implied breadth")
+    for key, v in sorted(build.ANIMALS.items(), key=lambda kv: kv[1]["kg"]):
+        w = build.WEIGHTS[key]
+        polys, box = silhouette(key)
+        bw, bh = box[2] - box[0], box[3] - box[1]
+        cols = 110
+        cov = rasterize(polys, cols, int(cols * bh / bw) + 1, box, ss=3)
+        fill = sum(cov) / (cols * (int(cols * bh / bw) + 1))
+        ink = fill * v["h"] * (v["h"] * bw / bh)                 # square metres the animal covers
+        breadth = (v["kg"] / 1000.0) / ink                       # at the density of water
+        span = f"{w['lo']:g}-{w['hi']:g}" if w["lo"] != w["hi"] else f"{w['lo']:g} (average only)"
+        where = "-" if w["hi"] == w["lo"] else f"{(v['kg']-w['lo'])/(w['hi']-w['lo'])*100:.0f}%"
+        print(f"{key:11s}{v['kg']:9.2f}{span:>22s}{where:>10s}"
+              f"{breadth:12.3f} m  ({breadth / v['h']:.2f}x its height)")
+
+
+# ---------------------------------------------------------------- the weight game's own scale
+def js_const(name, pattern):
+    """Read a number out of the template, so this check cannot drift from the game."""
+    src = open(os.path.join(SRC, "template.html"), encoding="utf-8").read()
+    m = re.search(pattern, src)
+    assert m, f"could not find {name} in template.html - this check needs updating"
+    return float(m.group(1))
+
+
+def weigh_scale():
+    """In the weight game both sides share one scale, so a token's height is the true height ratio.
+
+    Worth checking because it is the thing a player actually sees: forty foxes beside one horse
+    only reads right if the fox is really a quarter of the horse. The one place the game bends it
+    on purpose is the legibility floor, which stops a token becoming a speck - so find every pair
+    the game can deal and report which, if any, land on that floor.
+    """
+    pan_half = js_const("PAN_HALF", r"PAN_HALF\s*=\s*(\d+)")
+    ref_max = js_const("REF_MAX", r"REF_MAX\s*=\s*(\d+)")
+    plate = js_const("plate fraction", r"let rw = ([\d.]+) \* PAN_HALF \* 2")
+    floor_h = js_const("token floor", r"if \(h < (\d+)\) h = \d+")
+    floor_m = js_const("token minimum", r"if \(m < (\d+)\)")
+    min_ref = js_const("reference mass", r"A\[k\]\.kg >= (\d+)")
+    lo = js_const("lowest multiple", r"A\[r\]\.kg / A\[k\]\.kg >= (\d+)")
+    hi = js_const("highest multiple", r"A\[r\]\.kg / A\[k\]\.kg <= (\d+)")
+    tall = js_const("tallest target", r"A\[k\]\.h / A\[r\]\.h <= ([\d.]+)")
+
+    A = build.ANIMALS
+    ar = lambda k: build.bbox[k]["w"] / build.bbox[k]["h"]
+    pairs = [(r, t) for r in A if A[r]["kg"] >= min_ref for t in A
+             if t != r and lo <= A[r]["kg"] / A[t]["kg"] <= hi and A[t]["h"] / A[r]["h"] <= tall]
+    bent = []
+    for r, t in pairs:
+        ref_px = min(ref_max, plate * pan_half * 2 / ar(r))      # the reference fills the plate
+        px = ref_px * (A[t]["h"] / A[r]["h"])                    # the target, at the true ratio
+        drawn = max(px, floor_h)
+        if max(drawn * ar(t), drawn) < floor_m:
+            drawn *= floor_m / max(drawn * ar(t), drawn)
+        if drawn > px * 1.005:
+            bent.append((r, t, px, drawn))
+    print(f"\n{len(pairs)} pairs the weight game can deal, from {len({p[0] for p in pairs})} references.")
+    if not bent:
+        print("every one of them is drawn at the animals' true height ratio.")
+    else:
+        print(f"{len(bent)} of them {'sits' if len(bent) == 1 else 'sit'} on the legibility floor "
+              f"and {'is' if len(bent) == 1 else 'are'} drawn larger than life:")
+        for r, t, px, drawn in sorted(bent, key=lambda b: -b[3] / b[2]):
+            print(f"  {A[r]['name']} with {build.ANIMALS[t]['name'].lower()}: "
+                  f"{px:.0f}px true, drawn {drawn:.0f}px ({drawn/px-1:+.0%})")
+    return len(pairs)
+
+
 # ---------------------------------------------------------------- contact sheets
 FONT = {c: r for c, r in zip("0123456789",
         [["111","101","101","101","111"],["010","110","010","010","111"],["111","001","111","100","111"],
@@ -299,6 +382,8 @@ def sheets(out_dir, cols=3, cell=(470, 400), per=6):
 
 if __name__ == "__main__":
     code = report()
+    weights()
+    weigh_scale()
     if "--sheets" in sys.argv:
         out = os.path.join(HERE, "audit")
         print()

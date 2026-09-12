@@ -246,44 +246,59 @@ def check_scale():
 
 check_scale()
 
-# Typical adult mass in kg, matching the adult each silhouette depicts, with the Wikipedia figure it came from.
+# Typical adult mass, matching the adult each silhouette depicts.
+#   kg      the figure the games use
+#   lo, hi  the range the source gives, which kg has to sit inside; where a source quotes only an
+#           average, lo and hi are that average and the check simply pins kg to it
+#   note    the sentence shown to the player after a weigh-in
+# check_weights() below enforces lo <= kg <= hi, so a figure can never drift from its source
+# without the range moving too - and moving the range means going back to the source.
 WEIGHTS = {
-    "cat":       (4.5,  "adult domestic cats typically weigh 4–5 kg", None),
-    "rabbit":    (2.0,  "European rabbits weigh 1.5–3 kg", None),
-    "dog":       (30,   "Labrador males weigh 29–36 kg, females 25–32 kg", None),
-    "sheep":     (70,   "ewes weigh 45–100 kg depending on breed", None),
-    "pig":       (220,  "adult domestic pigs weigh 140–300 kg", None),
-    "cow":       (725,  "a mature Holstein cow weighs 680–770 kg", None),
-    "horse":     (480,  "light riding horses weigh 380–550 kg", None),
-    "lion":      (190,  "male lions weigh 160–225 kg by region", None),
-    "zebra":     (250,  "plains zebra males weigh 220–322 kg", None),
-    "hippo":     (1480, "bull hippos average 1.48 tonnes", "hippopotamuses"),
-    "rhino":     (2150, "white rhino bulls weigh 2,000–2,300 kg", "white rhinoceroses"),
-    "elephant":  (6000, "bull African bush elephants average 6 tonnes", None),
-    "giraffe":   (1000, "adult giraffes average 1,192 kg (male) and 828 kg (female)", None),
-    "fox":       (6,    "red foxes weigh 2.2–14 kg, typically about 6 kg", "red foxes"),
-    "lynx":      (20,   "Eurasian lynx weigh 12–32 kg in Russia, 7–26 kg in the west", "Eurasian lynxes"),
-    "wolf":      (40,   "grey wolves average 40 kg", "grey wolves"),
-    "bear":      (220,  "male brown bears average 217 kg", None),
-    "reindeer":  (150,  "bull reindeer weigh roughly 150–180 kg", "reindeer"),
-    "reddeer":   (200,  "red deer stags weigh 160–240 kg", None),
-    "moose":     (500,  "bull moose weigh 380–700 kg", "moose"),
-    "mouse":     (0.02, "house mice weigh 11–30 g", "house mice"),
-    "rat":       (0.3,  "wild brown rats commonly weigh under 300 g; the range is 140–500 g", None),
-    "guineapig": (1.0,  "guinea pigs weigh 0.7–1.2 kg", None),
-    "squirrel":  (0.3,  "red squirrels weigh 250–340 g", None),
-    "hedgehog":  (0.8,  "adult European hedgehogs weigh about 800 g in summer", None),
-    "beaver":    (20,   "North American beavers typically weigh 20 kg", None),
-    "capybara":  (49,   "capybaras weigh 35–66 kg, averaging about 49 kg", None),
-    "tiger":     (220,  "male Bengal tigers weigh 180–260 kg", None),
-    "camel":     (500,  "dromedary bulls weigh 400–600 kg", "dromedaries"),
-    "gorilla":   (160,  "wild male western gorillas average about 157 kg", "western gorillas"),
-    "kangaroo":  (66,   "male red kangaroos weigh 55–90 kg, averaging about 66 kg", None),
+    "cat":       dict(kg=4.5,  lo=4,     hi=5,     note="adult domestic cats typically weigh 4–5 kg"),
+    "rabbit":    dict(kg=2.0,  lo=1.5,   hi=3,     note="European rabbits weigh 1.5–3 kg"),
+    "dog":       dict(kg=30,   lo=25,    hi=36,    note="Labrador males weigh 29–36 kg, females 25–32 kg"),
+    "sheep":     dict(kg=70,   lo=45,    hi=100,   note="ewes weigh 45–100 kg depending on breed"),
+    "pig":       dict(kg=220,  lo=140,   hi=300,   note="adult domestic pigs weigh 140–300 kg"),
+    "cow":       dict(kg=725,  lo=680,   hi=770,   note="a mature Holstein cow weighs 680–770 kg"),
+    "horse":     dict(kg=480,  lo=380,   hi=550,   note="light riding horses weigh 380–550 kg"),
+    "lion":      dict(kg=190,  lo=160,   hi=225,   note="male lions weigh 160–225 kg by region"),
+    "zebra":     dict(kg=250,  lo=220,   hi=322,   note="plains zebra males weigh 220–322 kg"),
+    "hippo":     dict(kg=1480, lo=1480,  hi=1480,  note="bull hippos average 1.48 tonnes", plural="hippopotamuses"),
+    "rhino":     dict(kg=2150, lo=2000,  hi=2300,  note="white rhino bulls weigh 2,000–2,300 kg", plural="white rhinoceroses"),
+    "elephant":  dict(kg=6000, lo=6000,  hi=6000,  note="bull African bush elephants average 6 tonnes"),
+    "giraffe":   dict(kg=1000, lo=828,   hi=1192,  note="adult giraffes average 1,192 kg (male) and 828 kg (female)"),
+    "fox":       dict(kg=6,    lo=2.2,   hi=14,    note="red foxes weigh 2.2–14 kg, typically about 6 kg", plural="red foxes"),
+    "lynx":      dict(kg=20,   lo=7,     hi=32,    note="Eurasian lynx weigh 12–32 kg in Russia, 7–26 kg in the west", plural="Eurasian lynxes"),
+    "wolf":      dict(kg=40,   lo=40,    hi=40,    note="grey wolves average 40 kg", plural="grey wolves"),
+    "bear":      dict(kg=217,  lo=217,   hi=217,   note="male brown bears average 217 kg"),
+    "reindeer":  dict(kg=150,  lo=150,   hi=180,   note="bull reindeer weigh roughly 150–180 kg", plural="reindeer"),
+    "reddeer":   dict(kg=200,  lo=160,   hi=240,   note="red deer stags weigh 160–240 kg"),
+    "moose":     dict(kg=500,  lo=380,   hi=700,   note="bull moose weigh 380–700 kg", plural="moose"),
+    "mouse":     dict(kg=0.02, lo=0.011, hi=0.030, note="house mice weigh 11–30 g", plural="house mice"),
+    "rat":       dict(kg=0.3,  lo=0.14,  hi=0.5,   note="wild brown rats commonly weigh under 300 g; the range is 140–500 g"),
+    "guineapig": dict(kg=1.0,  lo=0.7,   hi=1.2,   note="guinea pigs weigh 0.7–1.2 kg"),
+    "squirrel":  dict(kg=0.3,  lo=0.25,  hi=0.34,  note="red squirrels weigh 250–340 g"),
+    "hedgehog":  dict(kg=0.8,  lo=0.8,   hi=0.8,   note="adult European hedgehogs weigh about 800 g in summer"),
+    "beaver":    dict(kg=20,   lo=11,    hi=32,    note="North American beavers weigh 11–32 kg, typically about 20 kg"),
+    "capybara":  dict(kg=49,   lo=35,    hi=66,    note="capybaras weigh 35–66 kg, averaging about 49 kg"),
+    "tiger":     dict(kg=220,  lo=180,   hi=260,   note="male Bengal tigers weigh 180–260 kg"),
+    "camel":     dict(kg=500,  lo=400,   hi=600,   note="dromedary bulls weigh 400–600 kg", plural="dromedaries"),
+    "gorilla":   dict(kg=157,  lo=157,   hi=157,   note="wild male western gorillas average 157 kg", plural="western gorillas"),
+    "kangaroo":  dict(kg=66,   lo=55,    hi=90,    note="male red kangaroos weigh 55–90 kg, averaging about 66 kg"),
 }
-for _k, (_kg, _note, _plural) in WEIGHTS.items():
-    ANIMALS[_k]["kg"] = _kg
-    ANIMALS[_k]["kgNote"] = _note
-    if _plural: ANIMALS[_k]["plural"] = _plural
+for _k, _w in WEIGHTS.items():
+    ANIMALS[_k]["kg"] = _w["kg"]
+    ANIMALS[_k]["kgNote"] = _w["note"]
+    if _w.get("plural"): ANIMALS[_k]["plural"] = _w["plural"]
+
+def check_weights():
+    """Every weight has to sit inside the range its source gives, and cite that source."""
+    for k, w in WEIGHTS.items():
+        assert w["lo"] <= w["kg"] <= w["hi"], \
+            f"{k}: {w['kg']} kg is outside the sourced range {w['lo']}-{w['hi']}"
+        assert ANIMALS[k].get("source"), f"{k}: no source recorded"
+
+check_weights()
 assert set(WEIGHTS) == set(ANIMALS), set(WEIGHTS) ^ set(ANIMALS)
 
 SETS = [

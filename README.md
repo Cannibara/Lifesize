@@ -76,7 +76,8 @@ Every animal records that measurement as data rather than prose, in its `scale` 
 
 `src/tools/audit_scale.py` rasterises the silhouettes and checks those numbers: that every `h`
 still follows from its measurement, and that no landmark is recorded above the drawing's own
-outline. Run it after changing any figure. `--sheets` draws the animals into `src/tools/audit/`
+outline. It reads the weight game's constants out of `src/template.html` rather than keeping its
+own copy, so the check cannot drift from the game. Run it after changing any figure. `--sheets` draws the animals into `src/tools/audit/`
 with a percentage grid and a green line at the recorded fraction — if the line does not land on
 the withers, the number is wrong, and you can see it in a second.
 
@@ -85,9 +86,36 @@ mouse, the rat and the beaver are drawn far deeper-bodied than the animals are �
 and the scale splits the error between the two instead of loading it all onto one. The audit
 prints those cases so the compromise stays visible.
 
+## How the weights were worked out
+
 Weights are typical adult masses matching the adult each silhouette depicts, for example a male
-lion and a bull elephant. Sources are Wikipedia species pages checked in September 2026, plus
-breed references for sheep and pigs.
+lion and a bull elephant. Each one records the range its source gives alongside the figure the
+games use, and `check_weights()` refuses to build unless the figure sits inside that range — so a
+weight cannot drift from its source without someone moving the range, and moving the range means
+going back to the source. Where a source quotes only an average, the range is that average and the
+check simply pins the figure to it.
+
+The audit prints a second, softer read on every weight: the average thickness a body would need to
+weigh what we claim, given the area of ink its drawing covers. It varies honestly with body plan —
+a giraffe is mostly neck and leg, a guinea pig is a solid brick — and it undercounts the two
+animals drawn as line work rather than solid ink, the zebra and the tiger. It is there to make a
+badly wrong figure obvious, not to pass or fail one.
+
+Sources are Wikipedia species pages checked in September 2026, plus breed references for sheep and
+pigs.
+
+## What the weight game draws
+
+The weight game is the one where relative size is the whole point: forty foxes beside one horse
+only reads right if the fox really is a quarter of the horse. Both pans share a single
+metres-per-pixel scale — the reference is sized to its plate, and every animal poured against it is
+drawn at the true ratio of their real heights — so correct sizes are all it takes.
+
+The audit enumerates every pairing the game can deal and confirms each one. There is a single
+deliberate exception: a legibility floor stops a token shrinking to a speck, and of the 122
+possible pairings exactly one sits on it — a beaver weighed against a giraffe is drawn 11% larger
+than life rather than 16 pixels tall. The audit names it, so if the library grows and more pairings
+start landing on that floor, it says so instead of quietly exaggerating them.
 
 ## How the balance log works
 
