@@ -9,7 +9,7 @@ Three small browser games about how big and how heavy animals really are.
 
 All three games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the part you are judging.
 
-Play it online: https://claude.ai/code/artifact/ed0eeb0a-ec6d-494f-a9f5-700baa3f6643
+Play it online: https://cannibara.github.io/Lifesize/
 
 Or open `index.html` in any browser. It is a single file with everything embedded and works offline.
 
@@ -20,17 +20,20 @@ Or open `index.html` in any browser. It is a single file with everything embedde
 | `index.html` | The finished game. This is the only file players need. |
 | `src/template.html` | The game's page, styles and code, without the silhouette data. Edit this. |
 | `DESIGN.md` | The house style: principles, colour tokens, type, shape and motion. Follow it. |
-| `src/build.py` | Stitches the template, the silhouettes and the size table into the finished file. |
+| `src/animals.py` | Every animal — size, weight, fact, source — and the lineups and loads. Data only; this is usually the only file you need to open. |
+| `src/build.py` | Runs the checks and stitches the template, the silhouettes and the animals into the finished file. |
 | `src/choices.json` | Which PhyloPic silhouette was chosen for each animal, with licence and credit. |
 | `src/bbox.json` | Measured bounding box of each silhouette. |
 | `src/phylo/` | The silhouette SVG files and PhyloPic catalogue of candidates. |
 | `src/fetch_phylo.py` | Downloads candidate silhouettes from the PhyloPic API for a list of species. |
 | `src/tools/audit_scale.py` | Checks every animal's size against the drawing it is taken from. |
 | `src/tools/` | Helper pages used during development to rasterise and measure silhouettes. |
+| `CLAUDE.md` | A short orientation to the repo, read automatically by Claude Code. |
+| `.github/workflows/check.yml` | Runs the build and the audit on every push. |
 
 ## Rebuilding after a change
 
-Edit `src/template.html` (page and code) or the size and weight tables inside `src/build.py`, then run:
+Edit `src/animals.py` (the animals) or `src/template.html` (the page and its code), then run:
 
 ```
 python src/build.py
@@ -45,10 +48,13 @@ python src/tools/audit_scale.py
 
 ## The animal library
 
-All three games draw on one library, the `ANIMALS` table in `src/build.py`. The size game shows a
+All three games draw on one library, the `ANIMALS` table in `src/animals.py`. The size game shows a
 themed five of it, the weight game pairs any two of it, and the balance game loads a log from it;
 `check_library()` refuses to build if an animal is missing from either the lineup sets or the log
 loads, because an animal a game cannot reach is an animal nobody will ever see.
+
+Every animal records the workings behind its size, but those stay in `src/animals.py` — the
+built `index.html` carries only what the game reads.
 
 There are 31 animals today. The roster in `src/fetch_phylo.py` is longer — around sixty, which is
 the size worth aiming for: eight themed sets of seven or eight, so the five a lineup shows are a
@@ -74,12 +80,13 @@ Every animal records that measurement as data rather than prose, in its `scale` 
 | `l_m`, `l_f` | a real length, and the fraction of the drawing's width it spans |
 | `how` | which of the two the scale follows: `height`, `length`, or `mean` for both at once |
 
-`src/tools/audit_scale.py` rasterises the silhouettes and checks those numbers: that every `h`
-still follows from its measurement, and that no landmark is recorded above the drawing's own
-outline. It reads the weight game's constants out of `src/template.html` rather than keeping its
-own copy, so the check cannot drift from the game. Run it after changing any figure. `--sheets` draws the animals into `src/tools/audit/`
-with a percentage grid and a green line at the recorded fraction — if the line does not land on
-the withers, the number is wrong, and you can see it in a second.
+`src/tools/audit_scale.py` reads the silhouettes and checks those numbers: that every `h` still
+follows from its measurement, and that no landmark is recorded above the drawing's own outline. It
+reads the weight game's constants out of `src/template.html` rather than keeping its own copy, so
+the check cannot drift from the game. Run it after changing any figure. `--sheets` draws the
+animals into `src/tools/audit/` as SVG, with a percentage grid and a green line at the recorded
+fraction — if the line does not land on the withers, the number is wrong, and you can see it in a
+second.
 
 Where a silhouette is stylised enough that its height and its length cannot both be true — the
 mouse, the rat and the beaver are drawn far deeper-bodied than the animals are — `how` is `mean`
@@ -156,8 +163,8 @@ workflow is built around making that number quick to propose and quick to confir
    outermost feet are not the front ones — a camel's hump and a lynx's haunches both fool it, and
    12 points is a 15% error in the animal's size. It says so rather than guessing when a drawing
    is not a quadruped in profile at all.
-4. Add it to `ANIMALS` in `src/build.py` with its `scale` measurement, size, weight with the range
-   its source gives, fact and source; put it in a lineup set and a log load.
+4. Add it to `ANIMALS` in `src/animals.py` with its `scale` measurement, size, weight with the
+   range its source gives, fact and source; put it in a lineup set and a log load.
 5. Rebuild, then run `python src/tools/audit_scale.py --sheets` and look at the animal. The green
    line has to land on the landmark `at` names. That look is the check — everything else the audit
    does is arithmetic it can do on its own.

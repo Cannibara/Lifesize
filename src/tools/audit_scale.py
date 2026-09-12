@@ -1,9 +1,9 @@
 """Check every silhouette's scale against the drawing it is taken from.
 
-`src/build.py` scales each animal from a real dimension and the fraction of the silhouette that
-dimension reaches (the `scale` field). That fraction is a claim about the artwork - "a cow's withers
-sit at 93% of this drawing's height" - and a wrong one silently makes the animal the wrong size in
-all three games. This rasterises the SVGs and checks the claims.
+src/animals.py scales each animal from a real dimension and the fraction of the drawing that
+dimension reaches - the `scale` field. That fraction is a claim about the artwork ("a cow's withers
+sit at 93% of this drawing's height") and a wrong one silently makes the animal the wrong size in
+all three games, which is how a fox once came to be a third too big.
 
     python src/tools/audit_scale.py            report every animal, flag the doubtful ones
     python src/tools/audit_scale.py --sheets   also draw contact sheets into src/tools/audit/
@@ -11,29 +11,33 @@ all three games. This rasterises the SVGs and checks the claims.
                                                suggest where the withers sits in a drawing that
                                                has been downloaded and chosen but not yet sized
 
-It checks three things: that each height still follows from its recorded measurement, that each
-weight sits inside the range its source gives, and that the weight game draws every animal at its
-true height against the animal it is weighed against.
+It checks three things: that each height still follows from its recorded workings, that each weight
+sits inside the range its source gives, and that the weight game draws every animal at its true
+height against the animal it is weighed against.
 
-The sheets carry a percentage grid and a green line at the recorded fraction: if the line does not
-land on the withers (or whichever landmark `at` names), the number is wrong. Needs nothing but
-Python 3 - the PhyloPic files are potrace output using only M, c and z, so it rasterises them here
-rather than pulling in a renderer.
+The sheets carry a percentage grid and a green line at the recorded fraction. If the line does not
+land on the withers - or whichever landmark `at` names - the number is wrong, and you can see it in
+a second. They are SVG, so open them in a browser.
+
+Needs nothing but Python 3. The PhyloPic files are potrace output using only M, c and z, so the
+curves are flattened here and measured directly rather than pulling in a renderer.
 """
-import json, math, os, re, struct, sys, zlib
+import json, math, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.dirname(HERE)
 ROOT = os.path.dirname(SRC)
 sys.path.insert(0, SRC)
+sys.dont_write_bytecode = True    # see the note in build.py
 import build                                       # noqa: E402  - the size table under test
 
 NUM = r"[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?"
+INK = "#28303c"
 
 
-# ---------------------------------------------------------------- rasteriser
+# ---------------------------------------------------------------- reading the drawings
 def parse_svg(path):
-    """Return the silhouette's outlines as polygons in user space."""
+    """Return the drawing's outlines as closed polygons, in the file's own coordinates."""
     s = open(path, encoding="utf-8", errors="ignore").read()
     tx = ty = 0.0
     sx = sy = 1.0
@@ -103,90 +107,67 @@ def _flatten(d, tx, ty, sx, sy, steps=24):
     return polys
 
 
-def bounds(polys):
-    xs = [p[0] for poly in polys for p in poly]
-    ys = [p[1] for poly in polys for p in poly]
-    return min(xs), min(ys), max(xs), max(ys)
-
-
-def rasterize(polys, W, H, box, ss=3):
-    """Coverage grid, 0..1 per pixel, nonzero winding, ss x ss supersampled."""
-    x0, y0, x1, y1 = box
-    kx, ky = W * ss / (x1 - x0), H * ss / (y1 - y0)
-    HS, WS = H * ss, W * ss
-    buckets = [[] for _ in range(HS)]
-    for poly in polys:
-        n = len(poly)
-        for k in range(n):
-            ax, ay = poly[k]; bx, by = poly[(k + 1) % n]
-            ax, ay = (ax - x0) * kx, (ay - y0) * ky
-            bx, by = (bx - x0) * kx, (by - y0) * ky
-            if ay == by: continue
-            e = (ay, by, ax, bx)
-            for row in range(max(0, int(math.floor(min(ay, by)))), min(HS, int(math.ceil(max(ay, by))))):
-                buckets[row].append(e)
-    cov = [0.0] * (W * H)
-    inv = 1.0 / (ss * ss)
-    for sy in range(HS):
-        yc = sy + 0.5
-        xs = []
-        for ay, by, ax, bx in buckets[sy]:
-            if (ay <= yc < by) or (by <= yc < ay):
-                xs.append((ax + (yc - ay) / (by - ay) * (bx - ax), 1 if by > ay else -1))
-        if not xs: continue
-        xs.sort()
-        wind, spanstart, row = 0, None, (sy // ss) * W
-        for x, dirn in xs:
-            prev, wind = wind, wind + dirn
-            if prev == 0 and wind != 0:
-                spanstart = x
-            elif prev != 0 and wind == 0 and spanstart is not None:
-                a, b = max(spanstart, 0.0), min(x, float(WS))
-                spanstart = None
-                if b <= a: continue
-                ia, ib = int(a), int(min(b, WS - 1e-9))
-                if ia == ib:
-                    cov[row + ia // ss] += (b - a) * inv
-                else:
-                    cov[row + ia // ss] += (ia + 1 - a) * inv
-                    for xx in range(ia + 1, ib): cov[row + xx // ss] += inv
-                    cov[row + ib // ss] += (b - ib) * inv
-    return [min(1.0, c) for c in cov]
-
-
-# ---------------------------------------------------------------- measuring
 def silhouette(key):
     path = os.path.join(SRC, "phylo", f"{key}__{build.choices[key]['uuid']}.svg")
     polys = parse_svg(path)
-    return polys, bounds(polys)
+    xs = [p[0] for poly in polys for p in poly]
+    ys = [p[1] for poly in polys for p in poly]
+    return polys, (min(xs), min(ys), max(xs), max(ys))
 
 
-def topline(key, cols=40, rows=400):
-    """Height of the silhouette's top edge in each column, as a fraction of its own height."""
-    polys, box = silhouette(key)
-    cov = rasterize(polys, cols, rows, box, ss=4)
-    out = []
-    for x in range(cols):
-        hit = [y for y in range(rows) if cov[y * cols + x] > 0.25]
-        out.append(1 - hit[0] / rows if hit else None)
-    return out
+# ---------------------------------------------------------------- measuring
+def column_span(polys, x):
+    """The topmost and bottommost ink in the vertical line at x, or None if it misses."""
+    ys = []
+    for poly in polys:
+        n = len(poly)
+        for i in range(n):
+            ax, ay = poly[i]
+            bx, by = poly[(i + 1) % n]
+            if (ax <= x < bx) or (bx <= x < ax):
+                ys.append(ay + (x - ax) / (bx - ax) * (by - ay))
+    return (min(ys), max(ys)) if ys else None
 
 
+def profiles(key, cols=80):
+    """Top and bottom edge in each column, as a fraction of the drawing's own height."""
+    polys, (x0, y0, x1, y1) = silhouette(key)
+    top, bot = [], []
+    for i in range(cols):
+        span = column_span(polys, x0 + (i + 0.5) * (x1 - x0) / cols)
+        top.append(None if span is None else 1 - (span[0] - y0) / (y1 - y0))
+        bot.append(None if span is None else 1 - (span[1] - y0) / (y1 - y0))
+    return top, bot
+
+
+def ink_area(polys):
+    """Area the drawing covers, by the shoelace formula.
+
+    potrace winds a hole the opposite way round from the outline it sits in, so the signed areas
+    cancel and what is left is the ink alone.
+    """
+    total = 0.0
+    for poly in polys:
+        n = len(poly)
+        total += sum(poly[i][0] * poly[(i + 1) % n][1] - poly[(i + 1) % n][0] * poly[i][1]
+                     for i in range(n)) / 2
+    return abs(total)
+
+
+# ---------------------------------------------------------------- heights
 def report():
-    """Print each animal's recorded scale, what it implies, and how well the two checks agree."""
+    """Each animal's recorded scale, what it implies, and how well the two checks agree."""
     print(f"{'animal':11s}{'h (m)':>7s}{'by height':>11s}{'by length':>11s}{'spread':>8s}  landmark")
     bad, note = [], []
     for key, v in sorted(build.ANIMALS.items(), key=lambda kv: kv[1]["h"]):
         s, b = v["scale"], build.bbox[key]
-        ar = b["w"] / b["h"]
         by_h = s["h_m"] / s["h_f"]
-        by_l = s["l_m"] / (s["l_f"] * ar) if s["l_m"] else None
+        by_l = s["l_m"] / (s["l_f"] * b["w"] / b["h"]) if s["l_m"] else None
         spread = (max(by_h, by_l) / min(by_h, by_l) - 1) if by_l else None
         want = build.scaled_h(key)
         if abs(v["h"] - want) > max(0.04 * want, 0.005):
             bad.append(f"{key}: h={v['h']} does not follow from its measurement ({want:.3f})")
-        # the recorded fraction has to land on real ink, and not at the very top unless it is meant to
-        top = topline(key)
+        top = profiles(key)[0]
         highest = max(t for t in top if t is not None)
         if s["h_f"] > highest + 0.01:
             bad.append(f"{key}: {s['at']} recorded at {s['h_f']:.2f}, above the drawing's own top")
@@ -210,77 +191,26 @@ def report():
     return 1 if bad else 0
 
 
-# ---------------------------------------------------------------- proposing a new animal
-def bottomline(key, cols=80, rows=300):
-    polys, box = silhouette(key)
-    cov = rasterize(polys, cols, rows, box, ss=4)
-    top, bot = [], []
-    for x in range(cols):
-        hit = [y for y in range(rows) if cov[y * cols + x] > 0.25]
-        top.append(1 - hit[0] / rows if hit else None)
-        bot.append(1 - hit[-1] / rows if hit else None)
-    return top, bot
-
-
-def propose(key):
-    """Suggest where a quadruped's withers sits in a drawing, as a starting number to confirm.
-
-    The withers is the one figure in an animal's record that cannot be looked up: it is a fact
-    about this particular drawing, not about the animal. This finds the feet - the columns whose
-    lowest ink is on the ground - and reads the top edge above the outermost group at each end,
-    which for a quadruped standing in profile is the shoulder at one end and the rump at the other.
-
-    Treat the answer as a draft. Measured against the 21 quadrupeds already sized by hand, the
-    better of its two candidates lands within 3 points on 12 of them and misses by as much as 12
-    on animals whose outermost feet are not the front ones, or whose antlers or hump overhang the
-    legs - and 12 points is a 15% error in the animal's size. So take the number, put it in the
-    record, then run --sheets and check the green line landed on the shoulder.
-    """
-    top, bot = bottomline(key)
-    on = [i for i, b in enumerate(bot) if b is not None and b < 0.06]
-    groups = []
-    for i in on:
-        if groups and i - groups[-1][-1] <= 2: groups[-1].append(i)
-        else: groups.append([i])
-    groups = [g for g in groups if len(g) >= 2]
-    b = build.bbox[key]
-    print(f"\n{key}: aspect {b['w']/b['h']:.3f}, highest point at "
-          f"{max(t for t in top if t is not None)*100:.0f}% of its own height")
-    if len(groups) < 2:
-        print("  no clear pair of foot groups - not a quadruped standing in profile, "
-              "so measure this one by eye on the sheet")
-        return
-    for g, end in ((groups[0], "left"), (groups[-1], "right")):
-        mid = g[len(g) // 2]
-        window = [top[i] for i in range(max(0, mid - 2), min(len(top), mid + 3)) if top[i] is not None]
-        print(f"  top edge above the {end}-hand feet (x={mid/len(top)*100:.0f}% of the width): "
-              f"h_f = {max(window):.3f}")
-    print("  one of those two is the withers and the other the rump - confirm which on the sheet")
-
-
 # ---------------------------------------------------------------- weights
 def weights():
     """Weights against their sources, and against the space the drawing takes up.
 
-    The hard check is in build.check_weights(): kg has to sit inside the sourced range. The column
+    The hard check is build.check_weights(): kg has to sit inside the sourced range. The column
     printed here is a softer sanity read - the average thickness a body would need to weigh what we
     say it weighs, given the area of ink the drawing covers. It varies honestly with body plan (a
     giraffe is mostly neck and leg) and it undercounts animals drawn as line work rather than solid
-    ink, the zebra and the tiger, so it is here to make a badly wrong figure obvious, not to pass
-    or fail one.
+    ink, the zebra and the tiger, so it is here to make a badly wrong figure obvious, not to pass or
+    fail one.
     """
     print(f"\n{'animal':11s}{'kg':>9s}{'sourced range':>22s}{'in range':>10s}   implied breadth")
     for key, v in sorted(build.ANIMALS.items(), key=lambda kv: kv[1]["kg"]):
-        w = build.WEIGHTS[key]
-        polys, box = silhouette(key)
-        bw, bh = box[2] - box[0], box[3] - box[1]
-        cols = 110
-        cov = rasterize(polys, cols, int(cols * bh / bw) + 1, box, ss=3)
-        fill = sum(cov) / (cols * (int(cols * bh / bw) + 1))
-        ink = fill * v["h"] * (v["h"] * bw / bh)                 # square metres the animal covers
-        breadth = (v["kg"] / 1000.0) / ink                       # at the density of water
-        span = f"{w['lo']:g}-{w['hi']:g}" if w["lo"] != w["hi"] else f"{w['lo']:g} (average only)"
-        where = "-" if w["hi"] == w["lo"] else f"{(v['kg']-w['lo'])/(w['hi']-w['lo'])*100:.0f}%"
+        m = v["mass"]
+        polys, (x0, y0, x1, y1) = silhouette(key)
+        metres_per_unit = v["h"] / (y1 - y0)
+        ink = ink_area(polys) * metres_per_unit ** 2          # square metres the animal covers
+        breadth = (v["kg"] / 1000.0) / ink                     # at the density of water
+        span = f"{m['lo']:g}-{m['hi']:g}" if m["lo"] != m["hi"] else f"{m['lo']:g} (average only)"
+        where = "-" if m["hi"] == m["lo"] else f"{(v['kg']-m['lo'])/(m['hi']-m['lo'])*100:.0f}%"
         print(f"{key:11s}{v['kg']:9.2f}{span:>22s}{where:>10s}"
               f"{breadth:12.3f} m  ({breadth / v['h']:.2f}x its height)")
 
@@ -297,10 +227,10 @@ def js_const(name, pattern):
 def weigh_scale():
     """In the weight game both sides share one scale, so a token's height is the true height ratio.
 
-    Worth checking because it is the thing a player actually sees: forty foxes beside one horse
-    only reads right if the fox is really a quarter of the horse. The one place the game bends it
-    on purpose is the legibility floor, which stops a token becoming a speck - so find every pair
-    the game can deal and report which, if any, land on that floor.
+    Worth checking because it is the thing a player actually sees: forty foxes beside one horse only
+    reads right if the fox is really a quarter of the horse. The one place the game bends it on
+    purpose is the legibility floor, which stops a token becoming a speck - so find every pair the
+    game can deal and report which, if any, land on that floor.
     """
     pan_half = js_const("PAN_HALF", r"PAN_HALF\s*=\s*(\d+)")
     ref_max = js_const("REF_MAX", r"REF_MAX\s*=\s*(\d+)")
@@ -332,104 +262,101 @@ def weigh_scale():
         print(f"{len(bent)} of them {'sits' if len(bent) == 1 else 'sit'} on the legibility floor "
               f"and {'is' if len(bent) == 1 else 'are'} drawn larger than life:")
         for r, t, px, drawn in sorted(bent, key=lambda b: -b[3] / b[2]):
-            print(f"  {A[r]['name']} with {build.ANIMALS[t]['name'].lower()}: "
+            print(f"  {A[r]['name']} with {A[t]['name'].lower()}: "
                   f"{px:.0f}px true, drawn {drawn:.0f}px ({drawn/px-1:+.0%})")
     return len(pairs)
 
 
+# ---------------------------------------------------------------- proposing a new animal
+def propose(key):
+    """Suggest where a quadruped's withers sits in a drawing, as a starting number to confirm.
+
+    The withers is the one figure in an animal's record that cannot be looked up: it is a fact about
+    this particular drawing, not about the animal. This finds the feet - the columns whose lowest
+    ink is on the ground - and reads the top edge above the outermost group at each end, which for a
+    quadruped standing in profile is the shoulder at one end and the rump at the other.
+
+    Treat the answer as a draft. Measured against the quadrupeds already sized by hand, the better
+    of its two candidates lands within 3 points on twelve of twenty-one and misses by as much as 12
+    on animals whose outermost feet are not the front ones, or whose antlers or hump overhang the
+    legs - and 12 points is a 15% error in the animal's size. So take the number, put it in the
+    record, then run --sheets and check the green line landed on the shoulder.
+    """
+    top, bot = profiles(key)
+    on = [i for i, b in enumerate(bot) if b is not None and b < 0.06]
+    groups = []
+    for i in on:
+        if groups and i - groups[-1][-1] <= 2: groups[-1].append(i)
+        else: groups.append([i])
+    groups = [g for g in groups if len(g) >= 2]
+    b = build.bbox[key]
+    print(f"\n{key}: aspect {b['w']/b['h']:.3f}, highest point at "
+          f"{max(t for t in top if t is not None)*100:.0f}% of its own height")
+    if len(groups) < 2:
+        print("  no clear pair of foot groups - not a quadruped standing in profile, "
+              "so measure this one by eye on the sheet")
+        return
+    for g, end in ((groups[0], "left"), (groups[-1], "right")):
+        mid = g[len(g) // 2]
+        window = [top[i] for i in range(max(0, mid - 2), min(len(top), mid + 3)) if top[i] is not None]
+        print(f"  top edge above the {end}-hand feet (x={mid/len(top)*100:.0f}% of the width): "
+              f"h_f = {max(window):.3f}")
+    print("  one of those two is the withers and the other the rump - confirm which on the sheet")
+
+
 # ---------------------------------------------------------------- contact sheets
-FONT = {c: r for c, r in zip("0123456789",
-        [["111","101","101","101","111"],["010","110","010","010","111"],["111","001","111","100","111"],
-         ["111","001","111","001","111"],["101","101","111","001","001"],["111","100","111","001","111"],
-         ["111","100","111","101","111"],["111","001","010","010","010"],["111","101","111","101","111"],
-         ["111","101","111","001","111"]])}
-FONT.update({c: r for c, r in zip("abcdefghijklmnopqrstuvwxyz .%-=",
-        [["111","101","111","101","101"],["110","101","110","101","110"],["111","100","100","100","111"],
-         ["110","101","101","101","110"],["111","100","111","100","111"],["111","100","110","100","100"],
-         ["111","100","101","101","111"],["101","101","111","101","101"],["111","010","010","010","111"],
-         ["001","001","001","101","111"],["101","110","100","110","101"],["100","100","100","100","111"],
-         ["101","111","111","101","101"],["101","111","111","111","101"],["111","101","101","101","111"],
-         ["111","101","111","100","100"],["111","101","101","111","001"],["111","101","110","101","101"],
-         ["111","100","111","001","111"],["111","010","010","010","010"],["101","101","101","101","111"],
-         ["101","101","101","101","010"],["101","101","111","111","101"],["101","101","010","101","101"],
-         ["101","101","111","010","010"],["111","001","010","100","111"],["000","000","000","000","000"],
-         ["000","000","000","000","010"],["101","001","010","100","101"],["000","000","111","000","000"],
-         ["000","111","000","111","000"]])})
-
-
-class Canvas:
-    def __init__(s, W, H):
-        s.W, s.H, s.px = W, H, bytearray(b"\xff" * (W * H * 3))
-
-    def dot(s, x, y, c, a=1.0):
-        if 0 <= x < s.W and 0 <= y < s.H:
-            i = (y * s.W + x) * 3
-            for k in range(3): s.px[i + k] = int(s.px[i + k] * (1 - a) + c[k] * a)
-
-    def hline(s, y, x0, x1, c, a=1.0):
-        for x in range(int(x0), int(x1)): s.dot(x, int(y), c, a)
-
-    def vline(s, x, y0, y1, c, a=1.0):
-        for y in range(int(y0), int(y1)): s.dot(int(x), y, c, a)
-
-    def text(s, x, y, t, c=(20, 20, 20), sc=1):
-        for ch in t.lower():
-            for ry, row in enumerate(FONT.get(ch, FONT[" "])):
-                for rx, on in enumerate(row):
-                    if on == "1":
-                        for dy in range(sc):
-                            for dx in range(sc): s.dot(x + rx * sc + dx, y + ry * sc + dy, c)
-            x += 4 * sc
-
-    def save(s, path):
-        raw = b"".join(b"\x00" + bytes(s.px[y * s.W * 3:(y + 1) * s.W * 3]) for y in range(s.H))
-        def chunk(tag, data):
-            c = tag + data
-            return struct.pack(">I", len(data)) + c + struct.pack(">I", zlib.crc32(c) & 0xffffffff)
-        with open(path, "wb") as f:
-            f.write(b"\x89PNG\r\n\x1a\n"
-                    + chunk(b"IHDR", struct.pack(">IIBBBBB", s.W, s.H, 8, 2, 0, 0, 0))
-                    + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
-
-
 def sheets(out_dir, cols=3, cell=(470, 400), per=6, only=None):
+    """Draw the animals with a percentage grid and a line at the recorded fraction, as SVG."""
     os.makedirs(out_dir, exist_ok=True)
     keys = list(only) if only else sorted(build.ANIMALS, key=lambda k: build.ANIMALS[k]["h"])
+    CW, CH = cell
     written = []
     for page in range(0, len(keys), per):
         group = keys[page:page + per]
-        CW, CH = cell
-        img = Canvas(cols * CW, math.ceil(len(group) / cols) * CH)
+        W, H = cols * CW, math.ceil(len(group) / cols) * CH
+        out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
+               f'viewBox="0 0 {W} {H}" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">',
+               f'<rect width="{W}" height="{H}" fill="#fff"/>']
         for i, key in enumerate(group):
             cx, cy = (i % cols) * CW, (i // cols) * CH
-            polys, box = silhouette(key)
-            bw, bh = box[2] - box[0], box[3] - box[1]
-            padx, padt, padb = 46, 34, 40
+            polys, (bx0, by0, bx1, by1) = silhouette(key)
+            bw, bh = bx1 - bx0, by1 - by0
+            padx, padt, padb = 52, 34, 40
             sc = min((CW - 2 * padx) / bw, (CH - padt - padb) / bh)
             w, h = bw * sc, bh * sc
             ox, oy = cx + padx + (CW - 2 * padx - w) / 2, cy + padt + (CH - padt - padb - h) / 2
-            cov = rasterize(polys, int(w), int(h), box, ss=3)
-            for yy in range(int(h)):
-                for xx in range(int(w)):
-                    a = cov[yy * int(w) + xx]
-                    if a > 0.004: img.dot(int(ox) + xx, int(oy) + yy, (40, 48, 60), a)
-            for p in range(21):                                   # grid, every 5% of the height
+            out.append(f'<rect x="{cx+1}" y="{cy+1}" width="{CW-2}" height="{CH-2}" '
+                       f'fill="none" stroke="#c8cdd4"/>')
+            out.append(f'<svg x="{ox:.1f}" y="{oy:.1f}" width="{w:.1f}" height="{h:.1f}" '
+                       f'viewBox="{bx0:.2f} {by0:.2f} {bw:.2f} {bh:.2f}">'
+                       f'<g fill="{INK}">{build.inner_svg(key)}</g></svg>')
+            for p in range(21):                                   # height, every 5%, labelled at 10%
                 yy = oy + h - p / 20 * h
                 major = p % 2 == 0
-                img.hline(yy, ox - 30, ox + w + 16, (200, 0, 0), 0.5 if major else 0.2)
-                if major: img.text(int(ox - 30), int(yy) - 3, str(p * 5), (150, 0, 0))
-            for p in range(11):
-                img.vline(ox + p / 10 * w, oy - 10, oy + h + 10, (0, 70, 190), 0.4 if p % 5 == 0 else 0.16)
+                out.append(f'<path d="M{ox-32:.1f} {yy:.1f}H{ox+w+16:.1f}" stroke="#c00" '
+                           f'stroke-width="{.8 if major else .6}" opacity="{.5 if major else .22}"/>')
+                if major:
+                    out.append(f'<text x="{ox-36:.1f}" y="{yy+3:.1f}" font-size="9" fill="#a00" '
+                               f'text-anchor="end">{p*5}</text>')
+            for p in range(11):                                   # width, every 10%
+                xx = ox + p / 10 * w
+                major = p % 5 == 0
+                out.append(f'<path d="M{xx:.1f} {oy-10:.1f}V{oy+h+10:.1f}" stroke="#0046be" '
+                           f'stroke-width="{.8 if major else .6}" opacity="{.4 if major else .18}"/>')
             rec = build.ANIMALS.get(key)
             if rec:
                 s = rec["scale"]
                 yy = oy + h - s["h_f"] * h
-                img.hline(yy, ox - 38, ox + w + 44, (0, 150, 0))
-                img.text(int(ox + w + 20), int(yy) - 3, f"{s['at']} {s['h_f']*100:.0f}", (0, 120, 0))
-            label = f"{key} h={rec['h']:.2f}m" if rec else f"{key} not sized yet"
-            img.text(cx + 8, cy + 10, label, (20, 20, 20), 2)
-        path = os.path.join(out_dir, f"scale_{page // per}.png")
-        img.save(path)
+                out.append(f'<path d="M{ox-40:.1f} {yy:.1f}H{min(ox+w+46, cx+CW-8):.1f}" '
+                           f'stroke="#0a9612" stroke-width="1.2"/>')
+                out.append(f'<text x="{min(ox+w+46, cx+CW-8):.1f}" y="{yy-4:.1f}" font-size="10" '
+                           f'fill="#0a7a10" text-anchor="end">{s["at"]} {s["h_f"]*100:.0f}%</text>')
+            label = f'{key}  h={rec["h"]:.2f} m' if rec else f'{key}  not sized yet'
+            out.append(f'<text x="{cx+10}" y="{cy+22}" font-size="14" font-weight="700" '
+                       f'fill="#1c1c1c">{label}</text>')
+        out.append("</svg>")
+        path = os.path.join(out_dir, f"scale_{page // per}.svg")
+        open(path, "w", encoding="utf-8").write("\n".join(out))
         written.append(path)
     return written
 

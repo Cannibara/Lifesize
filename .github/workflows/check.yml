@@ -1,0 +1,31 @@
+# Runs on every push. Rebuilds the game from its sources, confirms the committed index.html is
+# what those sources actually produce, and checks every animal's size against its drawing.
+# GitHub emails you if any of it goes red.
+name: check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Rebuild the game from its sources
+        run: python src/build.py
+
+      - name: index.html must match what the sources produce
+        run: |
+          if ! git diff --quiet -- index.html; then
+            echo "::error::index.html is out of date - the live game would not match the sources."
+            echo "Run 'python src/build.py' locally and commit the result."
+            git diff --stat -- index.html
+            exit 1
+          fi
+
+      - name: Every size still fits its drawing
+        run: python src/tools/audit_scale.py
