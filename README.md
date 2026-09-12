@@ -133,14 +133,34 @@ are measured in.
 
 ## Adding animals
 
-1. Add the species to the roster in `src/fetch_phylo.py` and run it to download candidate
-   silhouettes. It prints which species are still waiting for one to be chosen.
-2. Pick one, record it in `src/choices.json`, and measure its bounding box with
-   `src/tools/measure.html` served by `src/tools/serve.py`.
-3. Add it to `ANIMALS` in `src/build.py` with its `scale` measurement, size, weight, fact and
-   source, put it in a lineup set and a log load, and rebuild.
-4. Run `python src/tools/audit_scale.py --sheets` and look at the animal on its sheet. The green
-   line has to land on the landmark `at` names.
+Downloading is cheap and the numbers are mostly lookups. The one figure that cannot be looked up
+is where the animal's shoulder falls in *this particular drawing* — that is a fact about the
+artwork, not about the animal, and getting it wrong is invisible until the game feels off. So the
+workflow is built around making that number quick to propose and quick to confirm.
+
+1. Add the species to the roster in `src/fetch_phylo.py` and run it. It downloads up to eight
+   candidate silhouettes each and prints which species still need one chosen.
+2. Pick one — plenty are dorsal views, skulls or swimming poses, so this needs eyes — record it in
+   `src/choices.json`, and measure its bounding box with `src/tools/measure.html` served by
+   `src/tools/serve.py`.
+3. Ask for a starting figure:
+
+   ```
+   python src/tools/audit_scale.py --propose koala wombat
+   ```
+
+   It finds the feet and reads the top edge above the outermost group at each end, which for a
+   quadruped in profile is the shoulder at one end and the rump at the other, and draws them on a
+   sheet. It is a draft, not an answer: against the animals already sized by hand the better of its
+   two candidates lands within 3 points on 12 of 21, and misses by as much as 12 on animals whose
+   outermost feet are not the front ones — a camel's hump and a lynx's haunches both fool it, and
+   12 points is a 15% error in the animal's size. It says so rather than guessing when a drawing
+   is not a quadruped in profile at all.
+4. Add it to `ANIMALS` in `src/build.py` with its `scale` measurement, size, weight with the range
+   its source gives, fact and source; put it in a lineup set and a log load.
+5. Rebuild, then run `python src/tools/audit_scale.py --sheets` and look at the animal. The green
+   line has to land on the landmark `at` names. That look is the check — everything else the audit
+   does is arithmetic it can do on its own.
 
 ## Credits
 

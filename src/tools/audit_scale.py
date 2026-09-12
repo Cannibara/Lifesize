@@ -7,6 +7,9 @@ all three games. This rasterises the SVGs and checks the claims.
 
     python src/tools/audit_scale.py            report every animal, flag the doubtful ones
     python src/tools/audit_scale.py --sheets   also draw contact sheets into src/tools/audit/
+    python src/tools/audit_scale.py --propose koala wombat
+                                               suggest where the withers sits in a drawing that
+                                               has been downloaded and chosen but not yet sized
 
 It checks three things: that each height still follows from its recorded measurement, that each
 weight sits inside the range its source gives, and that the weight game draws every animal at its
@@ -207,6 +210,54 @@ def report():
     return 1 if bad else 0
 
 
+# ---------------------------------------------------------------- proposing a new animal
+def bottomline(key, cols=80, rows=300):
+    polys, box = silhouette(key)
+    cov = rasterize(polys, cols, rows, box, ss=4)
+    top, bot = [], []
+    for x in range(cols):
+        hit = [y for y in range(rows) if cov[y * cols + x] > 0.25]
+        top.append(1 - hit[0] / rows if hit else None)
+        bot.append(1 - hit[-1] / rows if hit else None)
+    return top, bot
+
+
+def propose(key):
+    """Suggest where a quadruped's withers sits in a drawing, as a starting number to confirm.
+
+    The withers is the one figure in an animal's record that cannot be looked up: it is a fact
+    about this particular drawing, not about the animal. This finds the feet - the columns whose
+    lowest ink is on the ground - and reads the top edge above the outermost group at each end,
+    which for a quadruped standing in profile is the shoulder at one end and the rump at the other.
+
+    Treat the answer as a draft. Measured against the 21 quadrupeds already sized by hand, the
+    better of its two candidates lands within 3 points on 12 of them and misses by as much as 12
+    on animals whose outermost feet are not the front ones, or whose antlers or hump overhang the
+    legs - and 12 points is a 15% error in the animal's size. So take the number, put it in the
+    record, then run --sheets and check the green line landed on the shoulder.
+    """
+    top, bot = bottomline(key)
+    on = [i for i, b in enumerate(bot) if b is not None and b < 0.06]
+    groups = []
+    for i in on:
+        if groups and i - groups[-1][-1] <= 2: groups[-1].append(i)
+        else: groups.append([i])
+    groups = [g for g in groups if len(g) >= 2]
+    b = build.bbox[key]
+    print(f"\n{key}: aspect {b['w']/b['h']:.3f}, highest point at "
+          f"{max(t for t in top if t is not None)*100:.0f}% of its own height")
+    if len(groups) < 2:
+        print("  no clear pair of foot groups - not a quadruped standing in profile, "
+              "so measure this one by eye on the sheet")
+        return
+    for g, end in ((groups[0], "left"), (groups[-1], "right")):
+        mid = g[len(g) // 2]
+        window = [top[i] for i in range(max(0, mid - 2), min(len(top), mid + 3)) if top[i] is not None]
+        print(f"  top edge above the {end}-hand feet (x={mid/len(top)*100:.0f}% of the width): "
+              f"h_f = {max(window):.3f}")
+    print("  one of those two is the withers and the other the rump - confirm which on the sheet")
+
+
 # ---------------------------------------------------------------- weights
 def weights():
     """Weights against their sources, and against the space the drawing takes up.
@@ -341,9 +392,9 @@ class Canvas:
                     + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
 
 
-def sheets(out_dir, cols=3, cell=(470, 400), per=6):
+def sheets(out_dir, cols=3, cell=(470, 400), per=6, only=None):
     os.makedirs(out_dir, exist_ok=True)
-    keys = sorted(build.ANIMALS, key=lambda k: build.ANIMALS[k]["h"])
+    keys = list(only) if only else sorted(build.ANIMALS, key=lambda k: build.ANIMALS[k]["h"])
     written = []
     for page in range(0, len(keys), per):
         group = keys[page:page + per]
@@ -369,11 +420,14 @@ def sheets(out_dir, cols=3, cell=(470, 400), per=6):
                 if major: img.text(int(ox - 30), int(yy) - 3, str(p * 5), (150, 0, 0))
             for p in range(11):
                 img.vline(ox + p / 10 * w, oy - 10, oy + h + 10, (0, 70, 190), 0.4 if p % 5 == 0 else 0.16)
-            s = build.ANIMALS[key]["scale"]
-            yy = oy + h - s["h_f"] * h
-            img.hline(yy, ox - 38, ox + w + 44, (0, 150, 0))
-            img.text(int(ox + w + 20), int(yy) - 3, f"{s['at']} {s['h_f']*100:.0f}", (0, 120, 0))
-            img.text(cx + 8, cy + 10, f"{key} h={build.ANIMALS[key]['h']:.2f}m", (20, 20, 20), 2)
+            rec = build.ANIMALS.get(key)
+            if rec:
+                s = rec["scale"]
+                yy = oy + h - s["h_f"] * h
+                img.hline(yy, ox - 38, ox + w + 44, (0, 150, 0))
+                img.text(int(ox + w + 20), int(yy) - 3, f"{s['at']} {s['h_f']*100:.0f}", (0, 120, 0))
+            label = f"{key} h={rec['h']:.2f}m" if rec else f"{key} not sized yet"
+            img.text(cx + 8, cy + 10, label, (20, 20, 20), 2)
         path = os.path.join(out_dir, f"scale_{page // per}.png")
         img.save(path)
         written.append(path)
@@ -381,11 +435,21 @@ def sheets(out_dir, cols=3, cell=(470, 400), per=6):
 
 
 if __name__ == "__main__":
+    out = os.path.join(HERE, "audit")
+    if "--propose" in sys.argv:
+        wanted = sys.argv[sys.argv.index("--propose") + 1:]
+        unknown = [k for k in wanted if k not in build.choices]
+        if not wanted or unknown:
+            raise SystemExit(f"--propose needs keys that are in src/choices.json; "
+                             f"{unknown or 'none'} {'is' if len(unknown) == 1 else 'are'} not")
+        for k in wanted: propose(k)
+        print()
+        for p in sheets(out, only=wanted): print("drew", os.path.relpath(p, ROOT))
+        raise SystemExit(0)
     code = report()
     weights()
     weigh_scale()
     if "--sheets" in sys.argv:
-        out = os.path.join(HERE, "audit")
         print()
         for p in sheets(out): print("drew", os.path.relpath(p, ROOT))
     raise SystemExit(code)
