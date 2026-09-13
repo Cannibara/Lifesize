@@ -42,6 +42,26 @@ anyone builds, so changes belong in the sources below.
 visible; the register it aims for is "a warm outdoor morning", Animal Crossing rather than
 fairground.
 
+## Reading around the repo
+
+Three files hold most of the bulk and rarely repay opening, because of how they are made:
+
+- `index.html` (~370 KB) is assembled by `build.py` out of `src/template.html`, `src/animals.py`
+  and the drawings, so anything in it came from one of those — read the source instead. When the
+  question really is what the built file ended up containing, a few lines of Python that pull out
+  the one field beat reading it whole.
+- `src/phylo/*.svg` (~230 KB across 32 files) are potrace bezier paths. They say nothing useful as
+  text; `audit_scale.py` already reads them geometrically, so borrow that instead of opening one.
+- `src/phylo/catalog.json` (~105 KB) lists the PhyloPic candidates that were considered when each
+  animal was chosen. Provenance, rarely the answer to anything.
+
+`src/template.html` (~130 KB) is normal source and sometimes genuinely needed, but usually in the
+part you are working on rather than whole.
+
+For the state of the library, asking is cheaper than reading: `python src/build.py` prints every
+animal's size and weight in about thirty lines, and `python src/tools/audit_scale.py` adds the
+workings behind each height, the sourced weight ranges, and the checks.
+
 ## The thing that is easy to get wrong
 
 Each animal's height is stored, not computed — but it is stored alongside the workings that
