@@ -207,8 +207,9 @@ a broken frame is visible rather than silent.
    candidates each and prints which species still need one chosen.
 2. Pick one — plenty are dorsal views, skulls or swimming poses, so this needs eyes — and record it
    in `src/choices.json` with its uuid, licence, contributor and attribution.
-3. Measure its bounding box with `src/tools/measure.html`, served by `src/tools/serve.py`, into
-   `src/bbox.json`.
+3. `python src/tools/audit_scale.py --measure` writes its ink box into `src/bbox.json`. It only
+   fills in what is missing; existing entries are left alone, because the built file carries the
+   box rounded to two decimals and a re-measure can shift it enough to fail CI for no real change.
 4. `python src/tools/audit_scale.py --propose <key>` for a starting `h_f`. It is a draft: against
    the animals already sized by hand it lands within 3 points on twelve of twenty-one, and misses by
    as much as 12 where the outermost feet are not the front ones. It says so rather than guessing

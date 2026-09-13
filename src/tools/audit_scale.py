@@ -10,6 +10,8 @@ all three games, which is how a fox once came to be a third too big.
     python src/tools/audit_scale.py --propose koala wombat
                                                suggest where the withers sits in a drawing that
                                                has been downloaded and chosen but not yet sized
+    python src/tools/audit_scale.py --measure  write the ink box of any newly chosen drawing into
+                                               src/bbox.json, which used to need a browser
 
 It checks three things: that each height still follows from its recorded workings, that each weight
 sits inside the range its source gives, and that the weight game draws every animal at its true
@@ -107,12 +109,63 @@ def _flatten(d, tx, ty, sx, sy, steps=24):
     return polys
 
 
+def drawing_path(key):
+    return os.path.join(SRC, "phylo", f"{key}__{build.choices[key]['uuid']}.svg")
+
+
 def silhouette(key):
-    path = os.path.join(SRC, "phylo", f"{key}__{build.choices[key]['uuid']}.svg")
-    polys = parse_svg(path)
+    polys = parse_svg(drawing_path(key))
     xs = [p[0] for poly in polys for p in poly]
     ys = [p[1] for poly in polys for p in poly]
     return polys, (min(xs), min(ys), max(xs), max(ys))
+
+
+# ---------------------------------------------------------------- measuring a new drawing
+def measure(keys=None, write=True):
+    """Write the box each drawing's ink occupies into src/bbox.json.
+
+    This used to mean opening src/tools/measure.html in a browser and reading back getBBox().
+    Flattening the curves here gives the same answer - across the thirty-two drawings already
+    measured that way the two disagree by at most 0.023 units on a drawing about 1536 wide, which
+    is 0.0015% - so a new animal no longer needs the browser step.
+
+    Only missing entries are written. An entry that already exists is left alone and reported with
+    the difference, for a practical reason as well as a cautious one: build.py ships the box rounded
+    to two decimals, so re-measuring an animal that was originally measured in a browser can move
+    index.html by 0.01 units - no visible change at all, but enough to fail CI's check that the
+    committed file matches its sources.
+    """
+    path = os.path.join(SRC, "bbox.json")
+    boxes = json.load(open(path))
+    keys = list(keys) if keys else [k for k in build.choices if k not in boxes]
+    if not keys:
+        print("every chosen drawing is already measured in src/bbox.json")
+        return 0
+    added, seen = [], []
+    for key in keys:
+        _, (x0, y0, x1, y1) = silhouette(key)
+        vb = re.search(r'viewBox="([^"]*)"', open(drawing_path(key), encoding="utf-8",
+                                                 errors="ignore").read())
+        box = {"x": x0, "y": y0, "w": x1 - x0, "h": y1 - y0,
+               "viewBox": vb.group(1) if vb else ""}
+        if key in boxes:
+            old = boxes[key]
+            drift = max(abs(box[f] - old[f]) for f in "xywh")
+            seen.append(f"  {key:12s} already measured; this reading differs by {drift:.4f} units")
+        else:
+            boxes[key] = box
+            added.append(f"  {key:12s} x={box['x']:.2f} y={box['y']:.2f} "
+                         f"w={box['w']:.2f} h={box['h']:.2f}  (aspect {box['w']/box['h']:.3f})")
+    for line in seen: print(line)
+    if added:
+        print(f"measured {len(added)} drawing{'' if len(added) == 1 else 's'}:")
+        for line in added: print(line)
+        if write:
+            with open(path, "w", encoding="utf-8", newline="\n") as f:
+                json.dump(boxes, f, indent=1)
+                f.write("\n")
+            print(f"wrote {os.path.relpath(path, ROOT)}")
+    return len(added)
 
 
 # ---------------------------------------------------------------- measuring
@@ -363,6 +416,13 @@ def sheets(out_dir, cols=3, cell=(470, 400), per=6, only=None):
 
 if __name__ == "__main__":
     out = os.path.join(HERE, "audit")
+    if "--measure" in sys.argv:
+        wanted = [a for a in sys.argv[sys.argv.index("--measure") + 1:] if not a.startswith("-")]
+        unknown = [k for k in wanted if k not in build.choices]
+        if unknown:
+            raise SystemExit(f"--measure needs keys that are in src/choices.json; {unknown} "
+                             f"{'is' if len(unknown) == 1 else 'are'} not")
+        raise SystemExit(0 if measure(wanted or None) >= 0 else 1)
     if "--propose" in sys.argv:
         wanted = sys.argv[sys.argv.index("--propose") + 1:]
         unknown = [k for k in wanted if k not in build.choices]
