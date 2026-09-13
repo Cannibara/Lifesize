@@ -148,8 +148,15 @@ workflow is built around making that number quick to propose and quick to confir
 1. Add the species to the roster in `src/fetch_phylo.py` and run it. It downloads up to eight
    candidate silhouettes each and prints which species still need one chosen.
 2. Pick one — plenty are dorsal views, skulls or swimming poses, so this needs eyes — record it in
-   `src/choices.json`, and measure its bounding box with `src/tools/measure.html` served by
-   `src/tools/serve.py`.
+   `src/choices.json`, then measure its bounding box into `src/bbox.json` with
+
+   ```
+   python src/tools/audit_scale.py --measure
+   ```
+
+   which fills in every chosen drawing that is not measured yet and leaves existing entries alone.
+   `src/tools/measure.html` does the same in a browser and is still there, but the two agree to
+   within 0.0015% of a drawing's width, so a new animal no longer needs it.
 3. Ask for a starting figure:
 
    ```

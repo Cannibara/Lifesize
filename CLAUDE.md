@@ -39,7 +39,7 @@ committed copy is not what the sources produce.
 | `src/template.html` | The game — markup, CSS and the JavaScript for all three games. Everything except the animals. |
 | `src/phylo/*.svg` | One PhyloPic drawing per animal. |
 | `src/choices.json` | Which drawing each animal uses, plus the artist and licence the credits screen reads. |
-| `src/bbox.json` | The exact rectangle each drawing's ink occupies, measured in a browser. |
+| `src/bbox.json` | The exact rectangle each drawing's ink occupies. Written by `audit_scale.py --measure`. |
 
 **The workshop**
 
@@ -48,7 +48,7 @@ committed copy is not what the sources produce.
 | `src/build.py` | Reads the above, runs the checks, writes `index.html`. |
 | `src/tools/audit_scale.py` | Checks each animal's size against its own drawing, and proposes one for a new animal. |
 | `src/fetch_phylo.py` | Downloads candidate drawings from PhyloPic for the roster in that file. |
-| `src/tools/*.html`, `serve.py` | Browser pages used when measuring a newly chosen drawing. |
+| `src/tools/*.html`, `serve.py` | Browser pages that measure a drawing by hand. `--measure` has replaced them for new animals; kept for eyeballing. |
 
 `DESIGN.md` holds the house style — palette, shape, tone. Worth a look before touching anything
 visible; the register it aims for is "a warm outdoor morning", Animal Crossing rather than
