@@ -1,11 +1,11 @@
 # Life-Size Lineup
 
-Three small browser games about how big and how heavy animals really are.
+Three small browser games about how big and how heavy animals really are. Fifty-seven animals, from a house mouse to a bull elephant, plus you.
 
-- **Lineup (size).** Enter your height. An animal silhouette stands beside your own on graph paper. Drag the red corner until it looks life-size, lock it in, and score up to 100 for accuracy. Five animals, 500 points.
+- **Lineup (size).** Enter your height. An animal silhouette stands beside your own on graph paper. Drag the red corner until it looks life-size, lock it in, and score up to 100 for accuracy. Five animals, 500 points. Nine themed sets to pick from — farm, savanna, northern forest, rodents, jungle, Australia, birds, polar and Asia — or let it surprise you.
 - **Counterweight (weight).** A large animal sits on one side of a balance. Click the bucket to drop one smaller animal and hold to pour faster; right-drag the bucket (or drag it with a finger) to carry it anywhere on the paper and pour there — wherever they land, they count. Nothing comes back out. Lock in when you think it balances; the reveal stacks what you poured over what balances, and says what each animal weighs.
 
-- **Balance Log (balance).** A wooden log lies across a boulder like a seesaw. Click above it to drop the animal waiting in the dock; it falls, bounces once and settles, carrying its weight at its centre of gravity. The log turns on the sum of weight × distance from the rock, so a pig near the middle answers four dogs out at the end. Tip past about twenty degrees and animals slide off and are lost. Ten animals a load, ten points for each one still aboard, five loads.
+- **Balance Log (balance).** A wooden log lies across a boulder like a seesaw. Click above it to drop the animal waiting in the dock; it falls, bounces once and settles, carrying its weight at its centre of gravity. The log turns on the sum of weight × distance from the rock, so a pig near the middle answers four dogs out at the end. Tip past about twenty degrees and animals slide off and are lost. Ten animals a load, ten points for each one still aboard, five loads. Each load is drawn at random from a weight tier, so the rounds always work upward from the hedgerow to the heavyweights but never repeat the same five loads.
 
 All three games pan and zoom the same way: scroll or pinch to zoom, drag to move, or use the buttons in the corner of the stage to fit everything or close in on the part you are judging.
 
@@ -53,7 +53,8 @@ slide below the friction limit past that, and never spin.
 
 Each load draws its animals to one shared scale, set by the tallest of them, so the log is as
 long in metres as those animals need it to be. That is what the lever arms shown on the board
-are measured in.
+are measured in. The eleven loads are grouped into five weight tiers, and each game takes one
+load from each tier in turn, lightest first.
 
 ## Adding animals
 
@@ -63,7 +64,7 @@ are measured in.
 
 ## Credits
 
-Silhouettes are from [PhyloPic](https://www.phylopic.org). Most are public domain (CC0). Two require attribution: the human figure by Katy Lawler (CC BY 4.0) and the giraffe traced by T. Michael Keesey from a photograph by Bernard Dupont (CC BY-SA 3.0).
+Silhouettes are from [PhyloPic](https://www.phylopic.org). Most are public domain (CC0 or Public Domain Mark). Five ask for attribution and get it in the table below: the human figure by Katy Lawler (CC BY 4.0), the giraffe and the ostrich (CC BY-SA 3.0), and the chimpanzee and Tasmanian devil (CC BY 3.0). None are licensed non-commercially.
 
 | Animal | Credit | Licence | Source |
 | --- | --- | --- | --- |
@@ -95,5 +96,35 @@ Silhouettes are from [PhyloPic](https://www.phylopic.org). Most are public domai
 | European hedgehog | Steven Traver | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/6ecff71e-fcfc-4cb9-b773-9e6e21607587) |
 | North American beaver | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/be8670c2-a5bd-4b44-88e8-92f8b0c7f4c6) |
 | Capybara | Skye M | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/9c234021-ce53-45d9-8fdd-b0ca3115a451) |
+| Tiger | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/135296df-6e7a-4c02-bd22-85ca4aefcc85) |
+| Leopard | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/78dbe564-bcba-4dc3-8bdc-fb95fc288580) |
+| Jaguar | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/c5362c8a-0c93-41f5-9d4d-674dbe231318) |
+| Western gorilla | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/142e0571-3b5f-443d-a887-b572a224ea22) |
+| Chimpanzee | Kai R. Caspar | CC BY 3.0 | [PhyloPic](https://www.phylopic.org/images/34f93016-ee49-428c-8504-c7c4739232bc) |
+| Bornean orangutan | T. Michael Keesey | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/0173bfdd-b5ab-4e8f-9053-b33830690ac5) |
+| Red kangaroo | Guillaume Dera | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/b1619eda-7265-4c5a-9af5-527875ab2677) |
+| Koala | Gavin Prideaux | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/0904270e-b105-46e0-b81f-c4911d47d467) |
+| Common wombat | Rachel T Mason | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/ee5c20bd-f70e-44be-a5f4-675592eb2694) |
+| Tasmanian devil | Soledad Miranda-Rottmann | CC BY 3.0 | [PhyloPic](https://www.phylopic.org/images/fc8ff6ad-d1b6-4d87-a1ef-297f8301345e) |
+| Emu | Andy Wilson | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/bae88982-352f-43d0-b2ed-8d7661fa1d6f) |
+| Platypus | Rachel T Mason | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/162021b6-349b-4a64-906f-33d4a191b30e) |
+| Common ostrich | Matt Martyniuk (vectorized by T. Michael Keesey) | CC BY-SA 3.0 | [PhyloPic](https://www.phylopic.org/images/14ddbf4d-7749-4153-bbe1-8d0c6ffdf142) |
+| Emperor penguin | Guillaume Dera | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/f2e02022-2700-484d-a66d-b2a900030371) |
+| Mute swan | Andy Wilson | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/95f4447f-2ef4-4061-ad9f-3de17e71afeb) |
+| Chicken | Arcadia Science | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/f16a316c-6580-4cc0-b6b5-fd2e895ba225) |
+| Golden eagle | Anthony Caravaggi | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/b2b60a18-fd7d-49b2-a15d-54a62cdcac6b) |
+| Greater flamingo | Ferran Sayol | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/a1244226-f2c2-41dc-b113-f1c6545958ce) |
+| Polar bear | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/a12876cb-0930-4310-8ea8-2378df8164e3) |
+| Walrus | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/d2575005-1fcb-4a86-8c83-e3bda619adf2) |
+| Harp seal | Tracy A. Heath | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/5e359baf-a5f7-4101-8f61-6d42beb52756) |
+| Arctic fox | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/8e5dfa51-961d-48be-acda-fd7a00f0e565) |
+| Muskox | Laura Barbero-Palacios | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/2238533e-7b2c-4497-a414-eaece410cb88) |
+| Wolverine | Steven Traver | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/1f9bbb79-f060-47c1-9954-ea78812d3b91) |
+| Dromedary | Steven Traver | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/e52676dd-272c-4b14-8c99-ea5dc98942e5) |
+| Asian elephant | Kai Caspar | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/91e44407-08f2-4b96-b8a6-ab4ce6d4d38d) |
+| Giant panda | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/887ea34b-b62a-4126-9e98-434d6000dd0c) |
+| Wild water buffalo | Cristopher Silva | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/d36c5902-5124-41e5-a880-15b0b1d1070d) |
+| Snow leopard | Margot Michaud | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/cb44ff49-165e-4c97-9a94-98f512dda64f) |
+| Red panda | Xavier A. Jenkins | CC0 1.0 | [PhyloPic](https://www.phylopic.org/images/02990f6d-82d3-45a9-b85e-99deb69d2a96) |
 
 Game design by the repository owner; code written with Claude.

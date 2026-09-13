@@ -1,8 +1,7 @@
 import json, urllib.request, urllib.parse, os, time, sys, re
 
 API = "https://api.phylopic.org"
-BUILD = 553
-OUT = "phylo"
+OUT = os.environ.get("PHYLO_OUT", "phylo")
 os.makedirs(OUT, exist_ok=True)
 
 def get(url):
@@ -18,6 +17,10 @@ def get(url):
 
 def getj(path):
     return json.loads(get(API + path).decode("utf-8"))
+
+# The API rejects any request carrying an outdated build index, so ask it for the current one.
+BUILD = getj("/nodes?filter_name=homo%20sapiens")["build"]
+print("phylopic build", BUILD)
 
 species = {
   # key: (common name, scientific name)
@@ -55,6 +58,42 @@ species = {
   "tiger": ("Tiger", "Panthera tigris"),
   "gorilla": ("Western gorilla", "Gorilla gorilla"),
   "human": ("Human", "Homo sapiens"),
+  # ---- jungle ----
+  "leopard": ("Leopard", "Panthera pardus"),
+  "jaguar": ("Jaguar", "Panthera onca"),
+  "chimp": ("Chimpanzee", "Pan troglodytes"),
+  "orangutan": ("Bornean orangutan", "Pongo pygmaeus"),
+  # ---- australia ----
+  "koala": ("Koala", "Phascolarctos cinereus"),
+  "wombat": ("Common wombat", "Vombatus ursinus"),
+  "tasdevil": ("Tasmanian devil", "Sarcophilus harrisii"),
+  "emu": ("Emu", "Dromaius novaehollandiae"),
+  "platypus": ("Platypus", "Ornithorhynchus anatinus"),
+  # ---- birds ----
+  "ostrich": ("Common ostrich", "Struthio camelus"),
+  "penguin": ("Emperor penguin", "Aptenodytes forsteri"),
+  "swan": ("Mute swan", "Cygnus olor"),
+  "chicken": ("Chicken", "Gallus gallus"),
+  "eagle": ("Golden eagle", "Aquila chrysaetos"),
+  "flamingo": ("Greater flamingo", "Phoenicopterus roseus"),
+  "snowyowl": ("Snowy owl", "Bubo scandiacus"),
+  # ---- polar ----
+  "polarbear": ("Polar bear", "Ursus maritimus"),
+  "walrus": ("Walrus", "Odobenus rosmarus"),
+  "seal": ("Harp seal", "Pagophilus groenlandicus"),
+  "greyseal": ("Grey seal", "Halichoerus grypus"),
+  "arcticfox": ("Arctic fox", "Vulpes lagopus"),
+  "muskox": ("Muskox", "Ovibos moschatus"),
+  # ---- asia ----
+  "asianelephant": ("Asian elephant", "Elephas maximus"),
+  "panda": ("Giant panda", "Ailuropoda melanoleuca"),
+  "waterbuffalo": ("Water buffalo", "Bubalus bubalis"),
+  "redpanda": ("Red panda", "Ailurus fulgens"),
+  "snowleopard": ("Snow leopard", "Panthera uncia"),
+  "llama": ("Llama", "Lama glama"),
+  "bison": ("American bison", "Bison bison"),
+  "wildboar": ("Wild boar", "Sus scrofa"),
+  "otter": ("Eurasian otter", "Lutra lutra"),
 }
 
 result = {}

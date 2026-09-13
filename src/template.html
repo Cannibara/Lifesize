@@ -1997,8 +1997,15 @@ function makeDropQueue(members){
   while (q.length < DROPS) for (const k of shuffle([...members])) if (q.length < DROPS) q.push(k);
   return shuffle(q);
 }
+// one load per weight tier, drawn at random, lightest tier first: five rounds that work upward
+function makeLoadQueue(){
+  const tiers = new Map();
+  for (const s of DATA.logSets){ const t = s.tier || 0; if (!tiers.has(t)) tiers.set(t, []); tiers.get(t).push(s); }
+  return [...tiers.keys()].sort((a, b) => a - b).map(t => { const g = tiers.get(t); return g[Math.floor(Math.random() * g.length)]; });
+}
 function startBalanceGame(){
   S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = [];
+  S.loads = makeLoadQueue();
   $('themeChip').textContent = 'Balance Log';
   $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', false);
   Wg.active = false; cancelAnimationFrame(Wg.raf);
@@ -2014,7 +2021,7 @@ function startBalanceGame(){
 }
 function nextBalanceRound(){
   S.round++;
-  const set = DATA.logSets[(S.round - 1) % DATA.logSets.length];
+  const set = S.loads[(S.round - 1) % S.loads.length];
   Lg.set = set;
   Lg.queue = makeDropQueue(set.members);
   Lg.next = 0; Lg.locking = false; Lg.settleT = 0; Lg.calmT = 0;

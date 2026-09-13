@@ -286,5 +286,239 @@
   "title": "Gorilla gorilla",
   "sci": "Gorilla gorilla",
   "common": "Western gorilla"
+ },
+ "leopard": {
+  "uuid": "78dbe564-bcba-4dc3-8bdc-fb95fc288580",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Panthera pardus",
+  "sci": "Panthera pardus",
+  "common": "Leopard"
+ },
+ "jaguar": {
+  "uuid": "c5362c8a-0c93-41f5-9d4d-674dbe231318",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Panthera onca",
+  "sci": "Panthera onca",
+  "common": "Jaguar"
+ },
+ "chimp": {
+  "uuid": "34f93016-ee49-428c-8504-c7c4739232bc",
+  "license": "https://creativecommons.org/licenses/by/3.0/",
+  "contributor": "Kai Caspar",
+  "attribution": "Kai R. Caspar",
+  "title": "Pan troglodytes",
+  "sci": "Pan troglodytes",
+  "common": "Chimpanzee"
+ },
+ "orangutan": {
+  "uuid": "0173bfdd-b5ab-4e8f-9053-b33830690ac5",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "T. Michael Keesey",
+  "attribution": "T. Michael Keesey",
+  "title": "Pongo pygmaeus",
+  "sci": "Pongo pygmaeus",
+  "common": "Bornean orangutan"
+ },
+ "koala": {
+  "uuid": "0904270e-b105-46e0-b81f-c4911d47d467",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Sam Arman",
+  "attribution": "Gavin Prideaux",
+  "title": "Phascolarctos cinereus",
+  "sci": "Phascolarctos cinereus",
+  "common": "Koala"
+ },
+ "wombat": {
+  "uuid": "ee5c20bd-f70e-44be-a5f4-675592eb2694",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Rachel T Mason",
+  "attribution": "Rachel T Mason",
+  "title": "Vombatus ursinus",
+  "sci": "Vombatus ursinus",
+  "common": "Common wombat"
+ },
+ "tasdevil": {
+  "uuid": "fc8ff6ad-d1b6-4d87-a1ef-297f8301345e",
+  "license": "https://creativecommons.org/licenses/by/3.0/",
+  "contributor": "Soledad Miranda-Rottmann",
+  "attribution": "Soledad Miranda-Rottmann",
+  "title": "Sarcophilus harrisii",
+  "sci": "Sarcophilus harrisii",
+  "common": "Tasmanian devil"
+ },
+ "emu": {
+  "uuid": "bae88982-352f-43d0-b2ed-8d7661fa1d6f",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Andy Wilson",
+  "attribution": "Andy Wilson",
+  "title": "Dromaius novaehollandiae",
+  "sci": "Dromaius novaehollandiae",
+  "common": "Emu"
+ },
+ "platypus": {
+  "uuid": "162021b6-349b-4a64-906f-33d4a191b30e",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Rachel T Mason",
+  "attribution": "Rachel T Mason",
+  "title": "Ornithorhynchus anatinus",
+  "sci": "Ornithorhynchus anatinus",
+  "common": "Platypus"
+ },
+ "ostrich": {
+  "uuid": "14ddbf4d-7749-4153-bbe1-8d0c6ffdf142",
+  "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "contributor": "T. Michael Keesey",
+  "attribution": "Matt Martyniuk (vectorized by T. Michael Keesey)",
+  "title": "Struthio camelus",
+  "sci": "Struthio camelus",
+  "common": "Common ostrich"
+ },
+ "penguin": {
+  "uuid": "f2e02022-2700-484d-a66d-b2a900030371",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Guillaume Dera",
+  "attribution": null,
+  "title": "Aptenodytes forsteri",
+  "sci": "Aptenodytes forsteri",
+  "common": "Emperor penguin"
+ },
+ "swan": {
+  "uuid": "95f4447f-2ef4-4061-ad9f-3de17e71afeb",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Andy Wilson",
+  "attribution": "Andy Wilson",
+  "title": "Cygnus olor",
+  "sci": "Cygnus olor",
+  "common": "Mute swan"
+ },
+ "chicken": {
+  "uuid": "f16a316c-6580-4cc0-b6b5-fd2e895ba225",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Arcadia Science",
+  "attribution": "Arcadia Science",
+  "title": "Gallus gallus domesticus",
+  "sci": "Gallus gallus",
+  "common": "Chicken"
+ },
+ "eagle": {
+  "uuid": "b2b60a18-fd7d-49b2-a15d-54a62cdcac6b",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Anthony Caravaggi",
+  "attribution": "Anthony Caravaggi",
+  "title": "Aquila chrysaetos",
+  "sci": "Aquila chrysaetos",
+  "common": "Golden eagle"
+ },
+ "flamingo": {
+  "uuid": "a1244226-f2c2-41dc-b113-f1c6545958ce",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Ferran Sayol",
+  "attribution": "Ferran Sayol",
+  "title": "Phoenicopterus roseus",
+  "sci": "Phoenicopterus roseus",
+  "common": "Greater flamingo"
+ },
+ "polarbear": {
+  "uuid": "a12876cb-0930-4310-8ea8-2378df8164e3",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Ursus maritimus",
+  "sci": "Ursus maritimus",
+  "common": "Polar bear"
+ },
+ "walrus": {
+  "uuid": "d2575005-1fcb-4a86-8c83-e3bda619adf2",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Odobenus rosmarus",
+  "sci": "Odobenus rosmarus",
+  "common": "Walrus"
+ },
+ "seal": {
+  "uuid": "5e359baf-a5f7-4101-8f61-6d42beb52756",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Tracy Heath",
+  "attribution": "Tracy A. Heath",
+  "title": "Pagophilus groenlandicus",
+  "sci": "Pagophilus groenlandicus",
+  "common": "Harp seal"
+ },
+ "arcticfox": {
+  "uuid": "8e5dfa51-961d-48be-acda-fd7a00f0e565",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Vulpes lagopus",
+  "sci": "Vulpes lagopus",
+  "common": "Arctic fox"
+ },
+ "muskox": {
+  "uuid": "2238533e-7b2c-4497-a414-eaece410cb88",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Laura Barbero-Palacios",
+  "attribution": "Laura Barbero-Palacios",
+  "title": "Ovibos moschatus",
+  "sci": "Ovibos moschatus",
+  "common": "Muskox"
+ },
+ "wolverine": {
+  "uuid": "1f9bbb79-f060-47c1-9954-ea78812d3b91",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Steven Traver",
+  "attribution": "Steven Traver",
+  "title": "Gulo gulo gulo",
+  "sci": "Gulo gulo",
+  "common": "Wolverine"
+ },
+ "asianelephant": {
+  "uuid": "91e44407-08f2-4b96-b8a6-ab4ce6d4d38d",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Kai Caspar",
+  "attribution": "Kai Caspar",
+  "title": "Elephas maximus",
+  "sci": "Elephas maximus",
+  "common": "Asian elephant"
+ },
+ "panda": {
+  "uuid": "887ea34b-b62a-4126-9e98-434d6000dd0c",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Ailuropoda melanoleuca",
+  "sci": "Ailuropoda melanoleuca",
+  "common": "Giant panda"
+ },
+ "waterbuffalo": {
+  "uuid": "d36c5902-5124-41e5-a880-15b0b1d1070d",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "cristopher silva bonilla",
+  "attribution": "Cristopher Silva",
+  "title": "Bubalus arnee",
+  "sci": "Bubalus bubalis",
+  "common": "Wild water buffalo"
+ },
+ "snowleopard": {
+  "uuid": "cb44ff49-165e-4c97-9a94-98f512dda64f",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Margot Michaud",
+  "attribution": "Margot Michaud",
+  "title": "Panthera uncia",
+  "sci": "Panthera uncia",
+  "common": "Snow leopard"
+ },
+ "redpanda": {
+  "uuid": "02990f6d-82d3-45a9-b85e-99deb69d2a96",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "contributor": "Xavier Jenkins",
+  "attribution": "Xavier A. Jenkins",
+  "title": "Ailurus fulgens",
+  "sci": "Ailurus fulgens",
+  "common": "Red panda"
  }
 }
