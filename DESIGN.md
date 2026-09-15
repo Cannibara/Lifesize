@@ -1,8 +1,9 @@
 # Design guide
 
-The house style for Life-Size Lineup. The start menu is built to this guide; anything
-new should follow it, and the older paper-and-pen screens should be brought over to it
-as they are touched.
+The house style for Life-Size Lineup. Every screen is built to this guide — the start
+menu, the header, the docks, the end sheet and all three game boards. The old
+paper-and-pen chrome is gone; what survives of it is the measuring layer, and that is
+described under Colour below.
 
 The tone to aim for: a warm outdoor morning that a child wants to walk into. Animal
 Crossing more than a fairground — soft light, rounded shapes, wood and leaves, nothing
@@ -16,6 +17,9 @@ shouting.
 2. **The world is behind the glass.** The interface floats over an island — sky, sun,
    clouds, hills, field. The scene is decoration only: it never carries meaning a
    player needs, so it can be covered by the card on a small screen without loss.
+   The boards stand on that same island: sky above the horizon, field below it. What
+   a player reads there is the grid, the silhouettes and the pen marks, never the
+   ground behind them.
 3. **Silhouettes are always to scale.** Any decorative animals share one
    metres-per-pixel unit (`--pm` on the start menu), so a giraffe beside a cat is
    honestly a giraffe beside a cat. The game is about real size; the furniture must
@@ -58,30 +62,54 @@ Defined as custom properties on `:root` in `src/template.html`, prefixed `--isl-
 | `--isl-text` | `#4a3a26` | Body text |
 | `--isl-muted` | `#8a765a` | Hints, footnotes, the tagline |
 
+### The board
+
+The three game boards are drawn from a second set, prefixed nothing and defined beside
+the island tokens. They are the island seen at ground level rather than a separate
+place.
+
+| Token | Hex | Where it goes |
+| --- | --- | --- |
+| `--paper` | `#fffdf4` | The board behind everything, where no sky or field reaches |
+| `--sky-hi` / `--sky-lo` | `#b8e7fa` / `#ddf3fd` | Above the horizon — the bottom half of the start menu's sky |
+| `--grass-hi` / `--grass-lo` | `#63b352` / `#458a3c` | Below it — the start menu's field, the same two stops |
+| `--grid` / `--grid-major` | brown at 10% / 19% | Graph paper, drawn over sky and field alike so it reads on either |
+| `--ink` | `#3b2d1a` | The outline on every drawn object, and the horizon itself |
+| `--silhouette` | `#1d4f28` | Every animal, on all three boards and in the results table |
+| `--you` | `#6d4520` | Your own figure, so you are never mistaken for the animal beside you |
+| `--stone` | `#857c6d` | The boulder under the log and the column under the scale |
+| `--graphite` | `#6f5c42` | Second-rank marks: guide lines, chains, the pan weave |
+| `--pen` / `--pen-ink` | `#d0323a` / `#b0262d` | The measuring layer — see below |
+
+**The pen is the one thing that is not island.** Guesses, truth outlines, drag handles,
+measurement tags and the counts poured are drawn in red on top of the scene, because
+they are marks a player made, not objects in the world. Nothing else on a board may use
+it, and nothing the player made may use anything else.
+
 Scene colours are literal rather than tokenised, since they only exist once: sky
 `#86d3f5 → #b3e6fb → #ddf3fd`, far hills `#9ad97f`, near hills `#74c25f`, field
 `#63b352 → #458a3c`, silhouettes `#1d4f28` at 40% opacity. Errors are `#c0492b`.
 
-The game boards do the same where an object needs a material: the scale's ropes are
+The boards do the same where an object needs a material: the scale's ropes are
 `#6f5a3e` and its leaves `#5f8f62`; the balance log is `#c08a4c` with `#9a6a33` underneath,
-`#8a5a2c` grain and `#d8ab74` end grain. Everything else on a board — outlines, stone, the
-graph paper — stays on the paper-and-pen tokens, so the wood reads as one object in the
-drawing rather than as a second palette.
-
-The paper-and-pen tokens (`--ink`, `--pen`, `--grid`, …) still drive the game board
-and are unchanged; the two sets do not mix on one surface.
+`#8a5a2c` grain and `#d8ab74` end grain. The bucket keeps its galvanised gradient, because
+it is the one thing on any board that is meant to read as metal.
 
 ## Type
 
 - **`--f-round`: Baloo 2**, with Source Sans 3 and the system stack behind it. This is
-  the whole island voice: 800 for the title and buttons, 700 for labels and inputs,
-  600 for the tagline, 500 for body copy.
-- Small caps labels (`LIFE-SIZE`, `YOUR HEIGHT`) are 700–800 at 11.5–22px with
-  `letter-spacing` between `.1em` and `.2em`, uppercase.
+  the whole voice, on every screen: 800 for titles, buttons, animal names and the
+  brand, 700 for labels and inputs, 600 for the tagline, 500 for body copy.
+- Small caps labels (`LIFE-SIZE`, `YOUR HEIGHT`, `ROUND 1 · HOW BIG IS A`) are 800 at
+  11.5–22px with `letter-spacing` between `.1em` and `.2em`, uppercase.
 - Sizes are `clamp()`-ed so the card survives a phone: title
   `clamp(38px, 8.6vw, 56px)`, primary button `clamp(21px, 5vw, 28px)`.
-- The game board keeps Fraunces and Caveat — that is the field notebook, a different
-  place.
+- **`--f-hand`: Caveat is a score and nothing else** — the round seal, the running
+  total on the rail, the grand total and the score column. If a number is not what the
+  player earned, it is Baloo.
+- **`--f-ui`: Source Sans 3 is only the board's own SVG text** — the measurements
+  written next to a silhouette. It is the pen's handwriting, so it stays with the pen.
+- Fraunces is gone. Do not reach for a serif.
 
 ## Shape and depth
 
@@ -94,6 +122,11 @@ and are unchanged; the two sets do not mix on one surface.
   going to `0 0 0` — the object travels down onto the page. Hover lifts 2px and
   deepens the edge by 2px.
 - Inner highlights (`inset 0 2px 0 rgba(255,255,255,.28)`) go on wood only.
+- **The header is a wooden rail**, not a toolbar: the sign's own gradient and grain,
+  a 4px `--isl-bark-dk` bottom, an inner highlight and a `0 4px 0` edge under it.
+  Everything sitting on it is cream with a `0 1–2px 0` brown text shadow.
+- **The dock is the start card, smaller**: the same cream-to-paper gradient, 4px
+  `--isl-bark` frame and `0 6px 0` edge, at 22px radius instead of 28px.
 
 ## Interaction
 
@@ -106,6 +139,9 @@ and are unchanged; the two sets do not mix on one surface.
   selector setting `display:flex` silently defeats `.overlay[hidden]`.
 - Tap targets stay at 44px or more; the three mode tiles become one column and go
   horizontal below 600px.
+- Below 640px the dock breaks into two rows — the animal's name gets a full line to
+  itself, then the readout and the button share the next. Letting `.who` shrink
+  instead wrings the name down to a column two words wide.
 
 ## Motion
 

@@ -1,21 +1,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Life-Size Lineup</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Source+Sans+3:wght@400;600;700&family=Caveat:wght@600;700&family=Baloo+2:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Caveat:wght@600;700&family=Baloo+2:wght@500;600;700;800&display=swap">
 <style>
 :root{
   color-scheme: light;
-  --paper:#ffffff; --below:#f3f6fa;
-  --grid:#dbe6f1; --grid-major:#bad0e6;
-  --ink:#10151b; --graphite:#485466; --brass:#8a6d3b; --brass-light:#c9ad6a;
+  /* the ground the board stands on: the same sky, field and light as the start menu */
+  --paper:#fffdf4;
+  --sky-hi:#b8e7fa; --sky-lo:#ddf3fd; --grass-hi:#63b352; --grass-lo:#458a3c;
+  --grid:rgba(86,64,36,.10); --grid-major:rgba(86,64,36,.19);
+  /* ink is the outline on every drawn object; the silhouettes have colours of their own */
+  --ink:#3b2d1a; --silhouette:#1d4f28; --you:#6d4520; --stone:#857c6d; --graphite:#6f5c42;
+  --brass:#8a6d3b; --brass-light:#c9ad6a;
+  /* the pen still marks up the board: guesses, truths and measurements are drawn, not built */
   --pen:#d0323a; --pen-ink:#b0262d; --pen-soft:rgba(208,50,58,.10);
-  --stamp:#0f6156; --stamp-paper:#f1f8f6;
-  --text:#1b2430; --muted:#65758a; --line:#c9d6e4; --chrome:#f6f9fc;
-  --shadow:0 12px 32px rgba(24,39,64,.16); --focus:#1d6fd6;
-  --f-display:'Fraunces', Georgia, 'Times New Roman', serif;
-  --f-ui:'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --f-hand:'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
-  /* island palette, used by the start menu */
+  --stamp:#3f8b3a; --stamp-paper:#fffdf4;
+  --text:#4a3a26; --muted:#8a765a; --line:#d8c39c;
+  --shadow:0 18px 34px rgba(74,48,20,.20); --focus:#ffd873;
+  --f-ui:'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;   /* board measurements only */
+  --f-hand:'Caveat', 'Segoe Print', 'Bradley Hand', cursive;                  /* scores only */
+  /* island palette and voice, used by every screen */
   --f-round:'Baloo 2', 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
   --isl-bark:#8a5a2c; --isl-bark-dk:#6d4520; --isl-wood:#c08a4c; --isl-wood-dk:#a86f36;
   --isl-leaf:#63bc4f; --isl-leaf-dk:#3f8b3a; --isl-leaf-lt:#8ed06a;
@@ -24,34 +28,37 @@
   --isl-text:#4a3a26; --isl-muted:#8a765a;
 }
 html,body{height:100%}
-body{margin:0;background:var(--paper);color:var(--text);font:16px/1.4 var(--f-ui);overflow:hidden}
+body{margin:0;background:var(--paper);color:var(--text);font:16px/1.4 var(--f-round);overflow:hidden}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
-:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+:focus-visible{outline:4px solid var(--focus);outline-offset:1px}
 #app{position:fixed;inset:0;display:flex;flex-direction:column}
 
-/* ---------- header ---------- */
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 18px;background:var(--chrome);border-bottom:1px solid var(--line);flex:0 0 auto;min-height:52px}
-.brand{display:flex;align-items:baseline;gap:14px;min-width:0}
-.brand .name{font:italic 600 24px/1 var(--f-display);letter-spacing:-.01em;white-space:nowrap}
-.chip{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:#fff;white-space:nowrap}
+/* ---------- header: a wooden rail across the top of the island ---------- */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 18px;flex:0 0 auto;min-height:52px;
+  position:relative;z-index:2;
+  background:repeating-linear-gradient(94deg,rgba(255,255,255,.06) 0 2px,rgba(0,0,0,0) 2px 11px),linear-gradient(180deg,var(--isl-wood),var(--isl-wood-dk));
+  border-bottom:4px solid var(--isl-bark-dk);box-shadow:inset 0 2px 0 rgba(255,255,255,.28),0 4px 0 rgba(109,69,32,.26)}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand .name{font:800 22px/1 var(--f-round);letter-spacing:.01em;white-space:nowrap;color:#fffaea;text-shadow:0 2px 0 rgba(88,54,22,.55)}
+.chip{font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:#fffaea;border:0;border-radius:999px;padding:6px 12px;background:var(--isl-bark-dk);white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
 .chip:empty{display:none}
-.rounds{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;font-weight:600}
+.rounds{display:flex;align-items:center;gap:10px;color:#fffaea;font:700 14px/1 var(--f-round);text-shadow:0 1px 0 rgba(88,54,22,.4)}
 .rounds[hidden]{display:none}
-.dots{display:flex;gap:5px}
-.dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--muted);display:block;box-sizing:border-box}
-.dots i.done{background:var(--pen);border-color:var(--pen)}
-.dots i.now{border-color:var(--ink)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;border:2.5px solid rgba(255,250,234,.65);display:block;box-sizing:border-box}
+.dots i.done{background:var(--isl-sun);border-color:var(--isl-sun)}
+.dots i.now{border-color:#fffaea;background:rgba(255,250,234,.32)}
 .right{display:flex;align-items:center;gap:14px}
 .total{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
 .total[hidden]{display:none}
-.total .lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.total .num{font:700 26px/1 var(--f-hand);color:var(--pen-ink)}
-.total .of{color:var(--muted);font-size:14px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
-.seg button{border:0;background:transparent;padding:4px 10px;font-size:13px;font-weight:600;color:var(--muted)}
-.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
-.linkbtn{border:0;background:transparent;color:var(--muted);font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:4px 2px}
+.total .lbl{font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,250,234,.82)}
+.total .num{font:700 28px/1 var(--f-hand);color:var(--isl-sun);text-shadow:0 2px 0 rgba(88,54,22,.45)}
+.total .of{color:rgba(255,250,234,.75);font:700 14px/1 var(--f-round)}
+.seg{display:inline-flex;border:3px solid var(--isl-bark-dk);border-radius:999px;overflow:hidden;background:var(--isl-sand);box-shadow:0 2px 0 rgba(84,52,22,.3)}
+.seg button{border:0;background:transparent;padding:6px 13px;font:800 13px/1 var(--f-round);color:#77603c}
+.seg button[aria-pressed="true"]{background:var(--isl-bark-dk);color:#fffaea}
+.linkbtn{border:0;background:transparent;color:#fffaea;font:800 13px/1 var(--f-round);text-decoration:underline;text-underline-offset:3px;padding:4px 2px;text-shadow:0 1px 0 rgba(88,54,22,.4)}
 
 /* ---------- stage ---------- */
 .stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper)}
@@ -61,10 +68,15 @@ button{cursor:pointer}
 #scene[hidden],#weigh[hidden],#logscene[hidden]{display:none}
 .grid{stroke:var(--grid);stroke-width:1;fill:none;shape-rendering:crispEdges}
 .grid-major{stroke:var(--grid-major);stroke-width:1;fill:none;shape-rendering:crispEdges}
-#scene .below{fill:var(--below)}
-#scene .ground{stroke:var(--ink);stroke-width:2;shape-rendering:crispEdges}
-#scene .human{fill:var(--graphite)}
-#scene .animal{fill:var(--ink)}
+.sky{fill:url(#skyGrad)}
+.grass{fill:url(#grassGrad)}
+.sky-hi{stop-color:var(--sky-hi)}
+.sky-lo{stop-color:var(--sky-lo)}
+.grass-hi{stop-color:var(--grass-hi)}
+.grass-lo{stop-color:var(--grass-lo)}
+.ground{stroke:var(--ink);stroke-width:2;shape-rendering:crispEdges}
+#scene .human{fill:var(--you)}
+#scene .animal{fill:var(--silhouette)}
 #scene .truth{fill:var(--pen-soft);stroke:var(--pen);stroke-width:2.5;stroke-dasharray:7 5;stroke-linejoin:round}
 #scene .box{fill:none;stroke:var(--pen);stroke-width:1;stroke-dasharray:4 4;opacity:.55}
 #scene .handle{cursor:nwse-resize}
@@ -75,14 +87,14 @@ button{cursor:pointer}
 #scene .handle:focus-visible circle.ring{stroke:var(--focus)}
 #scene text,#weigh text,#logscene text{font-family:var(--f-ui);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;fill:var(--text)}
 .lbl{font-size:13px;font-weight:600}
-#scene .lbl.you{fill:var(--graphite)}
+#scene .lbl.you{fill:var(--you)}
 #scene .guide{stroke:var(--graphite);stroke-width:1.5;stroke-dasharray:2 4;fill:none}
 #scene .guide.pen{stroke:var(--pen)}
 #scene .tag{font-size:15px;font-weight:700;fill:var(--pen-ink);font-variant-numeric:tabular-nums}
 #scene .tag.actual{font-weight:600;font-size:14px}
 
 /* weigh scene */
-#weigh .stone{fill:var(--graphite)}
+#weigh .stone{fill:var(--stone)}
 #weigh .stone-line{stroke:var(--paper);stroke-width:2;fill:none;opacity:.55}
 #weigh .brass{fill:var(--brass)}
 #weigh .brass-light{fill:var(--brass-light)}
@@ -92,11 +104,11 @@ button{cursor:pointer}
 #weigh .pivot{fill:var(--paper);stroke:var(--ink);stroke-width:3}
 #weigh .chain{stroke:var(--graphite);stroke-width:2.5;fill:none}
 #weigh .plate{fill:var(--ink)}
-#weigh .dish{fill:rgba(243,246,250,.95);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
-#weigh .basket{fill:rgba(243,246,250,.92);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+#weigh .dish{fill:rgba(255,253,244,.95);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+#weigh .basket{fill:rgba(255,253,244,.92);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
 #weigh .basket-front{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}
-#weigh .ref{fill:var(--ink)}
-#weigh .tok use{fill:var(--ink)}
+#weigh .ref{fill:var(--silhouette)}
+#weigh .tok use{fill:var(--silhouette)}
 #weigh{cursor:grab}
 #weigh.panning{cursor:grabbing}
 #weigh .bucket{cursor:pointer}
@@ -106,7 +118,7 @@ button{cursor:pointer}
 #weigh .bucket .inside{fill:#b9c7d6;stroke:var(--ink);stroke-width:3}
 #weigh .bucket .lip{fill:none;stroke:var(--ink);stroke-width:3.5}
 #weigh .bucket .handle{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round}
-#weigh .bucket .peek use{fill:var(--ink)}
+#weigh .bucket .peek use{fill:var(--silhouette)}
 #weigh .bucket:hover .body{stroke:var(--pen)}
 #weigh .bucket .hit{fill:transparent}
 #weigh .bucket .highlight{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;opacity:.8}
@@ -129,9 +141,7 @@ button{cursor:pointer}
 /* balance-log scene: wood and stone on the same paper as the other two boards */
 #logscene{cursor:crosshair}
 #logscene.panning{cursor:grabbing}
-#logscene .below{fill:var(--below)}
-#logscene .ground{stroke:var(--ink);stroke-width:2;shape-rendering:crispEdges}
-#logscene .rock{fill:var(--graphite)}
+#logscene .rock{fill:var(--stone)}
 #logscene .rock-facet{fill:#fff;opacity:.09}
 #logscene .rock-line{fill:none;stroke:var(--paper);stroke-width:2;opacity:.45;stroke-linecap:round}
 #logscene .log-body{fill:#c08a4c;stroke:var(--ink);stroke-width:3.5;stroke-linejoin:round}
@@ -140,7 +150,7 @@ button{cursor:pointer}
 #logscene .log-knot{fill:none;stroke:#8a5a2c;stroke-width:2;opacity:.7}
 #logscene .log-cap{fill:#d8ab74;stroke:var(--ink);stroke-width:3.5}
 #logscene .log-ring{fill:none;stroke:#a86f36;stroke-width:1.8}
-#logscene .tok use{fill:var(--ink)}
+#logscene .tok use{fill:var(--silhouette)}
 #logscene .tok.gone use{fill:var(--graphite);opacity:.4}
 #logscene .tok.gone .cog,#logscene .tok.gone .wt{display:none}
 #logscene .cog-ring{fill:var(--paper);stroke:var(--ink);stroke-width:2}
@@ -161,60 +171,70 @@ button{cursor:pointer}
 /* zoom controls */
 .zoom{position:absolute;right:14px;bottom:18px;display:flex;flex-direction:column;gap:6px}
 .zoom[hidden]{display:none}
-.zoom button{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(24,39,64,.08);font-size:18px;font-weight:700;color:var(--text);display:grid;place-items:center;padding:0}
-.zoom button:hover{border-color:var(--ink)}
-.zoom button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.zoom button{width:40px;height:40px;border:3px solid var(--isl-bark);background:var(--isl-cream);border-radius:14px;box-shadow:0 3px 0 rgba(109,69,32,.34);font:800 18px/1 var(--f-round);color:var(--isl-bark);display:grid;place-items:center;padding:0;transition:transform .08s ease,box-shadow .08s ease}
+.zoom button:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(109,69,32,.34)}
+.zoom button:active{transform:translateY(3px);box-shadow:0 0 0 rgba(109,69,32,.34)}
+.zoom button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
 /* round score: an ink stamp pressed into the corner, not a mark out of ten */
 .stamp{position:absolute;top:14px;right:14px;width:96px;height:96px;border-radius:50%;box-sizing:border-box;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   background:var(--stamp-paper);border:3px solid var(--stamp);color:var(--stamp);
-  box-shadow:inset 0 0 0 3px var(--stamp-paper), inset 0 0 0 4.5px var(--stamp), 0 6px 18px rgba(15,97,86,.18);
+  box-shadow:inset 0 0 0 3px var(--stamp-paper), inset 0 0 0 4.5px var(--stamp), 0 6px 18px rgba(63,139,58,.24);
   transform:rotate(-6deg);pointer-events:none}
 .stamp[hidden]{display:none}
-.stamp .n{font:italic 600 36px/1 var(--f-display);letter-spacing:-.02em}
-.stamp .d{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.stamp .n{font:700 40px/1 var(--f-hand);letter-spacing:-.01em}
+.stamp .d{font:800 8px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;opacity:.8}
 .stamp.press{animation:press .45s cubic-bezier(.2,1.5,.4,1) both}
 @keyframes press{from{opacity:0;transform:rotate(-18deg) scale(1.7)}55%{opacity:1;transform:rotate(3deg) scale(.94)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
 @media (prefers-reduced-motion: reduce){.stamp.press{animation:none}}
 
-/* dock */
-.dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(680px, calc(100% - 120px));background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;display:flex;align-items:center;gap:16px;box-sizing:border-box}
+/* dock: the same paper-on-bark card the start menu is built from */
+.dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(680px, calc(100% - 120px));
+  background:linear-gradient(180deg,var(--isl-cream),var(--isl-paper));border:4px solid var(--isl-bark);border-radius:22px;
+  box-shadow:0 6px 0 rgba(109,69,32,.45),var(--shadow);padding:13px 18px;display:flex;align-items:center;gap:16px;box-sizing:border-box}
 .dock[hidden]{display:none}
-.dock .who{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
-.dock .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.dock .who .animal-name{font:italic 600 22px/1.1 var(--f-display);text-wrap:balance}
-.dock .who .animal-name small{font:600 15px/1 var(--f-ui);color:var(--muted);font-style:normal}
-.dock .who .sub{color:var(--muted);font-size:14px}
-.dock .readout{display:flex;flex-direction:column;align-items:flex-end;gap:0;font-variant-numeric:tabular-nums}
-.dock .readout .val{font-size:26px;font-weight:700;color:var(--pen-ink);line-height:1.1;white-space:nowrap}
-.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:700;font-size:16px;background:var(--ink);color:#fff;white-space:nowrap}
-.btn:hover{background:#000}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
-.btn.ghost:hover{border-color:var(--ink);background:#fff}
-.btn.pen{background:var(--pen)}
-.btn.pen:hover{background:var(--pen-ink)}
-.btn.pour{background:#fff;color:var(--pen-ink);border:2px solid var(--pen);touch-action:none;user-select:none;-webkit-user-select:none}
-.btn.pour:hover{background:var(--pen-soft)}
+.dock .who{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.dock .eyebrow{font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:var(--isl-muted)}
+.dock .who .animal-name{font:800 22px/1.15 var(--f-round);color:var(--isl-text);text-wrap:balance}
+.dock .who .animal-name small{font:700 15px/1 var(--f-round);color:var(--isl-muted)}
+.dock .who .sub{color:var(--isl-muted);font:500 14px/1.35 var(--f-round)}
+.dock .readout{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-variant-numeric:tabular-nums}
+.dock .readout .val{font:800 26px/1.1 var(--f-round);color:var(--isl-terra-dk);white-space:nowrap}
+
+/* every button rests on a solid edge and travels down onto the page when pressed */
+.btn{border:3px solid var(--isl-bark-dk);border-radius:16px;padding:11px 18px;font:800 16px/1 var(--f-round);
+  background:var(--isl-bark);color:#fffaea;white-space:nowrap;box-shadow:0 5px 0 rgba(84,52,22,.45);
+  transition:transform .08s ease,box-shadow .08s ease,filter .15s ease}
+.btn:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 7px 0 rgba(84,52,22,.45)}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 rgba(84,52,22,.45)}
+.btn.ghost{background:var(--isl-sand);color:#77603c;border-color:var(--isl-bark);box-shadow:0 5px 0 rgba(109,69,32,.35)}
+.btn.ghost:hover{box-shadow:0 7px 0 rgba(109,69,32,.35)}
+.btn.ghost:active{box-shadow:0 0 0 rgba(109,69,32,.35)}
+.btn.pen{background:linear-gradient(180deg,#8ad86a,#4fae45);border-color:var(--isl-leaf-dk);box-shadow:0 5px 0 #35762f;text-shadow:0 2px 0 rgba(31,84,28,.45)}
+.btn.pen:hover{box-shadow:0 7px 0 #35762f}
+.btn.pen:active{box-shadow:0 0 0 #35762f}
+/* last, so a disabled button never lifts or brightens under the pointer */
+.btn:disabled,.btn:disabled:hover,.btn:disabled:active{opacity:.45;cursor:not-allowed;filter:none;transform:none}
 
 /* reveal dock */
 .dock.reveal{flex-direction:column;align-items:stretch;gap:10px;padding:14px 18px}
 .reveal .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-.reveal .verdict{font:italic 600 22px/1.15 var(--f-display);text-wrap:balance}
-.reveal .verdict b{font-style:normal;color:var(--pen-ink)}
-.reveal .fact{margin:0;color:var(--text);font-size:15px;max-width:62ch}
-.reveal details{font-size:13px;color:var(--muted)}
-.reveal details summary{cursor:pointer;font-weight:600}
+.reveal .verdict{font:800 21px/1.25 var(--f-round);color:var(--isl-text);text-wrap:balance}
+.reveal .verdict b{color:var(--isl-terra-dk)}
+.reveal .fact{margin:0;color:var(--isl-text);font:500 15px/1.45 var(--f-round);max-width:62ch}
+.reveal details{font:500 13px/1.45 var(--f-round);color:var(--isl-muted)}
+.reveal details summary{cursor:pointer;font-weight:800}
 .reveal details p{margin:6px 0 0}
 .reveal .row2{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.reveal .nums{display:flex;gap:18px;font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);flex-wrap:wrap}
-.reveal .nums b{color:var(--text);font-size:16px}
+.reveal .nums{display:flex;gap:18px;font-variant-numeric:tabular-nums;font:500 14px/1.3 var(--f-round);color:var(--isl-muted);flex-wrap:wrap}
+.reveal .nums b{color:var(--isl-text);font-weight:800;font-size:16px}
 
 /* ---------- overlays ---------- */
-.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:24px;overflow:auto;background:rgba(255,255,255,.55);backdrop-filter:blur(1.5px);box-sizing:border-box}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:24px;overflow:auto;background:rgba(253,245,226,.6);backdrop-filter:blur(2px);box-sizing:border-box}
 .overlay[hidden]{display:none}
-.sheet{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:32px 34px;width:min(560px,100%);box-sizing:border-box}
+.sheet{background:linear-gradient(180deg,var(--isl-cream),var(--isl-paper));border:4px solid var(--isl-bark);border-radius:26px;
+  box-shadow:0 9px 0 rgba(109,69,32,.5),var(--shadow);padding:30px 32px;width:min(560px,100%);box-sizing:border-box}
 .sheet .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
 #creditsScreen{position:fixed;z-index:70}
 
@@ -334,38 +354,48 @@ button{cursor:pointer}
 
 /* results */
 .results{width:100%;border-collapse:collapse;margin:14px 0 18px;font-variant-numeric:tabular-nums;font-size:15px}
-.results th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
-.results td{padding:8px;border-bottom:1px solid var(--grid)}
+.results th{text-align:left;font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:var(--isl-muted);padding:6px 8px;border-bottom:2px solid var(--isl-sand)}
+.results td{padding:8px;border-bottom:2px solid rgba(138,90,44,.13)}
 .results td.num,.results th.num{text-align:right}
-.results td.sc{font:italic 600 23px/1 var(--f-display);color:var(--stamp);text-align:right}
+.results td.sc{font:700 26px/1 var(--f-hand);color:var(--isl-leaf-dk);text-align:right}
 .results .thumb{width:44px;height:34px;display:block}
-.results .thumb use{fill:var(--ink)}
-.results td.nm{font-weight:600}
-.results td.nm small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.results .thumb use{fill:var(--silhouette)}
+.results td.nm{font-weight:800}
+.results td.nm small{display:block;font-weight:500;color:var(--isl-muted);font-size:13px}
 .grand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
-.grand .g{font:700 56px/1 var(--f-hand);color:var(--pen)}
-.grand .g small{font-size:26px;color:var(--pen-ink)}
-.grand .word{font:italic 600 22px/1.2 var(--f-display)}
+.grand .g{font:700 56px/1 var(--f-hand);color:var(--isl-terra-dk)}
+.grand .g small{font-size:26px;color:var(--isl-terra)}
+.grand .word{font:800 21px/1.25 var(--f-round);color:var(--isl-text)}
 
 /* credits */
-.credits{font-size:14px;max-height:80vh;overflow:auto}
-.credits h2{font:italic 600 26px/1.1 var(--f-display);margin:0 0 6px}
+.credits{font:500 14px/1.5 var(--f-round);max-height:80vh;overflow:auto}
+.credits h2{font:800 25px/1.15 var(--f-round);color:var(--isl-text);margin:0 0 6px}
 .credits ul{padding-left:18px;margin:8px 0 14px}
 .credits li{margin:3px 0}
-.credits a{color:var(--text)}
+.credits a{color:var(--isl-bark)}
 
 @media (max-width:640px){
-  .bar{padding:8px 12px;gap:8px;flex-wrap:wrap}
-  .brand .name{font-size:20px}
+  .bar{padding:7px 12px;gap:8px 10px;flex-wrap:wrap}
+  .brand .name{font-size:18px}
   .rounds span{display:none}
-  .dock{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:10px;flex-wrap:wrap}
+  .chip{padding:5px 10px;font-size:10.5px}
+  .seg button{padding:5px 11px;font-size:12px}
+  .total .num{font-size:24px}
+  .dock{width:calc(100% - 24px);bottom:12px;padding:11px 13px;gap:7px 10px;flex-wrap:wrap;border-width:3px;border-radius:18px}
+  /* the name gets a line to itself, so it stops wrapping mid-word; readout and button share the next */
+  .dock .who{flex:1 1 100%}
+  .dock .readout{flex-flow:row wrap;align-items:baseline;gap:3px 8px}
+  .dock .btn{margin-left:auto}
   .zoom{bottom:auto;top:12px;left:12px;right:auto;flex-direction:row}
+  .zoom button{width:36px;height:36px;border-radius:12px}
   .stamp{width:76px;height:76px;top:10px;right:10px}
-  .stamp .n{font-size:29px}
+  .stamp .n{font-size:32px}
   .stamp .d{font-size:7px;letter-spacing:.06em}
   .dock .who .animal-name{font-size:19px}
+  .dock .who .sub{font-size:13px}
   .dock .readout .val{font-size:22px}
-  .sheet{padding:24px 20px}
+  .btn{padding:10px 16px;font-size:15px}
+  .sheet{padding:24px 20px;border-radius:22px}
 }
 </style>
 
@@ -385,7 +415,10 @@ button{cursor:pointer}
 
   <main class="stage" id="stage">
     <svg id="sprite" xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
-      <defs id="defs"></defs>
+      <defs id="defs">
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop class="sky-hi" offset="0"/><stop class="sky-lo" offset="1"/></linearGradient>
+        <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1"><stop class="grass-hi" offset="0"/><stop class="grass-lo" offset="1"/></linearGradient>
+      </defs>
     </svg>
     <svg id="scene" xmlns="http://www.w3.org/2000/svg" aria-label="Scale scene: your silhouette beside the animal">
       <g id="gGrid"></g>
@@ -729,7 +762,16 @@ $('zoomFit').onclick = () => { if (logView()){ lUserZoomed = false; layoutLog();
 $('zoomFocus').onclick = () => { if (logView()){ lUserZoomed = true; lFitLog(); applyLogCam(); } else if (weighView()){ wUserZoomed = true; wFitBasket(); applyWeighCam(); } else { userZoomed = true; fitAnimal(); } };
 svg.addEventListener('wheel', e => { e.preventDefault(); userZoomed = true; const r = svg.getBoundingClientRect(); zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0016)); }, {passive: false});
 
-function drawGridInto(g, spacingPx, originX, originY, width, height){
+// every board stands on the island: sky above the horizon, field below it, graph paper over both
+function skyAndGrass(g, gy, width, height){
+  const y = Math.max(0, Math.min(gy, height));
+  if (y > 0) el('rect', {class: 'sky', x: 0, y: 0, width, height: y}, g);
+  if (y < height) el('rect', {class: 'grass', x: 0, y, width, height: height - y}, g);
+}
+function groundLine(g, gy, width, height){
+  if (gy > 0 && gy < height) el('line', {class: 'ground', x1: 0, x2: width, y1: Math.round(gy) + 0.5, y2: Math.round(gy) + 0.5}, g);
+}
+function drawGridInto(g, spacingPx, originX, originY, width, height, groundY){
   // static graph paper in screen pixels (weigh scene)
   let minor = '', major = '';
   const n0 = Math.floor(-originX / spacingPx), n1 = Math.ceil((width - originX) / spacingPx);
@@ -737,8 +779,10 @@ function drawGridInto(g, spacingPx, originX, originY, width, height){
   const m0 = Math.floor(-originY / spacingPx), m1 = Math.ceil((height - originY) / spacingPx);
   for (let j = m0; j <= m1; j++){ const y = Math.round(originY + j * spacingPx) + 0.5; if (j % 5 === 0) major += `M0 ${y}H${width}`; else minor += `M0 ${y}H${width}`; }
   g.innerHTML = '';
+  if (groundY !== undefined) skyAndGrass(g, groundY, width, height);
   el('path', {class: 'grid', d: minor}, g);
   el('path', {class: 'grid-major', d: major}, g);
+  if (groundY !== undefined) groundLine(g, groundY, width, height);
 }
 function drawGrid(){
   gGrid.innerHTML = '';
@@ -747,7 +791,7 @@ function drawGrid(){
   for (const st of steps){ if (st * cam.s >= 26){ m = st; break; } }
   const [wx0, wy1] = toWorld(0, 0), [wx1, wy0] = toWorld(W, H);
   const gy = toScreen(0, 0)[1];
-  if (gy < H) el('rect', {class: 'below', x: 0, y: Math.max(0, gy), width: W, height: H - Math.max(0, gy)}, gGrid);
+  skyAndGrass(gGrid, gy, W, H);
   let minor = '', major = '';
   const i0 = Math.floor(wx0 / m), i1 = Math.ceil(wx1 / m);
   if (i1 - i0 < 400) for (let i = i0; i <= i1; i++){
@@ -761,7 +805,7 @@ function drawGrid(){
   }
   el('path', {class: 'grid', d: minor}, gGrid);
   el('path', {class: 'grid-major', d: major}, gGrid);
-  el('line', {class: 'ground', x1: 0, x2: W, y1: Math.round(gy) + 0.5, y2: Math.round(gy) + 0.5}, gGrid);
+  groundLine(gGrid, gy, W, H);
 }
 function place(use, rec, wx, wtop, hM){
   const wM = hM * ar(rec);
@@ -944,7 +988,7 @@ $('nextBtn').onclick = () => {
 //  WEIGHT GAME  (Counterweight)
 // =====================================================================
 const wsvg = $('weigh'), wGrid = $('wGrid'), wScene = $('wScene');
-const DW = 1200, DH = 700;                 // design space
+const DW = 1200, DH = 700, WGROUND = 680;  // design space, and the earth the plinth stands on
 const PIVOT = {x: 600, y: 138}, HALF = 330, CHAIN = 262, PAN_HALF = 220, BASKET_R = 220, DISH_D = 40;
 const REF_H = 180, MAX_TILT = 10, LIP = 70, GRAV = 2600, MAX_ROT = 26;   // LIP: rim height that still holds the heap          // reference silhouette height (design px), beam tilt limit (deg)
 // the name sits 14 above the silhouette and the weight LBL_KG above it; both have to clear the
@@ -985,7 +1029,7 @@ function buildWeighScene(){
   el('rect', {x: -90, y: -430, width: 280, height: 309}, clip);          // everything above the rim line
 
   // --- the stand: stepped plinth, fluted column, papyrus capital, feather finial ---
-  const baseY = 680;
+  const baseY = WGROUND;
   [[540, 26], [430, 22], [320, 18]].reduce((y, [w, h]) => { el('rect', {class: 'stone', x: cx - w / 2, y: y - h, width: w, height: h, rx: 3}, wScene); return y - h; }, baseY);
   let ticks = ''; for (let i = -8; i <= 8; i++) ticks += `M${cx + i * 24} 637V649`;
   el('path', {class: 'stone-line', d: ticks}, wScene);
@@ -1280,7 +1324,7 @@ function applyWeighCam(){
   const steps = [5, 10, 20, 40, 80, 160, 320, 640];   // graph paper keeps a readable pitch at any zoom
   let m = steps[steps.length - 1];
   for (const st of steps){ if (st * wcam.s >= 26){ m = st; break; } }
-  drawGridInto(wGrid, m * wcam.s, wcam.x, wcam.y, W, H);
+  drawGridInto(wGrid, m * wcam.s, wcam.x, wcam.y, W, H, wcam.y + WGROUND * wcam.s);
 }
 function wZoomAt(px, py, f){
   const [dx, dy] = wToDesign(px, py);
@@ -1710,9 +1754,6 @@ function lCalm(){
 function buildLogScene(){
   lScene.innerHTML = '';
   const E = Lg.els, F = FULCRUM;
-  el('rect', {class: 'below', x: -600, y: LGROUND, width: LDW + 1200, height: LDH - LGROUND + 400}, lScene);
-  el('line', {class: 'ground', x1: -600, x2: LDW + 600, y1: LGROUND, y2: LGROUND}, lScene);
-
   // --- the rock: one boulder, drawn on the same outline the animals stand on ---
   const RX = dx => F.x + dx * .64, RY = f => ROCK_TOP + f * ROCK_H;
   const crown = ROCK.map(([x, y]) => `${F.x + x} ${ROCK_TOP + y}`).join('L');
@@ -1875,7 +1916,7 @@ function applyLogCam(){
   const steps = [5, 10, 20, 40, 80, 160, 320, 640];
   let m = steps[steps.length - 1];
   for (const st of steps){ if (st * lcam.s >= 26){ m = st; break; } }
-  drawGridInto(lGrid, m * lcam.s, lcam.x, lcam.y, W, H);
+  drawGridInto(lGrid, m * lcam.s, lcam.x, lcam.y, W, H, lcam.y + LGROUND * lcam.s);
 }
 function lZoomAt(px, py, f){
   const [dx, dy] = lToDesign(px, py);
