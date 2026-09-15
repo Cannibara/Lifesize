@@ -289,18 +289,12 @@ button{cursor:pointer}
 #startScreen .mode.balance[aria-pressed="true"]{background:linear-gradient(180deg,var(--isl-wood),var(--isl-wood-dk));border-color:var(--isl-bark-dk);box-shadow:0 6px 0 #5b3a18}
 #startScreen .mode[aria-pressed="true"]::after{content:"\2713";position:absolute;top:-12px;right:-10px;width:28px;height:28px;box-sizing:border-box;border-radius:50%;background:var(--isl-sun);border:3px solid var(--isl-bark-dk);color:var(--isl-bark-dk);font:800 14px/1 var(--f-round);text-shadow:none;display:grid;place-items:center}
 
-#startScreen .lede{margin:0 0 12px;font:500 15.5px/1.45 var(--f-round);color:var(--isl-text)}
-#startScreen .steps{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px}
-#startScreen .steps li{display:flex;align-items:flex-start;gap:10px;font:500 14.5px/1.4 var(--f-round);color:var(--isl-text)}
-#startScreen .steps .n{flex:0 0 auto;width:26px;height:26px;box-sizing:border-box;border:3px solid var(--isl-bark);border-radius:50%;background:var(--isl-leaf);color:#fffaea;font:800 13px/1 var(--f-round);display:grid;place-items:center}
-#startScreen .steps li:nth-child(2) .n{background:var(--isl-sun);color:var(--isl-bark-dk)}
-#startScreen .steps li:nth-child(3) .n{background:#6cc4e0}
+#startScreen .lede{margin:0 0 16px;text-align:center;text-wrap:balance;font:500 15.5px/1.45 var(--f-round);color:var(--isl-text)}
 #startScreen .mode svg .fill{fill:currentColor;stroke:none}
 
 /* fields */
 #startScreen .rows{display:grid;grid-template-columns:1fr 1fr;column-gap:18px;align-items:start}
 #startScreen .row{display:flex;flex-direction:column;gap:8px;margin:0 0 14px}
-#startScreen #weighField,#startScreen #balanceField{grid-column:1/-1}
 #startScreen .tag{align-self:flex-start;font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:#fffaea;background:var(--isl-bark);border-radius:999px;padding:6px 12px}
 #startScreen .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 #startScreen input,#startScreen select{border:3px solid var(--isl-bark);border-radius:14px;padding:9px 12px;font:700 19px/1.2 var(--f-round);color:var(--isl-text);background:var(--isl-cream);box-shadow:0 3px 0 rgba(109,69,32,.22);min-width:0}
@@ -503,31 +497,16 @@ button{cursor:pointer}
           </button>
         </div>
 
-        <p class="lede" id="ledeSize">An animal stands next to you on graph paper. Resize it to how big you think it really is.</p>
-        <p class="lede" id="ledeWeight" hidden>A big animal sits on one side of a scale. Pour smaller animals onto the other side until they balance. Weights stay hidden until you lock in.</p>
-        <p class="lede" id="ledeBalance" hidden>A log lies across a rock like a seesaw. Drop animals onto it and keep it level — weight far from the rock counts for far more than weight near it.</p>
-        <ol class="steps" id="howSize">
-          <li><span class="n">1</span><span>Enter your height. That is your silhouette, drawn to scale.</span></li>
-          <li><span class="n">2</span><span>Drag the red corner on the animal until it looks life-size beside you.</span></li>
-          <li><span class="n">3</span><span>Lock it in. Closer guesses score more, out of 100. Five animals, 500 points.</span></li>
-        </ol>
-        <ol class="steps" id="howWeight" hidden>
-          <li><span class="n">1</span><span>Click the bucket to drop one animal, and hold to tip it and pour faster. Right-drag the bucket — or drag it with a finger — to carry it anywhere on the paper and pour there. Scroll or pinch to zoom.</span></li>
-          <li><span class="n">2</span><span>Nothing comes back out, so ease off before you overshoot. The scale bobs, but it will not tell you the answer.</span></li>
-          <li><span class="n">3</span><span>Lock it in to see both weights and the true multiple. Five weigh-ins, 500 points.</span></li>
-        </ol>
-        <ol class="steps" id="howBalance" hidden>
-          <li><span class="n">1</span><span>Click anywhere above the log to drop the animal waiting in the dock. It falls, bounces once and settles where it lands.</span></li>
-          <li><span class="n">2</span><span>Turning force is weight × distance from the rock, so the heavy ones belong close in and the light ones far out. Every animal carries its weight at its centre of gravity.</span></li>
-          <li><span class="n">3</span><span>Ten animals a load. Tip too far and they slide off and are lost. Ten points for every one still aboard, so 500 across five loads.</span></li>
-        </ol>
+        <p class="lede" id="ledeSize">An animal stands beside you on graph paper. Stretch it to life-size.</p>
+        <p class="lede" id="ledeWeight" hidden>Pour small animals onto a scale until they balance a big one.</p>
+        <p class="lede" id="ledeBalance" hidden>Drop animals onto a log across a rock and keep it level.</p>
 
         <div class="rows">
         <div class="row" id="heightField">
           <label class="tag" for="hCm">Your height</label>
           <div class="inline" id="metricIn">
             <input id="hCm" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172" autocomplete="off">
-            <span class="hint">cm (or metres, e.g. 1.72)</span>
+            <span class="hint">cm</span>
           </div>
           <div class="inline" id="imperialIn" hidden>
             <input id="hFt" class="short" type="number" inputmode="numeric" min="1" max="8" placeholder="5" aria-label="feet"><span class="hint">ft</span>
@@ -538,15 +517,6 @@ button{cursor:pointer}
         <div class="row" id="setField">
           <label class="tag" for="setSel">Lineup</label>
           <div class="inline"><select id="setSel"></select></div>
-          <div class="hint" id="setBlurb"></div>
-        </div>
-        <div class="row" id="weighField" hidden>
-          <span class="tag">Weigh-ins</span>
-          <div class="hint">Two reference animals get two rounds each, then a surprise pair. Pairs are drawn from all 27 animals; the answer is always between 3 and 60.</div>
-        </div>
-        <div class="row" id="balanceField" hidden>
-          <span class="tag">Loads</span>
-          <div class="hint">Five loads, from hedgerow animals up to elephants. Everything on one log is drawn to the same scale, and every weight is the real one.</div>
         </div>
         <div class="row unitrow">
           <span class="tag">Units</span>
@@ -2138,8 +2108,7 @@ function setMode(m){
   const sz = m === 'size', w = m === 'weight', b = m === 'balance';
   $('modeSize').setAttribute('aria-pressed', sz); $('modeWeight').setAttribute('aria-pressed', w); $('modeBalance').setAttribute('aria-pressed', b);
   $('ledeSize').hidden = !sz; $('ledeWeight').hidden = !w; $('ledeBalance').hidden = !b;
-  $('howSize').hidden = !sz; $('howWeight').hidden = !w; $('howBalance').hidden = !b;
-  $('heightField').hidden = !sz; $('setField').hidden = !sz; $('weighField').hidden = !w; $('balanceField').hidden = !b;
+  $('heightField').hidden = !sz; $('setField').hidden = !sz;
   $('startBtn').textContent = w ? 'Start weighing' : b ? 'Start balancing' : 'Start the lineup';
   try { localStorage.setItem('lsl-mode', m); } catch (e) {}
 }
@@ -2150,8 +2119,6 @@ $('modeBalance').onclick = () => setMode('balance');
 (function initStart(){
   const sel = $('setSel');
   sel.innerHTML = `<option value="random">Surprise me</option>` + DATA.sets.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-  const blurb = () => { const s = DATA.sets.find(x => x.id === sel.value); $('setBlurb').textContent = s ? s.blurb : 'A random themed set of five animals.'; };
-  sel.onchange = blurb; blurb();
   try {
     const u = localStorage.getItem('lsl-unit'); if (u) setUnit(u);
     const m = localStorage.getItem('lsl-mode'); if (m === 'weight' || m === 'size' || m === 'balance') setMode(m);

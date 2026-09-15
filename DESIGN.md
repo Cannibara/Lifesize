@@ -31,6 +31,10 @@ shouting.
    full width, and it says what it does — "Start the lineup", not "Go".
 8. **Plain warm words.** Sentence case, no exclamation marks, no cute mascot voice.
    "How big is that animal really?" is the register.
+9. **The card is controls, not a manual.** The start card carries one line saying what
+   the chosen game is, and after that only the things a player sets — height, lineup,
+   units — and the green button. How to play is taught by the dock during the round,
+   where the thing being described is on screen and can be tried straight away.
 
 ## Colour
 
@@ -42,13 +46,13 @@ Defined as custom properties on `:root` in `src/template.html`, prefixed `--isl-
 | `--isl-bark-dk` | `#6d4520` | Sign frame, badge outlines, the darker half of an edge |
 | `--isl-wood` | `#c08a4c` | Sign face (top of its gradient), the balance game's tile |
 | `--isl-wood-dk` | `#a86f36` | Sign face (bottom of its gradient), the balance game's tile |
-| `--isl-leaf` | `#63bc4f` | The size game, step 1, vine leaves, the start button |
+| `--isl-leaf` | `#63bc4f` | The size game, vine leaves, the start button |
 | `--isl-leaf-dk` | `#3f8b3a` | Start button border; `#35762f` is its pressed edge |
 | `--isl-leaf-lt` | `#8ed06a` | Second leaf tone, lighter foliage |
 | `--isl-cream` | `#fffdf4` | Card top, input fields |
 | `--isl-paper` | `#fdf5e2` | Card bottom — the card is a soft vertical gradient between the two |
 | `--isl-sand` | `#efe1c0` | Unselected tiles, the unit switch bed |
-| `--isl-sun` | `#ffd873` | Selected badge, step 2, focus ring |
+| `--isl-sun` | `#ffd873` | Selected badge, focus ring |
 | `--isl-terra` | `#e0913f` | The weight game |
 | `--isl-terra-dk` | `#c4712d` | Weight game border and emphasis in body copy |
 | `--isl-text` | `#4a3a26` | Body text |
@@ -56,8 +60,7 @@ Defined as custom properties on `:root` in `src/template.html`, prefixed `--isl-
 
 Scene colours are literal rather than tokenised, since they only exist once: sky
 `#86d3f5 → #b3e6fb → #ddf3fd`, far hills `#9ad97f`, near hills `#74c25f`, field
-`#63b352 → #458a3c`, silhouettes `#1d4f28` at 40% opacity. Step 3 uses `#6cc4e0`, a
-sky blue that belongs to the scene rather than the palette. Errors are `#c0492b`.
+`#63b352 → #458a3c`, silhouettes `#1d4f28` at 40% opacity. Errors are `#c0492b`.
 
 The game boards do the same where an object needs a material: the scale's ropes are
 `#6f5a3e` and its leaves `#5f8f62`; the balance log is `#c08a4c` with `#9a6a33` underneath,
