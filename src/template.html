@@ -53,7 +53,9 @@ button{cursor:pointer}
 .total{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
 .total[hidden]{display:none}
 .total .lbl{font:800 11.5px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,250,234,.82)}
-.total .num{font:700 28px/1 var(--f-hand);color:var(--isl-sun);text-shadow:0 2px 0 rgba(88,54,22,.45)}
+.total .num{font:700 28px/1 var(--f-hand);color:var(--isl-sun);text-shadow:0 2px 0 rgba(88,54,22,.45);display:inline-block;transform-origin:50% 65%}
+.total .num.bump{animation:bump .44s cubic-bezier(.2,1.5,.4,1)}
+@keyframes bump{0%{transform:translateY(0) scale(1)}34%{transform:translateY(-5px) scale(1.18)}100%{transform:translateY(0) scale(1)}}
 .total .of{color:rgba(255,250,234,.75);font:700 14px/1 var(--f-round)}
 .seg{display:inline-flex;border:3px solid var(--isl-bark-dk);border-radius:999px;overflow:hidden;background:var(--isl-sand);box-shadow:0 2px 0 rgba(84,52,22,.3)}
 .seg button{border:0;background:transparent;padding:6px 13px;font:800 13px/1 var(--f-round);color:#77603c}
@@ -176,18 +178,48 @@ button{cursor:pointer}
 .zoom button:active{transform:translateY(3px);box-shadow:0 0 0 rgba(109,69,32,.34)}
 .zoom button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
-/* round score: an ink stamp pressed into the corner, not a mark out of ten */
+/* round score: a seal pressed into the corner. How hard it lands is the reward, so the
+   press, the ring and the leaves all key off how close the guess was. */
 .stamp{position:absolute;top:14px;right:14px;width:96px;height:96px;border-radius:50%;box-sizing:border-box;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   background:var(--stamp-paper);border:3px solid var(--stamp);color:var(--stamp);
   box-shadow:inset 0 0 0 3px var(--stamp-paper), inset 0 0 0 4.5px var(--stamp), 0 6px 18px rgba(63,139,58,.24);
-  transform:rotate(-6deg);pointer-events:none}
+  transform:rotate(-6deg);pointer-events:none;z-index:2}
 .stamp[hidden]{display:none}
-.stamp .n{font:700 40px/1 var(--f-hand);letter-spacing:-.01em}
+.stamp .n{font:700 40px/1 var(--f-hand);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .stamp .d{font:800 8px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+/* the ring the seal knocks outwards; only a good round earns one */
+.stamp::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:3px solid var(--stamp);opacity:0}
 .stamp.press{animation:press .45s cubic-bezier(.2,1.5,.4,1) both}
+.stamp.great.press,.stamp.perfect.press{animation:press-hard .58s cubic-bezier(.2,1.6,.34,1) both}
+.stamp.great::after,.stamp.perfect::after{animation:ring .72s ease-out .1s both}
+/* full marks: the seal comes up gold */
+.stamp.perfect{background:linear-gradient(180deg,#fff4d2,var(--isl-sun));border-color:var(--isl-bark-dk);color:var(--isl-bark-dk);
+  box-shadow:inset 0 0 0 3px #fff8e2, inset 0 0 0 4.5px var(--isl-bark-dk), 0 8px 24px rgba(196,113,45,.45)}
+.stamp.perfect::after{border-color:var(--isl-sun);animation-duration:.95s}
+.stamp .n.land{animation:land .34s cubic-bezier(.2,1.7,.4,1)}
 @keyframes press{from{opacity:0;transform:rotate(-18deg) scale(1.7)}55%{opacity:1;transform:rotate(3deg) scale(.94)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
-@media (prefers-reduced-motion: reduce){.stamp.press{animation:none}}
+@keyframes press-hard{from{opacity:0;transform:rotate(-27deg) scale(2.15)}46%{opacity:1;transform:rotate(7deg) scale(.86)}72%{transform:rotate(-10deg) scale(1.07)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes ring{from{opacity:.8;transform:scale(.86)}to{opacity:0;transform:scale(1.62)}}
+@keyframes land{0%{transform:scale(1)}40%{transform:scale(1.24)}100%{transform:scale(1)}}
+
+/* leaves thrown out of a seal that landed well */
+.burst{position:absolute;top:14px;right:14px;width:96px;height:96px;pointer-events:none;z-index:1}
+.burst[hidden]{display:none}
+.burst i{position:absolute;left:50%;top:50%;width:13px;height:14px;margin:-7px 0 0 -6px;border-radius:0 100% 0 100%;
+  background:var(--isl-leaf);animation:fling var(--t,.9s) cubic-bezier(.16,.72,.3,1) both}
+.burst i:nth-child(3n){background:var(--isl-leaf-lt)}
+.burst i:nth-child(4n){background:var(--isl-sun)}
+.burst i:nth-child(7n){background:var(--isl-terra)}
+@keyframes fling{
+  0%{opacity:0;transform:translate(0,0) rotate(0deg) scale(.3)}
+  14%{opacity:1}
+  68%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1)}
+}
+
+/* said once to a screen reader, because a number counting up would be read out every step */
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 
 /* dock: the same paper-on-bark card the start menu is built from */
 .dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(680px, calc(100% - 120px));
@@ -218,7 +250,8 @@ button{cursor:pointer}
 .btn:disabled,.btn:disabled:hover,.btn:disabled:active{opacity:.45;cursor:not-allowed;filter:none;transform:none}
 
 /* reveal dock */
-.dock.reveal{flex-direction:column;align-items:stretch;gap:10px;padding:14px 18px}
+.dock.reveal{flex-direction:column;align-items:stretch;gap:10px;padding:14px 18px;animation:dock-in .3s cubic-bezier(.2,.9,.3,1) both}
+@keyframes dock-in{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
 .reveal .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .reveal .verdict{font:800 21px/1.25 var(--f-round);color:var(--isl-text);text-wrap:balance}
 .reveal .verdict b{color:var(--isl-terra-dk)}
@@ -350,6 +383,10 @@ button{cursor:pointer}
 }
 @media (prefers-reduced-motion: reduce){
   #startScreen .clouds i,#startScreen .leaves i,#startScreen .play{animation:none}
+  .stamp.press,.stamp.great.press,.stamp.perfect.press,.stamp::after,.stamp .n.land,
+  .burst i,.total .num.bump,.dock.reveal,.results tbody tr,.grand .g.land{animation:none}
+  .stamp::after{opacity:0}
+  .results tbody tr{opacity:1}
 }
 
 /* results */
@@ -362,8 +399,13 @@ button{cursor:pointer}
 .results .thumb use{fill:var(--silhouette)}
 .results td.nm{font-weight:800}
 .results td.nm small{display:block;font-weight:500;color:var(--isl-muted);font-size:13px}
-.grand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
-.grand .g{font:700 56px/1 var(--f-hand);color:var(--isl-terra-dk)}
+.grand{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
+/* the same handful of leaves, thrown from the grand total instead of the corner seal */
+.burst.here{top:30px;right:52px;width:0;height:0}
+.grand .g{font:700 56px/1 var(--f-hand);color:var(--isl-terra-dk);display:inline-block;transform-origin:50% 65%}
+.grand .g.land{animation:land .4s cubic-bezier(.2,1.7,.4,1)}
+.results tbody tr{animation:row-in .34s ease-out both;animation-delay:calc(var(--i,0) * 70ms + 140ms)}
+@keyframes row-in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
 .grand .g small{font-size:26px;color:var(--isl-terra)}
 .grand .word{font:800 21px/1.25 var(--f-round);color:var(--isl-text)}
 
@@ -388,7 +430,7 @@ button{cursor:pointer}
   .dock .btn{margin-left:auto}
   .zoom{bottom:auto;top:12px;left:12px;right:auto;flex-direction:row}
   .zoom button{width:36px;height:36px;border-radius:12px}
-  .stamp{width:76px;height:76px;top:10px;right:10px}
+  .stamp,.burst{width:76px;height:76px;top:10px;right:10px}
   .stamp .n{font-size:32px}
   .stamp .d{font-size:7px;letter-spacing:.06em}
   .dock .who .animal-name{font-size:19px}
@@ -443,10 +485,12 @@ button{cursor:pointer}
       <button type="button" id="zoomFocus" title="Zoom to the animal" aria-label="Zoom to the animal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
     </div>
 
-    <div class="stamp" id="scoreStamp" hidden aria-live="polite">
+    <div class="burst" id="scoreBurst" hidden aria-hidden="true"></div>
+    <div class="stamp" id="scoreStamp" hidden aria-hidden="true">
       <span class="n" id="stampNum">0</span>
       <span class="d">out of 100</span>
     </div>
+    <p class="visually-hidden" id="scoreSay" aria-live="polite"></p>
 
     <div class="dock" id="guessDock" hidden>
       <div class="who">
@@ -567,7 +611,7 @@ button{cursor:pointer}
 
     <div class="overlay" id="endScreen" hidden>
       <div class="sheet">
-        <div class="grand"><span class="word" id="endWord">Sharp eye.</span><span class="g" id="endTotal">0<small>/500</small></span></div>
+        <div class="grand"><span class="word" id="endWord">Sharp eye.</span><span class="g" id="endTotalBox"><span id="endTotal">0</span><small>/500</small></span><div class="burst here" id="endBurst" hidden aria-hidden="true"></div></div>
         <table class="results"><thead id="endHead"></thead><tbody id="endRows"></tbody></table>
         <div class="actions">
           <button type="button" class="btn pen" id="againBtn">Play again</button>
@@ -697,13 +741,84 @@ function setDots(current, lockedCurrent){
   $('roundText').textContent = `Round ${current} of 5`;
 }
 function totalScore(){ return S.results.reduce((a, r) => a + r.score, 0); }
-function showStamp(score){
-  const st = $('scoreStamp');
-  $('stampNum').textContent = score;
-  st.hidden = false;
-  st.classList.remove('press'); void st.offsetWidth; st.classList.add('press');   // re-press on every reveal
+
+// ---------- the reward ----------
+// A round is worth feeling, not just reading: the seal lands harder, the ring carries further and
+// the leaves fly the closer the guess was, and every number climbs to its value rather than appearing at it.
+const stillness = matchMedia('(prefers-reduced-motion: reduce)');
+const restart = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
+// Returns a stop() that lands on `to` immediately, so an interrupted count never leaves a wrong number on screen.
+function countUp(set, from, to, ms){
+  if (stillness.matches || from === to || !(ms > 0)){ set(to); return () => {}; }
+  set(from);
+  // t0 comes from the first frame, not from performance.now(): the two clocks can disagree, and a
+  // frame stamped before the start would drive the easing far past `from` and show a nonsense number.
+  let t0 = 0, raf = 0, running = true;
+  const step = now => {
+    if (!t0) t0 = now;
+    const p = clamp((now - t0) / ms, 0, 1);
+    set(Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))));    // ease out, so it lands rather than stops
+    if (p < 1) raf = requestAnimationFrame(step); else running = false;
+  };
+  raf = requestAnimationFrame(step);
+  return () => { if (running){ running = false; cancelAnimationFrame(raf); set(to); } };
 }
-const hideStamp = () => { $('scoreStamp').hidden = true; };
+
+const TIERS = [[100, 'perfect'], [90, 'great'], [70, 'good']];
+const tierFor = score => (TIERS.find(([min]) => score >= min) || [])[1] || '';
+let stopStamp = () => {}, landTimer = 0;
+function throwLeaves(box, tier, scale = 1){
+  box.innerHTML = '';
+  if (stillness.matches || (tier !== 'great' && tier !== 'perfect')){ box.hidden = true; return; }
+  const perfect = tier === 'perfect', n = Math.round((perfect ? 18 : 10) * scale);
+  box.hidden = false;
+  for (let i = 0; i < n; i++){
+    const a = (i / n) * Math.PI * 2 + rnd(-0.22, 0.22), d = (perfect ? rnd(66, 130) : rnd(46, 92)) * scale;
+    const leaf = document.createElement('i');
+    leaf.style.setProperty('--dx', `${(Math.cos(a) * d).toFixed(1)}px`);
+    leaf.style.setProperty('--dy', `${(Math.sin(a) * d + rnd(12, 36)).toFixed(1)}px`);   // they fall as they fly
+    leaf.style.setProperty('--rot', `${Math.round(rnd(-300, 300))}deg`);
+    leaf.style.setProperty('--t', `${rnd(0.7, 1.05).toFixed(2)}s`);
+    leaf.style.animationDelay = `${rnd(0, 0.12).toFixed(2)}s`;
+    box.appendChild(leaf);
+  }
+}
+function showStamp(score){
+  const st = $('scoreStamp'), num = $('stampNum');
+  stopStamp(); clearTimeout(landTimer);
+  st.className = 'stamp';                                   // drop the tier the last round earned
+  const tier = tierFor(score);
+  if (tier) st.classList.add(tier);
+  st.hidden = false;
+  $('scoreSay').textContent = `${score} out of 100`;         // said once; a count would be read out every step
+  restart(st, 'press');
+  const ms = Math.round(120 + score * 4.2);                  // ~540ms for full marks, barely a beat for a poor round
+  stopStamp = countUp(v => { num.textContent = v; }, 0, score, ms);
+  if (!stillness.matches && score > 0) landTimer = setTimeout(() => { if (!st.hidden) restart(num, 'land'); }, ms + 20);
+  throwLeaves($('scoreBurst'), tier);
+}
+const hideStamp = () => {
+  stopStamp(); clearTimeout(landTimer);
+  $('scoreStamp').hidden = true;
+  $('scoreBurst').hidden = true; $('scoreBurst').innerHTML = '';
+};
+// a whole game judged this well is worth the same handful of leaves a perfect round gets
+const endTier = total => total >= 500 ? 'perfect' : total >= 450 ? 'great' : '';
+
+// The running total is shown from `shownTotal`, not from totalScore(), so a climb in progress
+// is not snapped back to the truth by the next refreshText().
+let shownTotal = 0, stopTotal = () => {}, stopEnd = () => {}, endLand = 0;
+function resetTotal(){
+  stopTotal(); stopTotal = () => {}; stopEnd(); stopEnd = () => {}; clearTimeout(endLand);
+  $('endBurst').hidden = true; $('endBurst').innerHTML = '';
+  shownTotal = 0; $('totalNum').textContent = 0;
+}
+function bumpTotal(){
+  stopTotal();
+  const from = shownTotal, to = totalScore(), num = $('totalNum');
+  if (to > from && !stillness.matches) restart(num, 'bump');
+  stopTotal = countUp(v => { shownTotal = v; num.textContent = v; }, from, to, 620);
+}
 function scoreFor(g, t){
   if (!(g > 0) || !(t > 0)) return 0;
   const err = Math.max(g / t, t / g) - 1;   // 0 = perfect, 1 = double or half
@@ -915,7 +1030,7 @@ function onHandleKey(e){
 
 function refreshText(){
   $('gVal').textContent = fmt(S.guessH);
-  $('totalNum').textContent = totalScore();
+  $('totalNum').textContent = shownTotal;
   if (S.phase === 'reveal') fillReveal();
   if (S.phase === 'wreveal') fillWeighReveal();
   if (S.phase === 'breveal') fillBalanceReveal();
@@ -926,7 +1041,7 @@ function startSizeGame(setId){
   const sets = DATA.sets;
   S.set = setId === 'random' ? sets[Math.floor(Math.random() * sets.length)] : sets.find(s => s.id === setId);
   S.queue = shuffle([...S.set.members]).slice(0, 5);
-  S.round = 0; S.results = [];
+  S.round = 0; S.results = []; resetTotal();
   $('themeChip').textContent = S.set.name;
   $('scene').toggleAttribute('hidden', false); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', true);
   Lg.active = false; cancelAnimationFrame(Lg.raf);
@@ -950,7 +1065,7 @@ function lockIn(){
   if (S.phase !== 'guess') return;
   const score = scoreFor(S.guessH, S.trueH);
   S.results.push({key: S.animal.key, name: S.animal.name, guess: S.guessH, actual: S.trueH, score});
-  S.phase = 'reveal'; showStamp(score);
+  S.phase = 'reveal'; showStamp(score); bumpTotal();
   $('guessDock').hidden = true; $('revealDock').hidden = false;
   $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next animal';
   setDots(S.round, true);
@@ -1486,7 +1601,7 @@ function makeWeighQueue(){
 }
 function startWeightGame(){
   S.queue = makeWeighQueue();
-  S.round = 0; S.results = []; S.set = null; S.animal = null;
+  S.round = 0; S.results = []; S.set = null; S.animal = null; resetTotal();
   $('themeChip').textContent = 'Counterweight';
   $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', false); $('logscene').toggleAttribute('hidden', true);
   Lg.active = false; cancelAnimationFrame(Lg.raf);
@@ -1542,7 +1657,7 @@ function lockWeigh(){
   Wg.truthful = true;
   Wg.thetaRest = clamp(9 * Math.log2(Wg.count / Wg.trueMult), -MAX_TILT, MAX_TILT);
   Wg.omega += 10 * Math.sign(Wg.thetaRest || 1);
-  showStamp(score);
+  showStamp(score); bumpTotal();
   showFraction();
   Wg.els.verdictTop.textContent = score === 100 ? 'Balanced' : (Wg.count > Wg.trueMult ? 'Too many' : 'Too few');
   $('weighDock').hidden = true; $('revealDock').hidden = false;
@@ -2015,7 +2130,7 @@ function makeLoadQueue(){
   return [...tiers.keys()].sort((a, b) => a - b).map(t => { const g = tiers.get(t); return g[Math.floor(Math.random() * g.length)]; });
 }
 function startBalanceGame(){
-  S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = [];
+  S.round = 0; S.results = []; S.set = null; S.animal = null; S.queue = []; resetTotal();
   S.loads = makeLoadQueue();
   $('themeChip').textContent = 'Balance Log';
   $('scene').toggleAttribute('hidden', true); $('weigh').toggleAttribute('hidden', true); $('logscene').toggleAttribute('hidden', false);
@@ -2070,7 +2185,7 @@ function lockBalance(){
     tqL: Lg.tqL, tqR: Lg.tqR, heavy: heaviestAboard(),
   });
   S.phase = 'breveal'; Lg.locking = false;
-  showStamp(score);
+  showStamp(score); bumpTotal();
   Lg.els.verdictTop.textContent = kept === DROPS ? 'All aboard' : kept === 0 ? 'Cleared off' : `${kept} aboard`;
   $('balanceDock').hidden = true; $('revealDock').hidden = false;
   $('nextBtn').textContent = S.round >= 5 ? 'See the results' : 'Next load';
@@ -2107,32 +2222,39 @@ function showEnd(){
   Lg.active = false; cancelAnimationFrame(Lg.raf); lRelease();
   $('guessDock').hidden = true; $('revealDock').hidden = true; $('weighDock').hidden = true; $('balanceDock').hidden = true; $('zoomCtl').hidden = true; hideStamp();
   const total = totalScore();
-  $('endTotal').innerHTML = `${total}<small>/500</small>`;
   $('endWord').textContent = total >= 450 ? 'Uncanny.' : total >= 350 ? 'Sharp eye.' : total >= 250 ? 'Not bad at all.' : total >= 150 ? 'Getting there.' : 'Everything looks bigger in real life.';
   if (S.mode === 'weight'){
     $('endHead').innerHTML = `<tr><th></th><th>Weigh-in</th><th class="num">You poured</th><th class="num">Balances at</th><th class="num">Score</th></tr>`;
-    $('endRows').innerHTML = S.results.map(r => {
+    $('endRows').innerHTML = S.results.map((r, i) => {
       const R = DATA.animals[r.ref], T = DATA.animals[r.target];
-      return `<tr><td><svg class="thumb" viewBox="${R.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.ref}"/></svg></td><td class="nm">${R.name}<small>in ${plural(T)}</small></td><td class="num">${r.count}</td><td class="num">${fmtMult(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
+      return `<tr style="--i:${i}"><td><svg class="thumb" viewBox="${R.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.ref}"/></svg></td><td class="nm">${R.name}<small>in ${plural(T)}</small></td><td class="num">${r.count}</td><td class="num">${fmtMult(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
     }).join('');
     $('againBtn').textContent = 'Weigh another five';
   } else if (S.mode === 'balance'){
     $('endHead').innerHTML = `<tr><th></th><th>Load</th><th class="num">Aboard</th><th class="num">Dropped</th><th class="num">Score</th></tr>`;
-    $('endRows').innerHTML = S.results.map(r => {
+    $('endRows').innerHTML = S.results.map((r, i) => {
       const heavy = r.members.reduce((a, k) => DATA.animals[k].kg > DATA.animals[a].kg ? k : a, r.members[0]);
       const A = DATA.animals[heavy];
-      return `<tr><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${heavy}"/></svg></td><td class="nm">${r.name}<small>${r.members.length} kinds, ${r.drops} dropped</small></td><td class="num">${r.kept}</td><td class="num">${r.drops}</td><td class="sc">${r.score}</td></tr>`;
+      return `<tr style="--i:${i}"><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${heavy}"/></svg></td><td class="nm">${r.name}<small>${r.members.length} kinds, ${r.drops} dropped</small></td><td class="num">${r.kept}</td><td class="num">${r.drops}</td><td class="sc">${r.score}</td></tr>`;
     }).join('');
     $('againBtn').textContent = 'Load another five';
   } else {
     $('endHead').innerHTML = `<tr><th></th><th>Animal</th><th class="num">Your guess</th><th class="num">Actual</th><th class="num">Score</th></tr>`;
-    $('endRows').innerHTML = S.results.map(r => {
+    $('endRows').innerHTML = S.results.map((r, i) => {
       const A = DATA.animals[r.key];
-      return `<tr><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.key}"/></svg></td><td class="nm">${r.name}</td><td class="num">${fmt(r.guess)}</td><td class="num">${fmt(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
+      return `<tr style="--i:${i}"><td><svg class="thumb" viewBox="${A.vb.join(' ')}" preserveAspectRatio="xMidYMax meet"><use href="#sil-${r.key}"/></svg></td><td class="nm">${r.name}</td><td class="num">${fmt(r.guess)}</td><td class="num">${fmt(r.actual)}</td><td class="sc">${r.score}</td></tr>`;
     }).join('');
     $('againBtn').textContent = 'Play another lineup';
   }
   $('endScreen').hidden = false;
+  // the sheet is up before the total starts climbing, so the number is seen to move
+  const box = $('endTotalBox'), out = $('endTotal');
+  stopEnd();
+  const ms = 320 + Math.round(total * 0.9);                 // ~770ms for a perfect game
+  stopEnd = countUp(v => { out.textContent = v; }, 0, total, ms);
+  clearTimeout(endLand);
+  if (!stillness.matches && total > 0) endLand = setTimeout(() => { if (!$('endScreen').hidden) restart(box, 'land'); }, ms + 20);
+  throwLeaves($('endBurst'), endTier(total), 1.5);
   render();
 }
 $('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else if (S.mode === 'balance') startBalanceGame(); else startSizeGame('random'); };

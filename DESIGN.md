@@ -39,6 +39,13 @@ shouting.
    the chosen game is, and after that only the things a player sets — height, lineup,
    units — and the green button. How to play is taught by the dock during the round,
    where the thing being described is on screen and can be tried straight away.
+10. **The reward is proportional.** A close guess is worth more than a poor one, and the
+    reveal has to say so before the number does: the seal presses harder, knocks out a
+    ring and throws leaves the closer you were, and turns gold at full marks. A poor
+    round still gets its seal, quietly, and is never mocked for it. Every number that
+    represents something earned climbs to its value rather than appearing at it, and
+    always lands on the truth — an interrupted climb snaps to the real score, never
+    stops wherever it got to.
 
 ## Colour
 
@@ -151,9 +158,19 @@ it is the one thing on any board that is meant to read as metal.
 | Leaves | 11s | Rise and rotate, staggered |
 | Primary button | 3.2s | A single bob late in the cycle, so it reads as a nudge |
 | Press / hover | 80ms | `ease` on transform and box-shadow |
+| Reveal dock | .3s | Rises 14px into place, so the verdict arrives rather than blinks on |
+| Seal press | .45s | `.58s` and a deeper overshoot from 90 up |
+| Seal ring | .72s | Only from 90 up; `.95s` at full marks |
+| Leaves thrown | .7–1.05s | Only from 90 up: 10 leaves, or 18 at full marks, staggered to .12s |
+| Round score | 120ms + 4.2ms a point | ~540ms at 100, barely a beat for a poor round |
+| Running total | 620ms | Plus a .44s nudge when it grows |
+| Grand total | 320ms + .9ms a point | ~770ms for a perfect game |
+| Result rows | .34s each | 70ms apart, after a 140ms wait |
 
-All of it sits inside `@media (prefers-reduced-motion: reduce)` and stops there. Nothing
-animates position or size of text a player is reading.
+All of it sits inside `@media (prefers-reduced-motion: reduce)` and stops there — a count
+that cannot animate is set to its final value at once, so stillness never costs a player
+the number. Nothing animates the position or size of prose a player is reading; a score
+is the one exception, because the pop is the reward and it is over in a third of a second.
 
 ## Working on it
 
