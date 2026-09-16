@@ -150,6 +150,13 @@ it is the one thing on any board that is meant to read as metal.
   selector setting `display:flex` silently defeats `.overlay[hidden]`.
 - Tap targets stay at 44px or more; the three mode tiles become one column and go
   horizontal below 600px.
+- **The seal takes the top middle on the Lineup board only.** That is where a player is
+  already looking, so the count is watched rather than found. The other two boards draw
+  their own verdict and count there, so it stays in their top-right corner. Centring is
+  `left:50%` with a negative margin, never a transform — the press keyframes own the
+  transform, and centring inside one would be wiped the moment the seal lands.
+- Below 640px the zoom row moves to the top-left, so the centred seal drops to `top:58px`
+  to clear it.
 - Below 640px the dock breaks into two rows — the animal's name gets a full line to
   itself, then the readout and the button share the next. Letting `.who` shrink
   instead wrings the name down to a column two words wide.
@@ -166,7 +173,8 @@ it is the one thing on any board that is meant to read as metal.
 | Seal press | .45s | `.52s` from 65, `.58s` and a deeper overshoot from 85 |
 | Seal ring | .62–.98s | From 40 up, widening: scale 1.62, then 2.15 from 85 |
 | Leaves thrown | .7–1.05s | From 65 up: 8, 14 from 85, 20 at full marks, staggered to .12s |
-| Round score | 380ms + 2.2ms a point | 380ms at nothing, 600ms at full marks — always long enough to see |
+| Shower | 1.9–3.3s | Leaves and sparks down the whole board: 12 from 40, 24, 50, 80 at full marks |
+| Round score | 400ms + 3ms a point | 400ms at nothing, 700ms at full marks — quick, but a climb worth watching |
 | Running total | 620ms | Plus a .44s nudge when it grows |
 | Grand total | 320ms + .9ms a point | ~770ms for a perfect game |
 | Result rows | .34s each | 70ms apart, after a 140ms wait |

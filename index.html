@@ -209,6 +209,30 @@ button{cursor:pointer}
 @keyframes ring-wide{from{opacity:.85;transform:scale(.84)}to{opacity:0;transform:scale(2.15)}}
 @keyframes land{0%{transform:scale(1)}40%{transform:scale(1.24)}100%{transform:scale(1)}}
 
+/* In the Lineup game the seal takes the top middle, where the number being counted is the
+   thing worth watching. The other two boards draw their own verdict there, so it stays in
+   the corner for them. Centring is left+margin, never transform: the press keyframes own that. */
+.stamp.centre,.burst.centre{left:50%;right:auto;width:112px;height:112px;margin-left:-56px}
+.stamp.centre .n{font-size:46px}
+.stamp.centre .d{font-size:9px}
+
+/* a shower across the whole board — the reward you see without looking for it */
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.confetti[hidden]{display:none}
+.confetti.front{z-index:80}
+.confetti i{position:absolute;top:-42px;width:14px;height:15px;border-radius:0 100% 0 100%;
+  background:var(--isl-leaf);opacity:0;animation:fall var(--t,2.6s) cubic-bezier(.35,.12,.62,.92) var(--d,0s) both}
+.confetti i.lt{background:var(--isl-leaf-lt)}
+.confetti i.sun{background:var(--isl-sun)}
+.confetti i.terra{background:var(--isl-terra)}
+.confetti i.spark{width:9px;height:9px;border-radius:50%;background:#fff7e0;box-shadow:0 0 9px 2px rgba(255,216,115,.85)}
+@keyframes fall{
+  0%{opacity:0;transform:translate(0,0) rotate(0deg)}
+  7%{opacity:1}
+  78%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx,0px),var(--fall,900px)) rotate(var(--rot,720deg))}
+}
+
 /* leaves thrown out of a seal that landed well */
 .burst{position:absolute;top:14px;right:14px;width:96px;height:96px;pointer-events:none;z-index:1}
 .burst[hidden]{display:none}
@@ -390,7 +414,7 @@ button{cursor:pointer}
 @media (prefers-reduced-motion: reduce){
   #startScreen .clouds i,#startScreen .leaves i,#startScreen .play{animation:none}
   .stamp.press,.stamp.good.press,.stamp.great.press,.stamp.perfect.press,.stamp::after,.stamp .n.land,
-  .burst i,.total .num.bump,.dock.reveal,.results tbody tr,.grand .g.land{animation:none}
+  .burst i,.confetti i,.total .num.bump,.dock.reveal,.results tbody tr,.grand .g.land{animation:none}
   .stamp::after{opacity:0}
   .results tbody tr{opacity:1}
 }
@@ -437,6 +461,10 @@ button{cursor:pointer}
   .zoom{bottom:auto;top:12px;left:12px;right:auto;flex-direction:row}
   .zoom button{width:36px;height:36px;border-radius:12px}
   .stamp,.burst{width:76px;height:76px;top:10px;right:10px}
+  /* the zoom row takes the top-left on a phone, so the centred seal sits under it */
+  .stamp.centre,.burst.centre{width:92px;height:92px;margin-left:-46px;top:58px}
+  .stamp.centre .n{font-size:38px}
+  .confetti i{width:12px;height:13px}
   .stamp .n{font-size:32px}
   .stamp .d{font-size:7px;letter-spacing:.06em}
   .dock .who .animal-name{font-size:19px}
@@ -491,6 +519,7 @@ button{cursor:pointer}
       <button type="button" id="zoomFocus" title="Zoom to the animal" aria-label="Zoom to the animal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
     </div>
 
+    <div class="confetti" id="confetti" hidden aria-hidden="true"></div>
     <div class="burst" id="scoreBurst" hidden aria-hidden="true"></div>
     <div class="stamp" id="scoreStamp" hidden aria-hidden="true">
       <span class="n" id="stampNum">0</span>
@@ -777,6 +806,8 @@ const TIERS = [[100, 'perfect'], [85, 'great'], [65, 'good'], [40, 'fair']];
 const tierFor = score => (TIERS.find(([min]) => score >= min) || [])[1] || '';
 // leaves per tier: how many, and how far they carry
 const LEAVES = {good: [8, 74, 168], great: [14, 104, 236], perfect: [20, 124, 288]};
+// and how many fall across the whole board behind them
+const SHOWER = {fair: 12, good: 24, great: 50, perfect: 80};
 let stopStamp = () => {}, landTimer = 0;
 function throwLeaves(box, tier, scale = 1){
   box.innerHTML = '';
@@ -795,6 +826,29 @@ function throwLeaves(box, tier, scale = 1){
     box.appendChild(leaf);
   }
 }
+// leaves and sparks down the whole board, so the reward is visible without hunting the corner for it
+function shower(tier, front){
+  const box = $('confetti');
+  box.innerHTML = '';
+  const n = SHOWER[tier];
+  box.classList.toggle('front', !!front);
+  if (stillness.matches || !n){ box.hidden = true; return; }
+  box.hidden = false;
+  const drop = (stage.clientHeight || 600) + 110;
+  for (let i = 0; i < n; i++){
+    const piece = document.createElement('i'), kind = Math.random();
+    piece.className = kind < .2 ? 'spark' : kind < .44 ? 'lt' : kind < .62 ? 'sun' : kind < .72 ? 'terra' : '';
+    piece.style.left = `${rnd(-2, 100).toFixed(1)}%`;
+    piece.style.setProperty('--dx', `${Math.round(rnd(-100, 100))}px`);
+    piece.style.setProperty('--fall', `${Math.round(drop)}px`);
+    piece.style.setProperty('--rot', `${Math.round(rnd(-900, 900))}deg`);
+    piece.style.setProperty('--t', `${rnd(1.9, 3.3).toFixed(2)}s`);
+    piece.style.setProperty('--d', `${rnd(0, .55).toFixed(2)}s`);
+    box.appendChild(piece);
+  }
+}
+const clearShower = () => { const b = $('confetti'); b.hidden = true; b.innerHTML = ''; b.classList.remove('front'); };
+
 function showStamp(score){
   const st = $('scoreStamp'), num = $('stampNum');
   stopStamp(); clearTimeout(landTimer);
@@ -802,18 +856,24 @@ function showStamp(score){
   num.classList.remove('land');                             // and the pop, or it re-fires as the next count starts
   const tier = tierFor(score);
   if (tier) st.classList.add(tier);
+  // only the Lineup board has a clear top middle; the other two draw their verdict there
+  const centre = S.mode === 'size';
+  st.classList.toggle('centre', centre);
+  $('scoreBurst').classList.toggle('centre', centre);
   st.hidden = false;
   $('scoreSay').textContent = `${score} out of 100`;         // said once; a count would be read out every step
   restart(st, 'press');
-  const ms = Math.round(380 + score * 2.2);                  // 380ms at nothing, 600ms at full marks: always long enough to see
+  const ms = Math.round(400 + score * 3);                    // 400ms at nothing, 700ms at full marks: quick, but a climb worth watching
   stopStamp = countUp(v => { num.textContent = v; }, 0, score, ms);
   if (!stillness.matches && score > 0) landTimer = setTimeout(() => { if (!st.hidden) restart(num, 'land'); }, ms + 20);
   throwLeaves($('scoreBurst'), tier);
+  shower(tier);
 }
 const hideStamp = () => {
   stopStamp(); clearTimeout(landTimer);
   $('scoreStamp').hidden = true;
   $('scoreBurst').hidden = true; $('scoreBurst').innerHTML = '';
+  clearShower();
 };
 // a whole game judged this well is worth the same handful of leaves a perfect round gets
 const endTier = total => total >= 500 ? 'perfect' : total >= 450 ? 'great' : '';
@@ -823,7 +883,7 @@ const endTier = total => total >= 500 ? 'perfect' : total >= 450 ? 'great' : '';
 let shownTotal = 0, stopTotal = () => {}, stopEnd = () => {}, endLand = 0;
 function resetTotal(){
   stopTotal(); stopTotal = () => {}; stopEnd(); stopEnd = () => {}; clearTimeout(endLand);
-  $('endBurst').hidden = true; $('endBurst').innerHTML = '';
+  $('endBurst').hidden = true; $('endBurst').innerHTML = ''; clearShower();
   shownTotal = 0; $('totalNum').textContent = 0;
 }
 function bumpTotal(){
@@ -857,7 +917,8 @@ function fitTo(x0, y0, x1, y1, pad){
 function dockPad(){
   const dock = document.querySelector('.dock:not([hidden])');
   const b = Math.min(H * 0.45, (dock ? dock.offsetHeight : 90) + 44);
-  return {l: 40, r: 80, t: 60, b};
+  const t = $('scoreStamp').hidden ? 60 : Math.min(H * 0.3, 165);   // the seal sits over the top middle during a reveal
+  return {l: 40, r: 80, t, b};
 }
 function fitBoth(){
   const h = S.humanH, gw = S.guessH * ar(S.animal), top = Math.max(h, S.guessH);
@@ -2268,6 +2329,7 @@ function showEnd(){
   clearTimeout(endLand);
   if (!stillness.matches && total > 0) endLand = setTimeout(() => { if (!$('endScreen').hidden) restart(box, 'land'); }, ms + 20);
   throwLeaves($('endBurst'), endTier(total), 1.5);
+  shower(endTier(total), true);                              // in front of the sheet: this one is the finale
   render();
 }
 $('againBtn').onclick = () => { if (S.mode === 'weight') startWeightGame(); else if (S.mode === 'balance') startBalanceGame(); else startSizeGame('random'); };
