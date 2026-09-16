@@ -179,9 +179,15 @@ it is the one thing on any board that is meant to read as metal.
 | Grand total | 320ms + .9ms a point | ~770ms for a perfect game |
 | Result rows | .34s each | 70ms apart, after a 140ms wait |
 
-All of it sits inside `@media (prefers-reduced-motion: reduce)` and stops there — a count
-that cannot animate is set to its final value at once, so stillness never costs a player
-the number. Nothing animates the position or size of prose a player is reading; a score
+Stillness is resolved once, before the first paint, into a `data-motion` on the root: the
+system setting unless the player has chosen otherwise on the start card, and both the CSS
+and the script read that one attribute so they can never disagree. **The choice overrides
+the system in both directions.** A machine set to reduce motion — which happens by
+accident often enough, through a battery mode or a managed desktop — would otherwise
+silently cost a player every celebration in the game with no way to ask for it back, and
+they would have no reason to suspect the setting. Only a deliberate choice is stored, so
+leaving it alone keeps following the machine. A count that cannot animate is set to its
+final value at once, so stillness never costs a player the number. Nothing animates the position or size of prose a player is reading; a score
 is the one exception, because the pop is the reward and it is over in a third of a second.
 
 ## Working on it

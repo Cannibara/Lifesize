@@ -388,7 +388,7 @@ button{cursor:pointer}
 #startScreen .hint{font:500 13px/1.4 var(--f-round);color:var(--isl-muted)}
 #startScreen .err{font:700 13.5px/1.3 var(--f-round);color:#c0492b;min-height:1.2em}
 
-#startScreen .unitrow{grid-column:1/-1;flex-direction:row;align-items:center;gap:10px;margin:0 0 16px}
+#startScreen .unitrow{grid-column:1/-1;flex-flow:row wrap;align-items:center;gap:10px 12px;margin:0 0 16px}
 #startScreen .units{display:inline-flex;border:3px solid var(--isl-bark);border-radius:999px;overflow:hidden;background:var(--isl-sand);box-shadow:0 3px 0 rgba(109,69,32,.22)}
 #startScreen .units button{border:0;background:transparent;padding:7px 15px;font:800 13px/1 var(--f-round);color:#77603c}
 #startScreen .units button[aria-pressed="true"]{background:var(--isl-bark);color:#fffaea}
@@ -404,20 +404,40 @@ button{cursor:pointer}
 #startScreen .foot button{border:0;background:transparent;padding:0;font:800 12.5px var(--f-round);color:var(--isl-bark);text-decoration:underline;text-underline-offset:3px}
 
 @media (max-width:600px){
-  #startScreen .card{padding:20px 17px 18px;border-radius:24px}
-  #startScreen .modes{grid-template-columns:1fr}
-  #startScreen .mode{flex-flow:row wrap;justify-content:center;align-items:center;gap:4px 10px;padding:12px 10px}
+  #startScreen .card{padding:16px 15px 14px;border-radius:24px}
+  #startScreen .sign{margin:2px auto 10px}
+  #startScreen .tagline{margin:0 0 12px}
+  #startScreen .modes{grid-template-columns:1fr;gap:8px;margin:0 0 12px}
+  #startScreen .mode{flex-flow:row wrap;justify-content:center;align-items:center;gap:3px 10px;padding:10px}
   #startScreen .mode .s{flex:0 0 100%;text-align:center}
+  #startScreen .lede{margin:0 0 12px}
   #startScreen .rows{grid-template-columns:1fr}
+  /* Motion takes a second line here, so the rows give the height back and the green button
+     stays above the fold on a phone */
+  #startScreen .row{margin:0 0 10px;gap:6px}
+  #startScreen .err{min-height:.9em}
+  #startScreen .unitrow{gap:8px 10px;margin:0 0 12px}
   #startScreen .parade{opacity:.3}
 }
+/* Stillness. The script resolves the system setting and the player's own choice into one
+   data-motion on the root, so the start card can override a machine-wide "reduce motion" in
+   either direction — a setting turned on for the whole computer should not silently cost a
+   player the entire reward with no way to ask for it back. The media query below only covers
+   the moment before the script runs, and steps aside once data-motion exists. */
 @media (prefers-reduced-motion: reduce){
-  #startScreen .clouds i,#startScreen .leaves i,#startScreen .play{animation:none}
-  .stamp.press,.stamp.good.press,.stamp.great.press,.stamp.perfect.press,.stamp::after,.stamp .n.land,
-  .burst i,.confetti i,.total .num.bump,.dock.reveal,.results tbody tr,.grand .g.land{animation:none}
-  .stamp::after{opacity:0}
-  .results tbody tr{opacity:1}
+  :root:not([data-motion]) .clouds i,:root:not([data-motion]) .leaves i,:root:not([data-motion]) .play,
+  :root:not([data-motion]) .stamp.press,:root:not([data-motion]) .stamp.good.press,:root:not([data-motion]) .stamp.great.press,:root:not([data-motion]) .stamp.perfect.press,
+  :root:not([data-motion]) .stamp::after,:root:not([data-motion]) .stamp .n.land,:root:not([data-motion]) .burst i,:root:not([data-motion]) .confetti i,
+  :root:not([data-motion]) .total .num.bump,:root:not([data-motion]) .dock.reveal,:root:not([data-motion]) .results tbody tr,:root:not([data-motion]) .grand .g.land{animation:none}
+  :root:not([data-motion]) .stamp::after{opacity:0}
+  :root:not([data-motion]) .results tbody tr{opacity:1}
 }
+:root[data-motion="reduced"] .clouds i,:root[data-motion="reduced"] .leaves i,:root[data-motion="reduced"] .play,
+  :root[data-motion="reduced"] .stamp.press,:root[data-motion="reduced"] .stamp.good.press,:root[data-motion="reduced"] .stamp.great.press,:root[data-motion="reduced"] .stamp.perfect.press,
+  :root[data-motion="reduced"] .stamp::after,:root[data-motion="reduced"] .stamp .n.land,:root[data-motion="reduced"] .burst i,:root[data-motion="reduced"] .confetti i,
+  :root[data-motion="reduced"] .total .num.bump,:root[data-motion="reduced"] .dock.reveal,:root[data-motion="reduced"] .results tbody tr,:root[data-motion="reduced"] .grand .g.land{animation:none}
+  :root[data-motion="reduced"] .stamp::after{opacity:0}
+  :root[data-motion="reduced"] .results tbody tr{opacity:1}
 
 /* results */
 .results{width:100%;border-collapse:collapse;margin:14px 0 18px;font-variant-numeric:tabular-nums;font-size:15px}
@@ -636,6 +656,11 @@ button{cursor:pointer}
             <button type="button" id="unitMetric2" aria-pressed="true">cm &middot; kg</button>
             <button type="button" id="unitImperial2" aria-pressed="false">ft &middot; lb</button>
           </div>
+          <span class="tag">Motion</span>
+          <div class="units" role="group" aria-label="Motion">
+            <button type="button" id="motionFull" aria-pressed="true">Full</button>
+            <button type="button" id="motionLess" aria-pressed="false">Reduced</button>
+          </div>
         </div>
         </div>
 
@@ -677,6 +702,14 @@ window.__lslErr = function(msg){
   d.textContent = 'Something went wrong: ' + msg + '  -  Please copy this message back to me and I will fix it.';
 };
 window.addEventListener('error', function(e){ window.__lslErr((e.message || 'Unknown error') + (e.lineno ? ' (line ' + e.lineno + ')' : '')); });
+// resolved before the first paint, so nothing flashes and then stops
+(function(){
+  var pref = null;
+  try { pref = localStorage.getItem('lsl-motion'); } catch (e) {}
+  var reduce = pref === 'reduced' ||
+    (pref !== 'full' && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  document.documentElement.setAttribute('data-motion', reduce ? 'reduced' : 'full');
+})();
 window.addEventListener('unhandledrejection', function(e){ window.__lslErr(String((e.reason && e.reason.message) || e.reason)); });
 </script>
 
@@ -767,6 +800,8 @@ function setUnit(u){
   try { localStorage.setItem('lsl-unit', u); } catch (e) {}
   refreshText(); render();
 }
+$('motionFull').onclick = () => setMotion('full');
+$('motionLess').onclick = () => setMotion('reduced');
 $('unitMetric').onclick = $('unitMetric2').onclick = () => setUnit('metric');
 $('unitImperial').onclick = $('unitImperial2').onclick = () => setUnit('imperial');
 
@@ -781,10 +816,24 @@ function totalScore(){ return S.results.reduce((a, r) => a + r.score, 0); }
 // A round is worth feeling, not just reading: the seal lands harder, the ring carries further and
 // the leaves fly the closer the guess was, and every number climbs to its value rather than appearing at it.
 const stillness = matchMedia('(prefers-reduced-motion: reduce)');
+// the CSS and the script must agree, so both read the same resolved attribute
+const motionOff = () => document.documentElement.getAttribute('data-motion') === 'reduced';
+function syncMotion(){
+  const reduce = motionOff();
+  $('motionFull').setAttribute('aria-pressed', String(!reduce));
+  $('motionLess').setAttribute('aria-pressed', String(reduce));
+}
+// only a deliberate choice is stored; leaving it alone keeps following the machine, so
+// changing the system setting later still takes effect
+function setMotion(pref){
+  document.documentElement.setAttribute('data-motion', pref);
+  try { localStorage.setItem('lsl-motion', pref); } catch (e) {}
+  syncMotion();
+}
 const restart = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
 // Returns a stop() that lands on `to` immediately, so an interrupted count never leaves a wrong number on screen.
 function countUp(set, from, to, ms){
-  if (stillness.matches || from === to || !(ms > 0)){ set(to); return () => {}; }
+  if (motionOff() || from === to || !(ms > 0)){ set(to); return () => {}; }
   set(from);
   // t0 comes from the first frame, not from performance.now(): the two clocks can disagree, and a
   // frame stamped before the start would drive the easing far past `from` and show a nonsense number.
@@ -812,7 +861,7 @@ let stopStamp = () => {}, landTimer = 0;
 function throwLeaves(box, tier, scale = 1){
   box.innerHTML = '';
   const spec = LEAVES[tier];
-  if (stillness.matches || !spec){ box.hidden = true; return; }
+  if (motionOff() || !spec){ box.hidden = true; return; }
   const [count, near, far] = spec, n = Math.round(count * scale);
   box.hidden = false;
   for (let i = 0; i < n; i++){
@@ -832,7 +881,7 @@ function shower(tier, front){
   box.innerHTML = '';
   const n = SHOWER[tier];
   box.classList.toggle('front', !!front);
-  if (stillness.matches || !n){ box.hidden = true; return; }
+  if (motionOff() || !n){ box.hidden = true; return; }
   box.hidden = false;
   const drop = (stage.clientHeight || 600) + 110;
   for (let i = 0; i < n; i++){
@@ -865,7 +914,7 @@ function showStamp(score){
   restart(st, 'press');
   const ms = Math.round(400 + score * 3);                    // 400ms at nothing, 700ms at full marks: quick, but a climb worth watching
   stopStamp = countUp(v => { num.textContent = v; }, 0, score, ms);
-  if (!stillness.matches && score > 0) landTimer = setTimeout(() => { if (!st.hidden) restart(num, 'land'); }, ms + 20);
+  if (!motionOff() && score > 0) landTimer = setTimeout(() => { if (!st.hidden) restart(num, 'land'); }, ms + 20);
   throwLeaves($('scoreBurst'), tier);
   shower(tier);
 }
@@ -889,7 +938,7 @@ function resetTotal(){
 function bumpTotal(){
   stopTotal();
   const from = shownTotal, to = totalScore(), num = $('totalNum');
-  if (to > from && !stillness.matches) restart(num, 'bump');
+  if (to > from && !motionOff()) restart(num, 'bump');
   stopTotal = countUp(v => { shownTotal = v; num.textContent = v; }, from, to, 620);
 }
 function scoreFor(g, t){
@@ -2327,7 +2376,7 @@ function showEnd(){
   const ms = 320 + Math.round(total * 0.9);                 // ~770ms for a perfect game
   stopEnd = countUp(v => { out.textContent = v; }, 0, total, ms);
   clearTimeout(endLand);
-  if (!stillness.matches && total > 0) endLand = setTimeout(() => { if (!$('endScreen').hidden) restart(box, 'land'); }, ms + 20);
+  if (!motionOff() && total > 0) endLand = setTimeout(() => { if (!$('endScreen').hidden) restart(box, 'land'); }, ms + 20);
   throwLeaves($('endBurst'), endTier(total), 1.5);
   shower(endTier(total), true);                              // in front of the sheet: this one is the finale
   render();
@@ -2355,6 +2404,7 @@ $('modeWeight').onclick = () => setMode('weight');
 $('modeBalance').onclick = () => setMode('balance');
 
 (function initStart(){
+  syncMotion();                                     // the early script already resolved it
   const sel = $('setSel');
   sel.innerHTML = `<option value="random">Surprise me</option>` + DATA.sets.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
   try {
