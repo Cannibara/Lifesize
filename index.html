@@ -188,19 +188,25 @@ button{cursor:pointer}
 .stamp[hidden]{display:none}
 .stamp .n{font:700 40px/1 var(--f-hand);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .stamp .d{font:800 8px/1 var(--f-round);letter-spacing:.1em;text-transform:uppercase;opacity:.8}
-/* the ring the seal knocks outwards; only a good round earns one */
+/* the ring the seal knocks outwards; it starts at a round worth being pleased about
+   and widens from there, so the reward is a gradient rather than a cliff at the top */
 .stamp::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:3px solid var(--stamp);opacity:0}
 .stamp.press{animation:press .45s cubic-bezier(.2,1.5,.4,1) both}
+.stamp.good.press{animation:press-firm .52s cubic-bezier(.2,1.55,.34,1) both}
 .stamp.great.press,.stamp.perfect.press{animation:press-hard .58s cubic-bezier(.2,1.6,.34,1) both}
-.stamp.great::after,.stamp.perfect::after{animation:ring .72s ease-out .1s both}
+.stamp.fair::after{animation:ring .62s ease-out .1s both}
+.stamp.good::after{animation:ring .74s ease-out .1s both}
+.stamp.great::after{animation:ring-wide .84s ease-out .08s both}
 /* full marks: the seal comes up gold */
 .stamp.perfect{background:linear-gradient(180deg,#fff4d2,var(--isl-sun));border-color:var(--isl-bark-dk);color:var(--isl-bark-dk);
   box-shadow:inset 0 0 0 3px #fff8e2, inset 0 0 0 4.5px var(--isl-bark-dk), 0 8px 24px rgba(196,113,45,.45)}
-.stamp.perfect::after{border-color:var(--isl-sun);animation-duration:.95s}
+.stamp.perfect::after{border-color:var(--isl-sun);animation:ring-wide .98s ease-out .08s both}
 .stamp .n.land{animation:land .34s cubic-bezier(.2,1.7,.4,1)}
 @keyframes press{from{opacity:0;transform:rotate(-18deg) scale(1.7)}55%{opacity:1;transform:rotate(3deg) scale(.94)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
+@keyframes press-firm{from{opacity:0;transform:rotate(-22deg) scale(1.9)}50%{opacity:1;transform:rotate(5deg) scale(.9)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
 @keyframes press-hard{from{opacity:0;transform:rotate(-27deg) scale(2.15)}46%{opacity:1;transform:rotate(7deg) scale(.86)}72%{transform:rotate(-10deg) scale(1.07)}to{opacity:1;transform:rotate(-6deg) scale(1)}}
 @keyframes ring{from{opacity:.8;transform:scale(.86)}to{opacity:0;transform:scale(1.62)}}
+@keyframes ring-wide{from{opacity:.85;transform:scale(.84)}to{opacity:0;transform:scale(2.15)}}
 @keyframes land{0%{transform:scale(1)}40%{transform:scale(1.24)}100%{transform:scale(1)}}
 
 /* leaves thrown out of a seal that landed well */
@@ -383,7 +389,7 @@ button{cursor:pointer}
 }
 @media (prefers-reduced-motion: reduce){
   #startScreen .clouds i,#startScreen .leaves i,#startScreen .play{animation:none}
-  .stamp.press,.stamp.great.press,.stamp.perfect.press,.stamp::after,.stamp .n.land,
+  .stamp.press,.stamp.good.press,.stamp.great.press,.stamp.perfect.press,.stamp::after,.stamp .n.land,
   .burst i,.total .num.bump,.dock.reveal,.results tbody tr,.grand .g.land{animation:none}
   .stamp::after{opacity:0}
   .results tbody tr{opacity:1}
@@ -764,16 +770,22 @@ function countUp(set, from, to, ms){
   return () => { if (running){ running = false; cancelAnimationFrame(raf); set(to); } };
 }
 
-const TIERS = [[100, 'perfect'], [90, 'great'], [70, 'good']];
+// A guess within 12% scores 90 — expert territory, so gating the leaves there meant an
+// ordinary good round looked exactly like a poor one. 65 is a guess within about a third,
+// which is worth being pleased about, and the reward still climbs from there to gold at 100.
+const TIERS = [[100, 'perfect'], [85, 'great'], [65, 'good'], [40, 'fair']];
 const tierFor = score => (TIERS.find(([min]) => score >= min) || [])[1] || '';
+// leaves per tier: how many, and how far they carry
+const LEAVES = {good: [8, 74, 168], great: [14, 104, 236], perfect: [20, 124, 288]};
 let stopStamp = () => {}, landTimer = 0;
 function throwLeaves(box, tier, scale = 1){
   box.innerHTML = '';
-  if (stillness.matches || (tier !== 'great' && tier !== 'perfect')){ box.hidden = true; return; }
-  const perfect = tier === 'perfect', n = Math.round((perfect ? 18 : 10) * scale);
+  const spec = LEAVES[tier];
+  if (stillness.matches || !spec){ box.hidden = true; return; }
+  const [count, near, far] = spec, n = Math.round(count * scale);
   box.hidden = false;
   for (let i = 0; i < n; i++){
-    const a = (i / n) * Math.PI * 2 + rnd(-0.22, 0.22), d = (perfect ? rnd(66, 130) : rnd(46, 92)) * scale;
+    const a = (i / n) * Math.PI * 2 + rnd(-0.22, 0.22), d = rnd(near, far) * scale;
     const leaf = document.createElement('i');
     leaf.style.setProperty('--dx', `${(Math.cos(a) * d).toFixed(1)}px`);
     leaf.style.setProperty('--dy', `${(Math.sin(a) * d + rnd(12, 36)).toFixed(1)}px`);   // they fall as they fly
@@ -787,12 +799,13 @@ function showStamp(score){
   const st = $('scoreStamp'), num = $('stampNum');
   stopStamp(); clearTimeout(landTimer);
   st.className = 'stamp';                                   // drop the tier the last round earned
+  num.classList.remove('land');                             // and the pop, or it re-fires as the next count starts
   const tier = tierFor(score);
   if (tier) st.classList.add(tier);
   st.hidden = false;
   $('scoreSay').textContent = `${score} out of 100`;         // said once; a count would be read out every step
   restart(st, 'press');
-  const ms = Math.round(120 + score * 4.2);                  // ~540ms for full marks, barely a beat for a poor round
+  const ms = Math.round(380 + score * 2.2);                  // 380ms at nothing, 600ms at full marks: always long enough to see
   stopStamp = countUp(v => { num.textContent = v; }, 0, score, ms);
   if (!stillness.matches && score > 0) landTimer = setTimeout(() => { if (!st.hidden) restart(num, 'land'); }, ms + 20);
   throwLeaves($('scoreBurst'), tier);

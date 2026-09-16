@@ -39,10 +39,14 @@ shouting.
    the chosen game is, and after that only the things a player sets — height, lineup,
    units — and the green button. How to play is taught by the dock during the round,
    where the thing being described is on screen and can be tried straight away.
-10. **The reward is proportional.** A close guess is worth more than a poor one, and the
-    reveal has to say so before the number does: the seal presses harder, knocks out a
-    ring and throws leaves the closer you were, and turns gold at full marks. A poor
-    round still gets its seal, quietly, and is never mocked for it. Every number that
+10. **The reward is proportional, and it starts low.** A close guess is worth more than a
+    poor one, and the reveal has to say so before the number does: the seal presses
+    harder, knocks out a wider ring and throws more leaves the closer you were, and
+    turns gold at full marks. The thresholds matter as much as the effects — the ring
+    starts at 40 and the leaves at 65, which is a guess within about a third. Set them
+    where only an expert reaches them and an ordinary good round looks exactly like a
+    bad one, which is the same as having built nothing. A poor round still gets its
+    seal, quietly, and is never mocked for it. Every number that
     represents something earned climbs to its value rather than appearing at it, and
     always lands on the truth — an interrupted climb snaps to the real score, never
     stops wherever it got to.
@@ -159,10 +163,10 @@ it is the one thing on any board that is meant to read as metal.
 | Primary button | 3.2s | A single bob late in the cycle, so it reads as a nudge |
 | Press / hover | 80ms | `ease` on transform and box-shadow |
 | Reveal dock | .3s | Rises 14px into place, so the verdict arrives rather than blinks on |
-| Seal press | .45s | `.58s` and a deeper overshoot from 90 up |
-| Seal ring | .72s | Only from 90 up; `.95s` at full marks |
-| Leaves thrown | .7–1.05s | Only from 90 up: 10 leaves, or 18 at full marks, staggered to .12s |
-| Round score | 120ms + 4.2ms a point | ~540ms at 100, barely a beat for a poor round |
+| Seal press | .45s | `.52s` from 65, `.58s` and a deeper overshoot from 85 |
+| Seal ring | .62–.98s | From 40 up, widening: scale 1.62, then 2.15 from 85 |
+| Leaves thrown | .7–1.05s | From 65 up: 8, 14 from 85, 20 at full marks, staggered to .12s |
+| Round score | 380ms + 2.2ms a point | 380ms at nothing, 600ms at full marks — always long enough to see |
 | Running total | 620ms | Plus a .44s nudge when it grows |
 | Grand total | 320ms + .9ms a point | ~770ms for a perfect game |
 | Result rows | .34s each | 70ms apart, after a 140ms wait |
