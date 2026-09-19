@@ -186,8 +186,16 @@ the system in both directions.** A machine set to reduce motion — which happen
 accident often enough, through a battery mode or a managed desktop — would otherwise
 silently cost a player every celebration in the game with no way to ask for it back, and
 they would have no reason to suspect the setting. Only a deliberate choice is stored, so
-leaving it alone keeps following the machine. A count that cannot animate is set to its
-final value at once, so stillness never costs a player the number. Nothing animates the position or size of prose a player is reading; a score
+leaving it alone keeps following the machine.
+
+**Reduced means reduced, not gone.** Under it the seal still arrives, fading rather than
+flying in, and the score still climbs — briefer, but a climb — because a number changing
+in place is not the motion that setting is about. What goes is everything that travels:
+confetti, thrown leaves, spin, pop, slide. And because the choice is stored per browser,
+a player who turned motion on elsewhere still arrives here with it off, so the start card
+says so in a line beside the control whenever the machine chose and the player has not.
+Silent degradation is the failure worth designing against: a reward that is simply absent
+looks like a broken page, and nothing on screen suggests where it went. Nothing animates the position or size of prose a player is reading; a score
 is the one exception, because the pop is the reward and it is over in a third of a second.
 
 ## Working on it

@@ -389,6 +389,8 @@ button{cursor:pointer}
 #startScreen .err{font:700 13.5px/1.3 var(--f-round);color:#c0492b;min-height:1.2em}
 
 #startScreen .unitrow{grid-column:1/-1;flex-flow:row wrap;align-items:center;gap:10px 12px;margin:0 0 16px}
+#startScreen .motionhint{flex:0 0 100%;margin:0}
+#startScreen .motionhint b{color:var(--isl-terra-dk)}
 #startScreen .units{display:inline-flex;border:3px solid var(--isl-bark);border-radius:999px;overflow:hidden;background:var(--isl-sand);box-shadow:0 3px 0 rgba(109,69,32,.22)}
 #startScreen .units button{border:0;background:transparent;padding:7px 15px;font:800 13px/1 var(--f-round);color:#77603c}
 #startScreen .units button[aria-pressed="true"]{background:var(--isl-bark);color:#fffaea}
@@ -417,6 +419,7 @@ button{cursor:pointer}
   #startScreen .row{margin:0 0 10px;gap:6px}
   #startScreen .err{min-height:.9em}
   #startScreen .unitrow{gap:8px 10px;margin:0 0 12px}
+  #startScreen .motionhint{font-size:12.5px;line-height:1.35}
   #startScreen .parade{opacity:.3}
 }
 /* Stillness. The script resolves the system setting and the player's own choice into one
@@ -438,6 +441,14 @@ button{cursor:pointer}
   :root[data-motion="reduced"] .total .num.bump,:root[data-motion="reduced"] .dock.reveal,:root[data-motion="reduced"] .results tbody tr,:root[data-motion="reduced"] .grand .g.land{animation:none}
   :root[data-motion="reduced"] .stamp::after{opacity:0}
   :root[data-motion="reduced"] .results tbody tr{opacity:1}
+/* "reduce" is not "remove". The seal still arrives — it fades instead of flying in, and the
+   score still climbs, because a number changing in place is not the motion the setting is
+   about. What goes is everything that actually travels: confetti, leaves, spin, pop, slide. */
+:root[data-motion="reduced"] .stamp.press,
+:root[data-motion="reduced"] .stamp.good.press,
+:root[data-motion="reduced"] .stamp.great.press,
+:root[data-motion="reduced"] .stamp.perfect.press{animation:seal-in .28s ease-out both}
+@keyframes seal-in{from{opacity:0}to{opacity:1}}
 
 /* results */
 .results{width:100%;border-collapse:collapse;margin:14px 0 18px;font-variant-numeric:tabular-nums;font-size:15px}
@@ -661,6 +672,7 @@ button{cursor:pointer}
             <button type="button" id="motionFull" aria-pressed="true">Full</button>
             <button type="button" id="motionLess" aria-pressed="false">Reduced</button>
           </div>
+          <p class="hint motionhint" id="motionHint" hidden>Your device asks for less motion, so the confetti is off. <b>Full</b> turns it on.</p>
         </div>
         </div>
 
@@ -822,6 +834,12 @@ function syncMotion(){
   const reduce = motionOff();
   $('motionFull').setAttribute('aria-pressed', String(!reduce));
   $('motionLess').setAttribute('aria-pressed', String(reduce));
+  let chosen = null;
+  try { chosen = localStorage.getItem('lsl-motion'); } catch (e) {}
+  // said only when the machine decided this and the player has not: otherwise the confetti is
+  // simply missing, with nothing on screen to suggest where it went. The choice is per browser,
+  // so a player who turned it on elsewhere still needs telling here.
+  $('motionHint').hidden = !(reduce && !chosen);
 }
 // only a deliberate choice is stored; leaving it alone keeps following the machine, so
 // changing the system setting later still takes effect
@@ -833,7 +851,8 @@ function setMotion(pref){
 const restart = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
 // Returns a stop() that lands on `to` immediately, so an interrupted count never leaves a wrong number on screen.
 function countUp(set, from, to, ms){
-  if (motionOff() || from === to || !(ms > 0)){ set(to); return () => {}; }
+  if (from === to || !(ms > 0)){ set(to); return () => {}; }
+  if (motionOff()) ms = Math.round(ms * 0.55);              // briefer, but still a climb
   set(from);
   // t0 comes from the first frame, not from performance.now(): the two clocks can disagree, and a
   // frame stamped before the start would drive the easing far past `from` and show a nonsense number.
